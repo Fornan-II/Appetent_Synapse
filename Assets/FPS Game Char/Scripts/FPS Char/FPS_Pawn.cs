@@ -532,9 +532,9 @@ public class FPS_Pawn : Game_Pawn
         //Debug.DrawRay(checkPos, Vector3.down * r, Color.yellow, 1.0f);
         _isGrounded = Physics.CheckSphere(checkPos, r, layermask, QueryTriggerInteraction.Ignore);
         //Ground check debug view. Uncomment to use.
-        //Debug.DrawLine(checkPos + Vector3.up * r, checkPos - Vector3.up * r, Color.yellow, 1.0f);
-        //Debug.DrawLine(checkPos + Vector3.right * r, checkPos - Vector3.right * r, Color.yellow, 1.0f);
-        //Debug.DrawLine(checkPos + Vector3.forward * r, checkPos - Vector3.forward * r, Color.yellow, 1.0f);
+        Debug.DrawLine(checkPos + Vector3.up * r, checkPos - Vector3.up * r, Color.yellow, 1.0f);
+        Debug.DrawLine(checkPos + Vector3.right * r, checkPos - Vector3.right * r, Color.yellow, 1.0f);
+        Debug.DrawLine(checkPos + Vector3.forward * r, checkPos - Vector3.forward * r, Color.yellow, 1.0f);
     }
 
     protected virtual Vector2 GetProperInputVector()
