@@ -369,11 +369,12 @@ MonoBehaviour:
   allowCrouching: 1
   moveSpeed: 9
   groundedInertia: 0.7
-  aerialInertia: 0.985
+  aerialInertia: 0.98
   sprintMultiplier: 1.3
   crouchMultiplier: 0.5
   crouchRate: 5
-  jumpForce: 11.5
+  jumpForce: 11
+  maxGroundAngle: 40
   crouchFOV: 1
   sprintFOV: 1.2
   head: {fileID: 1330231263068620}
@@ -393,10 +394,6 @@ MonoBehaviour:
   minFootstepVelocity: 9
   minFootstepBreak: 0.2
   maxFootstepBreak: 0.5
-  groundedPhysicsMaterial: {fileID: 13400000, guid: 8a873eff56f468a4ea678982a82cfe07,
-    type: 2}
-  otherPhysicsMaterial: {fileID: 13400000, guid: 313cef3887272a24d87678e6795326f5,
-    type: 2}
 --- !u!114 &114984537847475858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -425,7 +422,7 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1020501186724968}
-  m_Material: {fileID: 13400000, guid: 8a873eff56f468a4ea678982a82cfe07, type: 2}
+  m_Material: {fileID: 13400000, guid: 313cef3887272a24d87678e6795326f5, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5

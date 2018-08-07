@@ -18,6 +18,7 @@ public class FPS_Pawn : Game_Pawn
     public float crouchMultiplier = 0.5f;
     public float crouchRate = 0.2f;
     public float jumpForce = 5.0f;
+    public float maxGroundAngle = 45;
 
     //FOV modifiers
     public float crouchFOV = 0.8f;
@@ -46,10 +47,6 @@ public class FPS_Pawn : Game_Pawn
     public float minFootstepVelocity = 0.01f;
     public float minFootstepBreak = 0.1f;
     public float maxFootstepBreak = 2.0f;
-
-    //Physics Properties
-    public PhysicMaterial groundedPhysicsMaterial;
-    public PhysicMaterial otherPhysicsMaterial;
     #endregion
 
     #region Pawn Member Variables
@@ -61,6 +58,10 @@ public class FPS_Pawn : Game_Pawn
     protected bool _isCrouching = false;
     protected bool _isSprinting = false;
     protected bool _isGrounded = false;
+    protected bool _isJumping = false;
+
+    //Set in CheckIfGrounded(), used to determine slope of ground.
+    protected Vector3 _groundContactNormal;
 
     //Movement value storage
     protected float _forwardVelocity = 1.0f;
@@ -137,7 +138,6 @@ public class FPS_Pawn : Game_Pawn
         if (CheckIfAlive())
         {
             CheckIfGrounded();
-            UpdatePhysicsMaterial();
             if(_rb.velocity.sqrMagnitude > minFootstepVelocity && !_footstepAudioCoroutineIsActive && _isGrounded)
             {
                 StartCoroutine(HandleFootstepAudio());
@@ -218,8 +218,7 @@ public class FPS_Pawn : Game_Pawn
     {
         if (value && allowJumping && _isGrounded)
         {
-            _rb.velocity = new Vector3(_rb.velocity.x, jumpForce, _rb.velocity.z);
-            //_rb.velocity += new Vector3(0.0f, jumpForce, 0.0f);
+            _isJumping = true;
         }
     }
 
@@ -278,9 +277,6 @@ public class FPS_Pawn : Game_Pawn
     #endregion
 
     #region Movement Related Methods
-    //Known issues with GetMoveVelocity():
-    //Moving diagonally is faster than moving on cardinal axes
-    //Moving into a wall midair cancels all external velocity. Effectively grabbing onto walls.
     protected virtual void UpdateMoveVelocity()
     {
         //Initialize moveVelocity to zero. 
@@ -318,30 +314,28 @@ public class FPS_Pawn : Game_Pawn
             desiredVelocity *= crouchMultiplier;
         }
 
-        if (_isGrounded)
+        if (_isGrounded && !_isJumping)
         {
-            float yVelocity = _rb.velocity.y;
+            desiredVelocity.y = _rb.velocity.y;
+            desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, _groundContactNormal);
             Vector3 newVelocity = Vector3.Lerp(desiredVelocity, _rb.velocity, groundedInertia);
-            _rb.velocity = new Vector3(newVelocity.x, yVelocity, newVelocity.z);
-        }
-        else if(inputVector.sqrMagnitude > float.Epsilon)
-        {
-            float yVelocity = _rb.velocity.y;
-            Vector3 newVelocity = Vector3.Lerp(desiredVelocity, _rb.velocity, aerialInertia);
-            _rb.velocity = new Vector3(newVelocity.x, yVelocity, newVelocity.z);
-        }
-    }
-
-    protected virtual void UpdatePhysicsMaterial()
-    {
-        if(_isGrounded)
-        {
-            _col.material = groundedPhysicsMaterial;
+            _rb.velocity = newVelocity;
         }
         else
         {
-            _col.material = otherPhysicsMaterial;
+            if (inputVector.sqrMagnitude > float.Epsilon)
+            {
+                desiredVelocity.y = _rb.velocity.y;
+                _rb.velocity = Vector3.Lerp(desiredVelocity, _rb.velocity, aerialInertia);
+            }
+            if(_isJumping)
+            {
+                _rb.velocity = new Vector3(_rb.velocity.x, jumpForce, _rb.velocity.z);
+                _isJumping = false;
+            }
         }
+        Debug.DrawRay(transform.position, desiredVelocity, Color.cyan, 1.0f);
+        Debug.DrawRay(transform.position, _rb.velocity, Color.green, 1.0f);
     }
 
     //Adjusts player height to reflect crouch state
@@ -523,18 +517,23 @@ public class FPS_Pawn : Game_Pawn
     protected virtual void CheckIfGrounded()
     {
         //Prepare data for use in CheckSphere()
-        float r = _col.radius * 0.6f;
-        Vector3 checkPos = transform.position + Vector3.up * _col.radius * 0.5f;
-        int layermask = 1 << LayerMask.NameToLayer("Player");
-        layermask = ~layermask;
+        Vector3 checkPos = _col.transform.position;
 
         //If the player's feet are touching something, player is grounded
-        //Debug.DrawRay(checkPos, Vector3.down * r, Color.yellow, 1.0f);
-        _isGrounded = Physics.CheckSphere(checkPos, r, layermask, QueryTriggerInteraction.Ignore);
-        //Ground check debug view. Uncomment to use.
-        Debug.DrawLine(checkPos + Vector3.up * r, checkPos - Vector3.up * r, Color.yellow, 1.0f);
-        Debug.DrawLine(checkPos + Vector3.right * r, checkPos - Vector3.right * r, Color.yellow, 1.0f);
-        Debug.DrawLine(checkPos + Vector3.forward * r, checkPos - Vector3.forward * r, Color.yellow, 1.0f);
+        RaycastHit hitInfo;
+        _isGrounded = Physics.SphereCast(checkPos, _col.radius, Vector3.down, out hitInfo, _col.height / 2, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+        if (_isGrounded)
+        {
+            //Debug.DrawRay(hitInfo.point, hitInfo.normal, Color.yellow, 1.0f);
+            _groundContactNormal = hitInfo.normal;
+            if (hitInfo.collider.gameObject.layer != LayerMask.NameToLayer("Stairs"))
+            {
+                if(Vector3.Angle(Vector3.up, _groundContactNormal) > maxGroundAngle)
+                {
+                    _isGrounded = false;
+                }
+            }
+        }
     }
 
     protected virtual Vector2 GetProperInputVector()
