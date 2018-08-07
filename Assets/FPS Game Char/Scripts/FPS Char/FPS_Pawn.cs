@@ -334,8 +334,8 @@ public class FPS_Pawn : Game_Pawn
                 _isJumping = false;
             }
         }
-        Debug.DrawRay(transform.position, desiredVelocity, Color.cyan, 1.0f);
-        Debug.DrawRay(transform.position, _rb.velocity, Color.green, 1.0f);
+        //Debug.DrawRay(transform.position, desiredVelocity, Color.cyan, 1.0f);
+        //Debug.DrawRay(transform.position, _rb.velocity, Color.green, 1.0f);
     }
 
     //Adjusts player height to reflect crouch state
