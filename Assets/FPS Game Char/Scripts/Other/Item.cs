@@ -5,7 +5,7 @@ using UnityEngine;
 public class Item : Interactable {
 
     //If item is actively being held.
-    public bool beingHeld = false;
+    [HideInInspector]public bool beingHeld = false;
     public string useVerb = "uses";
 
     //Reset is called when the user hits the Reset button in the Inspector's context menu or when adding the component the first time. Part of MonoBehaviour.
