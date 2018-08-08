@@ -30,9 +30,8 @@ public class Socket : MonoBehaviour {
             return false;
         }
 
-        //Equip the item, and let it know it has been equipped.
+        //Equip the item
         _equippedItem = item;
-        _equippedItem.beingHeld = true;
 
         //Check for and disable collision collider.
         Collider[] colliders = item.GetComponents<Collider>();
@@ -71,7 +70,7 @@ public class Socket : MonoBehaviour {
         }
 
         //Tell item it's not being held and unequip it.
-        _equippedItem.beingHeld = false;
+        _equippedItem.SetNotBeingHeld();
         _equippedItem = null;
 
         //Re-enable collision collider if it exists
