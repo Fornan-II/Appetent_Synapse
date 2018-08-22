@@ -13016,6 +13016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IgnoresDamage: 1
+  KnockbackResistance: 0
   LogDamageEvents: 1
   interactVerb: picks up
   IgnoresInteraction: 0
@@ -13023,6 +13024,7 @@ MonoBehaviour:
   useVerb: swings
   _wielder: {fileID: 0}
   damage: 10
+  knockback: 5
   reach: 2
   sensitivity: 0.1
 --- !u!136 &291059137
@@ -26894,6 +26896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IgnoresDamage: 1
+  KnockbackResistance: 0
   LogDamageEvents: 1
   interactVerb: picks up
   IgnoresInteraction: 0
@@ -58319,6 +58322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IgnoresDamage: 0
+  KnockbackResistance: 0
   LogDamageEvents: 1
   accumulatedDamage: 0
 --- !u!136 &1624302940
@@ -85234,6 +85238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IgnoresDamage: 1
+  KnockbackResistance: 0
   LogDamageEvents: 1
   interactVerb: picks up
   IgnoresInteraction: 0
@@ -85241,6 +85246,7 @@ MonoBehaviour:
   useVerb: uses
   _wielder: {fileID: 0}
   damage: 10
+  knockback: 10
   reach: 3.5
   sensitivity: 0.1
 --- !u!65 &2085801881

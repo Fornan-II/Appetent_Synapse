@@ -185,7 +185,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 1000
-  field of view: 60
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -373,6 +373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IgnoresDamage: 1
+  KnockbackResistance: 0
   LogDamageEvents: 1
   IsSpectator: 1
   logInputValues: 0
@@ -419,6 +420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IgnoresDamage: 1
+  KnockbackResistance: 0
   LogDamageEvents: 1
   fovLerpRate: 0.2
   fovScalingAccuracy: 0.05
