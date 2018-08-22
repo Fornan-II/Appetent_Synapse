@@ -6,10 +6,10 @@ public class PunchingBag : Actor {
 
     public float accumulatedDamage = 0;
 
-    public override bool TakeDamage(Actor Source, float Value, DamageEventInfo EventInfo = null, Controller Instigator = null)
+    protected override bool ProcessDamage(Actor Source, float Value, DamageEventInfo EventInfo, Controller Instigator, float Knockback)
     {
         accumulatedDamage += Value;
         LOG("Taken " + Value + " damage!\nAccumulated damage: " + accumulatedDamage);
-        return base.TakeDamage(Source, Value, EventInfo, Instigator);
+        return base.ProcessDamage(Source, Value, EventInfo, Instigator, Knockback);
     }
 }

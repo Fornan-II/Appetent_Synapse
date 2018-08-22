@@ -6,6 +6,7 @@ public class LaceratorSword : Item
 {
 
     public float damage = 10.0f;
+    public float knockback = 10.0f;
     public float reach = 2.0f;
     public float sensitivity = 0.1f;
 
@@ -57,7 +58,7 @@ public class LaceratorSword : Item
             Actor targetActor = target.GetComponent<Actor>();
             if (targetActor)
             {
-                targetActor.TakeDamage(user, damage);
+                targetActor.TakeDamage(user, damage, knockback);
                 return true;
             }
         }

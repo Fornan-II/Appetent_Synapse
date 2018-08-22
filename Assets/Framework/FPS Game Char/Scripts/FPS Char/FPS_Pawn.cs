@@ -394,8 +394,9 @@ public class FPS_Pawn : Game_Pawn
     #endregion
 
     #region Health and Dying
-    protected override bool ProcessDamage(Actor Source, float Value, DamageEventInfo EventInfo, Controller Instigator)
+    protected override bool ProcessDamage(Actor Source, float Value, DamageEventInfo EventInfo, Controller Instigator, float Knockback)
     {
+        base.ProcessDamage(Source, Value, EventInfo, Instigator, Knockback);
         Health -= Value;
         return CheckIfAlive();
     }

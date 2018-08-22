@@ -11,6 +11,12 @@ public class Actor : Info
     public bool IgnoresDamage = true;
 
     /// <summary>
+    /// Float. Defines percentage of knockback ignored when taking damage.
+    /// </summary>
+    [Range(0,1)]
+    public float KnockbackResistance = 0.0f;
+
+    /// <summary>
     /// Boolean. Controls if Damage Event Text is sent to Console
     /// </summary>
     public bool LogDamageEvents = true;
@@ -48,7 +54,7 @@ public class Actor : Info
     /// <param name="EventInfo">Optional, Description of the Damage via Damage Event Info, if null Default Event\BaseDamageType used</param>
     /// <param name="Instigator">Optional, Who to Credit Damage (i.e. who shot the bullet), if null World Damage is assumed</param>
     /// <returns>Result of ProcessDamage</returns>
-    public virtual bool TakeDamage( Actor Source, float Value, DamageEventInfo EventInfo = null, Controller Instigator = null)
+    public virtual bool TakeDamage(Actor Source, float Value, float Knockback = 0, DamageEventInfo EventInfo = null, Controller Instigator = null)
     {
         // If we don't care about damage, just return true and be done!
         if (IgnoresDamage)
@@ -62,7 +68,7 @@ public class Actor : Info
             EventInfo = new DamageEventInfo();
         }
 
-        return ProcessDamage(Source, Value, EventInfo, Instigator);
+        return ProcessDamage(Source, Value, EventInfo, Instigator, Knockback);
     }
 
     /// <summary>
@@ -71,7 +77,7 @@ public class Actor : Info
     /// Also does basic damage event loggin. 
     /// </summary>
     /// <returns>Return False if Dead!</returns>
-    protected virtual bool ProcessDamage(Actor Source, float Value, DamageEventInfo EventInfo, Controller Instigator)
+    protected virtual bool ProcessDamage(Actor Source, float Value, DamageEventInfo EventInfo, Controller Instigator, float Knockback)
     {
         // Setup for Logging Dammage Information  
         string DamageEventString = Source.ActorName + " " + EventInfo.DamageType.verb + " " + this.ActorName + " (" + Value.ToString() + " damage)";
@@ -84,6 +90,15 @@ public class Actor : Info
             DamageEventString = "The World via " + DamageEventString;
         }
         DAMAGELOG(DamageEventString);
+
+        Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+        float totalKnockback = Knockback * (1f - KnockbackResistance);
+        if (totalKnockback > 0 && rb)
+        {
+            Vector3 kbVector = transform.position - Source.transform.position;
+            kbVector = kbVector.normalized * totalKnockback;
+            rb.AddForce(kbVector, ForceMode.Impulse);
+        }
 
         return true; 
     }
