@@ -19,6 +19,7 @@ public class FPS_Pawn : Game_Pawn
     public float crouchRate = 0.2f;
     public float jumpForce = 5.0f;
     public float maxGroundAngle = 45;
+    public float coyoteTimeDuration = 0.1f;
 
     //Interaction properties
     public float interactRange = 2.0f;
@@ -52,11 +53,13 @@ public class FPS_Pawn : Game_Pawn
     //Internal booleans
     protected bool _isCrouching = false;
     protected bool _isSprinting = false;
-    protected bool _isGrounded = false;
     protected bool _isJumping = false;
 
-    //Set in CheckIfGrounded(), used to determine slope of ground.
+    //Grounded-related variables
+    protected bool _isGrounded = false;
+    protected bool _shouldBeGrounded = false;
     protected Vector3 _groundContactNormal;
+    protected float _remainingCoyoteTime;
 
     //Movement value storage
     protected float _forwardVelocity = 1.0f;
@@ -130,6 +133,8 @@ public class FPS_Pawn : Game_Pawn
 
     protected virtual void FixedUpdate()
     {
+        Debug.Log(_rb.velocity);
+
         if (CheckIfAlive())
         {
             CheckIfGrounded();
@@ -296,6 +301,7 @@ public class FPS_Pawn : Game_Pawn
         //Combine the vectors of transform.forward and tranform.right to find the desired move vector.
         //Use modified input data stored in _forwardVelocity and _strafeVelocity as the scalars for these vectors, respectively.
         desiredVelocity = transform.forward * inputVector.x + transform.right * inputVector.y;
+        desiredVelocity.y = 0.0f;
 
         //Scale velocity by moveSpeed
         desiredVelocity *= moveSpeed;
@@ -306,7 +312,7 @@ public class FPS_Pawn : Game_Pawn
             desiredVelocity *= crouchMultiplier;
         }
 
-        if (_isGrounded && !_isJumping)
+        if (_shouldBeGrounded && !_isJumping)
         {
             desiredVelocity.y = _rb.velocity.y;
             desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, _groundContactNormal);
@@ -324,6 +330,7 @@ public class FPS_Pawn : Game_Pawn
             {
                 _rb.velocity = new Vector3(_rb.velocity.x, jumpForce, _rb.velocity.z);
                 _isJumping = false;
+                _isGrounded = false;
             }
         }
         //Debug.DrawRay(transform.position, desiredVelocity, Color.cyan, 1.0f);
@@ -468,19 +475,46 @@ public class FPS_Pawn : Game_Pawn
 
         //If the player's feet are touching something, player is grounded
         RaycastHit hitInfo;
-        _isGrounded = Physics.SphereCast(checkPos, _col.radius, Vector3.down, out hitInfo, _col.height / 2, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
-        if (_isGrounded)
+        _shouldBeGrounded = Physics.SphereCast(checkPos, _col.radius, Vector3.down, out hitInfo, _col.height / 2, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+        if (_shouldBeGrounded)
         {
             //Debug.DrawRay(hitInfo.point, hitInfo.normal, Color.yellow, 1.0f);
+
+            //If ground is too steep (and also not classified as stairs) then the player isn't actually grounded
             _groundContactNormal = hitInfo.normal;
             if (hitInfo.collider.gameObject.layer != LayerMask.NameToLayer("Stairs"))
             {
                 if(Vector3.Angle(Vector3.up, _groundContactNormal) > maxGroundAngle)
                 {
-                    _isGrounded = false;
+                    _shouldBeGrounded = false;
                 }
             }
         }
+
+        //Check to see if we should start coyote time
+        if(_isGrounded && !_shouldBeGrounded && _remainingCoyoteTime <= 0.0f)
+        {
+            //Start coyote time
+            StartCoroutine(CoyoteTimeTimer());
+        }
+        else if(!_isGrounded)
+        {
+            _isGrounded = _shouldBeGrounded;
+        }
+    }
+
+    protected virtual IEnumerator CoyoteTimeTimer()
+    {
+        _remainingCoyoteTime = coyoteTimeDuration;
+
+        while(!_shouldBeGrounded && _remainingCoyoteTime > 0.0f)
+        {
+            yield return null;
+            _remainingCoyoteTime -= Time.deltaTime;
+            //Debug.Log("Coyote time: " + _remainingCoyoteTime + "\n_isGrounded = " + _isGrounded);
+        }
+
+        _isGrounded = _shouldBeGrounded;
     }
 
     protected virtual Vector2 GetProperInputVector()
