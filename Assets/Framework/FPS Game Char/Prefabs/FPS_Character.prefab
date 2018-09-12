@@ -447,10 +447,10 @@ MonoBehaviour:
   allowSprinting: 1
   allowJumping: 1
   allowCrouching: 1
-  moveSpeed: 9.5
+  moveSpeed: 8
   groundedInertia: 0.7
   aerialInertia: 0.98
-  sprintMultiplier: 1.3
+  sprintMultiplier: 1.4
   crouchMultiplier: 0.5
   crouchRate: 5
   jumpForce: 11

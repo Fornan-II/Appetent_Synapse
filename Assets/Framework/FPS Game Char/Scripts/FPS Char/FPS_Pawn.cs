@@ -217,16 +217,12 @@ public class FPS_Pawn : Game_Pawn
         }
     }
 
-    //Allows the player to sprint when held
+    //Toggles the players' sprint on
     public override void Ability2(bool value)
     {
         if (value && allowSprinting && !_isCrouching)
         {
             _isSprinting = true;
-        }
-        else
-        {
-            _isSprinting = false;
         }
     }
 
@@ -294,6 +290,7 @@ public class FPS_Pawn : Game_Pawn
         {
             _fovMultipliers.Remove(this, _fovKeys[1]);
             UpdateCameraManagerFov();
+            _isSprinting = false;
         }
 
         //Combine the vectors of transform.forward and tranform.right to find the desired move vector.
