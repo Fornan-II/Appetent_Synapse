@@ -455,6 +455,7 @@ MonoBehaviour:
   crouchRate: 5
   jumpForce: 11
   maxGroundAngle: 40
+  coyoteTimeDuration: 0.1
   interactRange: 2
   interactSensitivity: 0.1
   crouchFOV: 1
