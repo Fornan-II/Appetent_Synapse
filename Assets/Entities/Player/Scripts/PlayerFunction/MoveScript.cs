@@ -50,7 +50,7 @@ public class MoveScript : MonoBehaviour
     protected bool _isJumping = false;
 
     //Grounded-related variables
-    protected bool _isGrounded = false;
+    [SerializeField]protected bool _isGrounded = false;
     protected bool _shouldBeGrounded = false;
     protected Vector3 _groundContactNormal;
     protected float _remainingCoyoteTime;
@@ -249,20 +249,20 @@ public class MoveScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        /*if(!_col) { return; }
+        if(!_col) { return; }
 
         Vector3 pos1 = _col.transform.position + _col.center;
-        Vector3 pos2 = pos1 + (Vector3.down * (_col.height / 2 - _col.radius));
+        Vector3 pos2 = pos1 + (Vector3.down * (_col.height / 2 - _col.radius) * transform.localScale.y);
         float r = _col.radius;
         Gizmos.DrawSphere(pos1, r);
-        Gizmos.DrawWireSphere(pos2, r);*/
+        Gizmos.DrawWireSphere(pos2, r);
     }
 
     protected virtual void CheckIfGrounded()
     {
         //Prepare data for use in CheckSphere()
         Vector3 checkPos = _col.transform.position + _col.center;
-        float checkDist = _col.height / 2 - _col.radius;
+        float checkDist = (_col.height / 2 - _col.radius) * transform.localScale.y;
 
         //If the player's feet are touching something, player is grounded
         RaycastHit hitInfo;

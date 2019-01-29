@@ -114,7 +114,7 @@ public class Pawn : MonoBehaviour
             Debug.LogWarning(name + " is trying to be passed input when it has no MoveScript component assigned!");
             return;
         }
-
+        
         MyMoveScript.Crouch(value);
     }
     #endregion

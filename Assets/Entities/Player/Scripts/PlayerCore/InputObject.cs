@@ -86,12 +86,12 @@ public class InputObject : ScriptableObject
 
     public bool GetSprintInput()
     {
-        return Input.GetButtonDown(SprintButton);
+        return Input.GetButton(SprintButton);
     }
 
     public bool GetCrouchInput()
     {
-        return Input.GetButtonDown(CrouchButton);
+        return Input.GetButton(CrouchButton);
     }
 
     public bool GetStartInput()

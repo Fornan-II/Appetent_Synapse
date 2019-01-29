@@ -446,7 +446,7 @@ GameObject:
   - component: {fileID: 86155996}
   - component: {fileID: 86155995}
   - component: {fileID: 86155994}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerPawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -469,13 +469,13 @@ MonoBehaviour:
   allowSprinting: 1
   allowJumping: 1
   allowCrouching: 1
-  moveSpeed: 5
-  groundedInertia: 0.5
-  aerialInertia: 0.5
+  moveSpeed: 7
+  groundedInertia: 0.1
+  aerialInertia: 0.95
   sprintMultiplier: 2
   crouchMultiplier: 0.5
-  crouchRate: 0.2
-  jumpForce: 5
+  crouchRate: 5
+  jumpForce: 10
   maxGroundAngle: 45
   coyoteTimeDuration: 0.1
   gravity: 20
@@ -485,6 +485,7 @@ MonoBehaviour:
   minFootstepVelocity: 0.01
   minFootstepBreak: 0.1
   maxFootstepBreak: 2
+  _isGrounded: 0
 --- !u!114 &86155995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7979,7 +7980,7 @@ GameObject:
   - component: {fileID: 1721910535}
   - component: {fileID: 1721910536}
   - component: {fileID: 1721910538}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8082,7 +8083,7 @@ GameObject:
   - component: {fileID: 1736508884}
   - component: {fileID: 1736508886}
   - component: {fileID: 1736508885}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
