@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldItem : MonoBehaviour
+public class EquippedHoldableItem : MonoBehaviour
 {
     public virtual bool UsePrimary(Pawn source)
     {

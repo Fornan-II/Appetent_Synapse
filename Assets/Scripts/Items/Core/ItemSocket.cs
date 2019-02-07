@@ -4,18 +4,31 @@ using UnityEngine;
 
 public class ItemSocket : MonoBehaviour
 {
-    public WorldItem EquippedItem
+    public EquippedHoldableItem EquippedItem
     {
         get;
         protected set;
     }
 
-   public virtual bool Use(Pawn user)
+    public virtual bool UsePrimary(Pawn user)
     {
-        return true;
+        if(EquippedItem)
+        {
+            return EquippedItem.UsePrimary(user);
+        }
+        return false;
     }
 
-    public virtual void Equip(InventoryItem item)
+    public virtual bool UseSecondary(Pawn user)
+    {
+        if (EquippedItem)
+        {
+            return EquippedItem.UseSecondary(user);
+        }
+        return false;
+    }
+
+    public virtual void Equip(InventoryHoldableItem item)
     {
         if(EquippedItem)
         {
@@ -28,7 +41,7 @@ public class ItemSocket : MonoBehaviour
             if (item.EquippedPrefab)
             {
                 GameObject spawnedItem = Instantiate(item.EquippedPrefab, transform);
-                EquippedItem = spawnedItem.GetComponent<WorldItem>();
+                EquippedItem = spawnedItem.GetComponent<EquippedHoldableItem>();
             }
         }
     }

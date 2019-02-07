@@ -19,7 +19,7 @@ MonoBehaviour:
   LookVerticalAxis: Mouse Y
   PrimaryActionAxis: ActionPrimary
   SecondaryActionAxis: ActionSecondary
-  DPadHorizontalAxis: 
+  DPadHorizontalAxis: Mouse ScrollWheel
   DPadVerticalAxis: 
   InteractButton: Interact
   JumpButton: Jump

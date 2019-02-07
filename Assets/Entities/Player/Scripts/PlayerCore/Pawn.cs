@@ -7,19 +7,11 @@ public class Pawn : MonoBehaviour
     public MoveScript MyMoveScript;
     public LookScript MyLookScript;
     public Camera MyCamera;
+    public Inventory MyInventory;
+    public Interacter MyInteracter;
     
     [HideInInspector]
     public PlayerController MyController;
-
-    protected virtual void Start ()
-    {
-		
-	}
-	
-	protected virtual void Update ()
-    {
-		
-	}
 
     #region Input
     public virtual void PassLockScreen(bool value)
@@ -55,33 +47,49 @@ public class Pawn : MonoBehaviour
 
     public virtual void PassPrimaryActionInput(float value)
     {
-        if (value > 0.0f)
+        if (!MyInventory)
         {
-            Debug.Log(name + " right trigger: " + value);
+            Debug.LogWarning(name + " is trying to be passed input when it has no Inventory component assigned!");
+            return;
         }
+
+        MyInventory.UseEquippedPrimary(value >= 0.5f, this);
     }
 
     public virtual void PassSecondaryActionInput(float value)
     {
-        if (value > 0.0f)
+        if (!MyInventory)
         {
-            Debug.Log(name + " left trigger: " + value);
+            Debug.LogWarning(name + " is trying to be passed input when it has no Inventory component assigned!");
+            return;
         }
+
+        MyInventory.UseEquippedSecondary(value >= 0.5f, this);
     }
 
     public virtual void PassDPadInput(Vector2 value)
     {
-        if (value != Vector2.zero)
+        if(!MyInventory)
         {
-            Debug.Log(name + " dPad: " + value);
+            Debug.LogWarning(name + " is trying to be passed input when it has no Inventory component assigned!");
+            return;
         }
+        
+        MyInventory.ScrollThroughItems(value.x);
     }
     
     public virtual void PassInteractInput(bool value)
     {
+        if(!MyInteracter)
+        {
+            Debug.LogWarning(name + " is trying to be passed input when it has no Interacter component assigned!");
+            return;
+        }
+
         if(value)
         {
-            Debug.Log(name + " interact!");
+            Debug.Log("interact");
+            MyInteracter.TryToInteract(this);
         }
     }
 
