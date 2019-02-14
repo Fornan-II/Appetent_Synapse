@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca1dd3f31ad2a24bbf6c5381648f0b4, type: 3}
   m_Name: JavelinLauncher
   m_EditorClassIdentifier: 
-  EquippedPrefab: {fileID: 0}
+  EquippedPrefab: {fileID: 1559659465461946356, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+    type: 3}
