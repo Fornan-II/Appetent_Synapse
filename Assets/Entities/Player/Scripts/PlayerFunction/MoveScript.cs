@@ -14,11 +14,10 @@ public class MoveScript : MonoBehaviour
     public bool allowSprinting = true;
     public bool allowJumping = true;
     public bool allowCrouching = true;
-    public float moveSpeed = 5.0f;
-    [Range(0.0f, 1.0f)]
-    public float groundedInertia = 0.5f;
-    [Range(0.0f, 1.0f)]
-    public float aerialInertia = 0.5f;
+    public float acceleration = 1.0f;
+    public float maxSpeed = 10.0f;
+    public AnimationCurve accelCurve;
+    [Range(0, 1)] public float friction;
     public float sprintMultiplier = 2.0f;
     public float crouchMultiplier = 0.5f;
     public float crouchRate = 0.2f;
@@ -163,69 +162,37 @@ public class MoveScript : MonoBehaviour
     #region Movement Related Methods
     protected virtual void UpdateMoveVelocity()
     {
-        //Initialize moveVelocity to zero. 
-        Vector3 desiredVelocity = Vector3.zero;
-
-        //Modify input data to remove issue of faster movement on non-axes
-        Vector2 inputVector = GetProperInputVector();
-
-        //Apply sprint effects if trying to sprint forwards.
-        if (_isSprinting && _forwardVelocity > 0.0f)
+        //Initialize base forces
+        Vector2 inputVector = new Vector2(_strafeVelocity, _forwardVelocity);
+        float moveForce = Time.fixedDeltaTime * acceleration;
+        float yForce = 0.0f;
+        Vector3 localVelocity = transform.InverseTransformVector(_rb.velocity);
+        Vector2 localPlanarVelocity = new Vector2(localVelocity.x, localVelocity.z);
+        if (!_isGrounded)
         {
-            inputVector.x *= sprintMultiplier;
+            yForce = gravity * Time.fixedDeltaTime * -1f;
         }
 
-        //Combine the vectors of transform.forward and tranform.right to find the desired move vector.
-        //Use modified input data stored in _forwardVelocity and _strafeVelocity as the scalars for these vectors, respectively.
-        if (movementRelativeTransform)
-        {
-            Vector3 correctForward = movementRelativeTransform.forward;
-            correctForward.y = 0.0f;
-            correctForward.Normalize();
-            Vector3 correctRight = movementRelativeTransform.right;
-            correctRight.y = 0.0f;
-            correctRight.Normalize();
+        //PLANAR VELOCITY
+        //
+        // * Calculate acceleration using animation curve
+        float tFactor = Mathf.Clamp01((inputVector.sqrMagnitude * localPlanarVelocity.sqrMagnitude) / (maxSpeed * maxSpeed));
+        float accelMultiplier = accelCurve.Evaluate(tFactor);
 
-            desiredVelocity = correctForward * inputVector.x + correctRight * inputVector.y;
+        // * Calculate horizontal velocity
+        Vector2 newPlanarVelocity = localPlanarVelocity + inputVector * (moveForce * accelMultiplier);
+        if (inputVector.x == 0.0f)
+        {
+            newPlanarVelocity.x *= friction;
         }
-        else
+        if (inputVector.y == 0.0f)
         {
-            desiredVelocity = transform.forward * inputVector.x + transform.right * inputVector.y;
-        }
-        desiredVelocity.y = 0.0f;
-
-        //Scale velocity by moveSpeed
-        desiredVelocity *= moveSpeed;
-
-        //Scale velocity by crouch multiplier if the player is crouching
-        if (_isCrouching)
-        {
-            desiredVelocity *= crouchMultiplier;
+            newPlanarVelocity.y *= friction;
         }
 
-        if (_shouldBeGrounded && !_isJumping)
-        {
-            desiredVelocity.y = _rb.velocity.y;
-            desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, _groundContactNormal);
-            Vector3 newVelocity = Vector3.Lerp(desiredVelocity, _rb.velocity, groundedInertia);
-            _rb.velocity = newVelocity;
-        }
-        else
-        {
-            if (inputVector.sqrMagnitude > float.Epsilon)
-            {
-                desiredVelocity.y = _rb.velocity.y;
-                _rb.velocity = Vector3.Lerp(desiredVelocity, _rb.velocity, aerialInertia);
-            }
-            if (_isJumping)
-            {
-                _rb.velocity = new Vector3(_rb.velocity.x, jumpForce, _rb.velocity.z);
-                _isJumping = false;
-                _isGrounded = false;
-            }
-        }
-        //Debug.DrawRay(transform.position, desiredVelocity, Color.cyan, 1.0f);
-        //Debug.DrawRay(transform.position, _rb.velocity, Color.green, 1.0f);
+        Vector3 newVelocity = transform.forward * newPlanarVelocity.y + transform.right * newPlanarVelocity.x;
+        newVelocity.y = _rb.velocity.y + yForce;
+        _rb.velocity = newVelocity;
     }
 
     //Adjusts player height to reflect crouch state
@@ -312,34 +279,6 @@ public class MoveScript : MonoBehaviour
         _remainingCoyoteTime = 0.0f;
         _isGrounded = _shouldBeGrounded;
     }
-
-    protected virtual Vector2 GetProperInputVector()
-    {
-        Vector2 inputVector = new Vector2(_forwardVelocity, _strafeVelocity);
-        Vector2 maxedVector = Vector2.one;
-
-        //Find maximum value 
-        if (Mathf.Abs(_forwardVelocity) > Mathf.Abs(_strafeVelocity))
-        {
-            maxedVector.Set(1.0f, _strafeVelocity / _forwardVelocity);
-            if (_forwardVelocity < 0.0f)
-            {
-                maxedVector.x = -1.0f;
-            }
-        }
-        else if (Mathf.Abs(_forwardVelocity) < Mathf.Abs(_strafeVelocity))
-        {
-            maxedVector.Set(_forwardVelocity / _strafeVelocity, 1.0f);
-            if (_strafeVelocity < 0.0f)
-            {
-                maxedVector.y = -1.0f;
-            }
-        }
-
-        inputVector /= maxedVector.magnitude;
-
-        return new Vector3(inputVector.x, inputVector.y);
-    }
     #endregion
 
     #region Audio
@@ -348,7 +287,7 @@ public class MoveScript : MonoBehaviour
     {
         _footstepAudioCoroutineIsActive = true;
         float activeTimer = minFootstepBreak + 1;
-        float maximumSquareVelocity = moveSpeed * moveSpeed * sprintMultiplier * sprintMultiplier;
+        float maximumSquareVelocity = maxSpeed * maxSpeed * sprintMultiplier * sprintMultiplier;
         float timeUntilNextSound;
 
         if(feetAudio)

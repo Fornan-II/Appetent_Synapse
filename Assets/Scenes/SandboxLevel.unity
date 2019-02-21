@@ -471,9 +471,33 @@ MonoBehaviour:
   allowSprinting: 1
   allowJumping: 1
   allowCrouching: 1
-  moveSpeed: 7
-  groundedInertia: 0.1
-  aerialInertia: 0.95
+  acceleration: 40
+  maxSpeed: 20
+  accelCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -2.799815
+      outSlope: -2.799815
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.02094818
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  friction: 0.75
   sprintMultiplier: 2
   crouchMultiplier: 0.5
   crouchRate: 5
