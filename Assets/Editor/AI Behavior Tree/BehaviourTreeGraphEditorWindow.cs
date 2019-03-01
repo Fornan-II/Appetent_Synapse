@@ -61,7 +61,7 @@ namespace BehaviourTreeUI
 
                 behaviourTreeGraphGUI.EndGraphGUI();
             }
-            else
+            else if(behaviourTreeGraph == null)
             {
                 CreateGraph();
             }
