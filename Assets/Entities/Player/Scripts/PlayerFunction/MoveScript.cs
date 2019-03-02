@@ -83,7 +83,7 @@ public class MoveScript : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        _rb.AddForce(new Vector3(0.0f, -gravity * _rb.mass, 0.0f));
+        //_rb.AddForce(new Vector3(0.0f, -gravity * _rb.mass, 0.0f));
 
         CheckIfGrounded();
         if (_rb.velocity.sqrMagnitude > minFootstepVelocity && !_footstepAudioCoroutineIsActive && _isGrounded)
@@ -162,37 +162,56 @@ public class MoveScript : MonoBehaviour
     #region Movement Related Methods
     protected virtual void UpdateMoveVelocity()
     {
+        Vector2 inputVector = Vector2.zero;
+        if (Input.GetKey(KeyCode.W))
+        {
+            inputVector.y += 1.0f;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            inputVector.y -= 1.0f;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            inputVector.x += -1.0f;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            inputVector.x += 1.0f;
+        }
+        inputVector = Util.VectorInCircleSpace(inputVector);
+        //Vector2 inputVector = Util.VectorInCircleSpace(_strafeVelocity, _forwardVelocity);
+
         //Initialize base forces
-        Vector2 inputVector = new Vector2(_strafeVelocity, _forwardVelocity);
         float moveForce = Time.fixedDeltaTime * acceleration;
+        Vector3 inputDirection = transform.forward * inputVector.y + transform.right * inputVector.x;
+        Vector3 velocityInInputDirection = Vector3.Project(_rb.velocity, inputDirection);
+
         float yForce = 0.0f;
-        Vector3 localVelocity = transform.InverseTransformVector(_rb.velocity);
-        Vector2 localPlanarVelocity = new Vector2(localVelocity.x, localVelocity.z);
+
         if (!_isGrounded)
         {
             yForce = gravity * Time.fixedDeltaTime * -1f;
         }
 
-        //PLANAR VELOCITY
+        // T FACTOR
+        //
+        // * Calculate tFactors that will be used
+        float tFactor = Mathf.Clamp01((inputVector.magnitude * velocityInInputDirection.magnitude) / maxSpeed);
+        //
+        //
+
+        //VELOCITY
         //
         // * Calculate acceleration using animation curve
-        float tFactor = Mathf.Clamp01((inputVector.sqrMagnitude * localPlanarVelocity.sqrMagnitude) / (maxSpeed * maxSpeed));
         float accelMultiplier = accelCurve.Evaluate(tFactor);
 
-        // * Calculate horizontal velocity
-        Vector2 newPlanarVelocity = localPlanarVelocity + inputVector * (moveForce * accelMultiplier);
-        if (inputVector.x == 0.0f)
-        {
-            newPlanarVelocity.x *= friction;
-        }
-        if (inputVector.y == 0.0f)
-        {
-            newPlanarVelocity.y *= friction;
-        }
+        //_rb.velocity -= (_rb.velocity.normalized * moveForce + velocityInInputDirection);
+        _rb.velocity -= velocityInInputDirection;
+        _rb.velocity *= friction;
 
-        Vector3 newVelocity = transform.forward * newPlanarVelocity.y + transform.right * newPlanarVelocity.x;
-        newVelocity.y = _rb.velocity.y + yForce;
-        _rb.velocity = newVelocity;
+
+        _rb.velocity += velocityInInputDirection + (inputDirection * moveForce * accelMultiplier);
     }
 
     //Adjusts player height to reflect crouch state

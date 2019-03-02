@@ -471,7 +471,7 @@ MonoBehaviour:
   allowSprinting: 1
   allowJumping: 1
   allowCrouching: 1
-  acceleration: 40
+  acceleration: 30
   maxSpeed: 20
   accelCurve:
     serializedVersion: 2
@@ -479,12 +479,12 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -2.799815
-      outSlope: -2.799815
+      inSlope: -1.472703
+      outSlope: -1.472703
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.02094818
+      outWeight: 0.04578564
     - serializedVersion: 3
       time: 1
       value: 0

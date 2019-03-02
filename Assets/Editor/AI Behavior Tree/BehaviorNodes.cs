@@ -21,7 +21,7 @@ namespace BehaviourTreeUI
         {
             Node selector = ScriptableObject.CreateInstance<Node>();
 
-            selector.title = "New Selector";
+            selector.title = "Selector";
             selector.AddInputSlot("in");
 
             //selector.AddProperty(new Property(typeof(AI.Selector), "Logic"));
@@ -33,14 +33,29 @@ namespace BehaviourTreeUI
             return selector;
         }
 
-        public static Node Sequence NewSequence()
+        public static Node NewSequence()
         {
             Node sequence = ScriptableObject.CreateInstance<Node>();
 
-            sequence.title = "New Sequence";
+            sequence.title = "Sequence";
             sequence.AddInputSlot("in");
 
-            sequence.AddOutputSlot("out");
+            //Any number of outputs. This node stays active while waiting for it's outputs to execute.
+            sequence.AddOutputSlot("1");
+
+            return sequence;
+        }
+
+        public static Node NewLeaf()
+        {
+            Node leaf = ScriptableObject.CreateInstance<Node>();
+
+            leaf.title = "Leaf";
+            leaf.AddInputSlot("in");
+
+            //leaf.AddProperty(new Property(typeof(AI.Behavior), "Behavior"));
+
+            return leaf;
         }
     }
 }
