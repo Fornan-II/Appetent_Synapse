@@ -6,17 +6,12 @@ namespace AI
 {
     public class StateMachine : MonoBehaviour
     {
-        public State CurrentState
+        public Behavior CurrentState
         {
             get { return _activeState; }
-            set
-            {
-                _queuedNextState = value;
-            }
         }
-        protected State _queuedNextState;
-        protected State _activeState;
-        protected State.StatePhase _oldStatePhase = State.StatePhase.INACTIVE;
+        protected Behavior _activeState;
+        protected Behavior.StatePhase _oldStatePhase = Behavior.StatePhase.INACTIVE;
 
         public GameObject ReleventGameObject;
 
@@ -28,26 +23,26 @@ namespace AI
         protected virtual void StateMachineProcessState()
         {
             //Figure out what GameObject should be passed into state
-            GameObject gameObjectToProccess = gameObject;
+            /*GameObject gameObjectToProccess = gameObject;
             if (ReleventGameObject)
             {
                 gameObjectToProccess = ReleventGameObject;
             }
 
             //Start the queued state if active state is done.
-            if (_activeState == null && _queuedNextState != null)
-            {
-                _activeState = _queuedNextState;
-            }
+            //if (_activeState == null && _queuedNextState != null)
+            //{
+            //    _activeState = _queuedNextState;
+            //}
 
             //Run state behavior for _activeState
             if (_activeState != null)
             {
-                State.StatePhase phaseOnStateProcessing = _activeState.CurrentPhase;
+                Behavior.StatePhase phaseOnStateProcessing = _activeState.CurrentPhase;
 
                 switch (_activeState.CurrentPhase)
                 {
-                    case State.StatePhase.ENTERING:
+                    case Behavior.StatePhase.ENTERING:
                         {
                             if (_oldStatePhase != _activeState.CurrentPhase)
                             {
@@ -59,12 +54,12 @@ namespace AI
                             }
                             break;
                         }
-                    case State.StatePhase.ACTIVE:
+                    case Behavior.StatePhase.ACTIVE:
                         {
                             _activeState.ActiveBehavior(gameObjectToProccess);
                             break;
                         }
-                    case State.StatePhase.EXITING:
+                    case Behavior.StatePhase.EXITING:
                         {
                             if (_oldStatePhase != _activeState.CurrentPhase)
                             {
@@ -76,7 +71,7 @@ namespace AI
                             }
                             break;
                         }
-                    case State.StatePhase.INACTIVE:
+                    case Behavior.StatePhase.INACTIVE:
                         {
                             _activeState = null;
                             break;
@@ -84,7 +79,7 @@ namespace AI
                 }
 
                 _oldStatePhase = phaseOnStateProcessing;
-            }
+            }*/
         }
 
         public void ForceNextState()

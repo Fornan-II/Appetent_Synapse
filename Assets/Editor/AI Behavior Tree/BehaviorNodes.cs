@@ -5,57 +5,128 @@ using UnityEditor.Graphs;
 
 namespace BehaviourTreeUI
 {
+    public struct NodeInfo
+    {
+        public Node node;
+        public Slot inSlot;
+
+        public NodeInfo(Node n, Slot s)
+        {
+            node = n;
+            inSlot = s;
+        }
+    }
+
     public static class BehaviorNodes
     {
-        public static Node NewRoot()
+        #region Node Primatives
+        public static NodeInfo NewRoot()
         {
             Node root = ScriptableObject.CreateInstance<Node>();
 
             root.title = "Root";
             root.AddOutputSlot("out");
+            root.position = new Rect(0, 0, 300, 200);
 
-            return root;
+            return new NodeInfo(root, null);
         }
 
-        public static Node NewSelector()
+        public static NodeInfo NewSelector()
         {
             Node selector = ScriptableObject.CreateInstance<Node>();
 
             selector.title = "Selector";
-            selector.AddInputSlot("in");
+            Slot i = selector.AddInputSlot("in");
+            //root.position = new Rect(0, 0, 300, 200);
 
             //selector.AddProperty(new Property(typeof(AI.Selector), "Logic"));
 
             //Select number of slots based on AI.Selector output options
-            selector.AddOutputSlot("a");
-            selector.AddOutputSlot("b");
 
-            return selector;
+            return new NodeInfo(selector, i);
         }
 
-        public static Node NewSequence()
+        public static NodeInfo NewSequence()
         {
             Node sequence = ScriptableObject.CreateInstance<Node>();
 
             sequence.title = "Sequence";
-            sequence.AddInputSlot("in");
+            Slot i = sequence.AddInputSlot("in");
+
+            sequence.AddProperty(new Property(typeof(int), "Sequence Position"));
 
             //Any number of outputs. This node stays active while waiting for it's outputs to execute.
-            sequence.AddOutputSlot("1");
 
-            return sequence;
+            return new NodeInfo(sequence, i);
         }
 
-        public static Node NewLeaf()
+        public static NodeInfo NewLeaf()
         {
             Node leaf = ScriptableObject.CreateInstance<Node>();
 
             leaf.title = "Leaf";
-            leaf.AddInputSlot("in");
+            Slot i = leaf.AddInputSlot("in");
+
+            leaf.AddProperty(new Property(typeof(AI.Behavior.StatePhase), "Behavior Phase"));
 
             //leaf.AddProperty(new Property(typeof(AI.Behavior), "Behavior"));
 
-            return leaf;
+            return new NodeInfo(leaf, i);
+        }
+#endregion
+
+        public static NodeInfo GetGraphNodeFromAINode(AI.Node source)
+        {
+            NodeInfo result;
+
+            if (source is AI.Root)
+            {
+                result = NewRoot();
+            }
+            else if (source is AI.Selector)
+            {
+                AI.Selector sel = source as AI.Selector;
+                result = NewSelector();
+                //WILL COME BACK TO REVISE THIS LATER I GUESS
+                for (int i = 0; i < sel.NextNodes.Length; i++)
+                {
+                    result.node.AddOutputSlot("out: " + i);
+                }
+            }
+            else if(source is AI.Sequence)
+            {
+                AI.Sequence seq = source as AI.Sequence;
+                result = NewSequence();
+                
+                result.node.SetPropertyValue("Sequence Position", seq.SequencePosition);
+
+                for(int i = 0; i < seq.sequenceNodes.Length; i++)
+                {
+                    result.node.AddOutputSlot("out: " + i);
+                }
+            }
+            else if(source is AI.Leaf)
+            {
+                AI.Leaf leaf = source as AI.Leaf;
+                result = NewLeaf();
+
+                result.node.SetPropertyValue("Behavior Phase", leaf.nodeBehavior.CurrentPhase);
+            }
+            else
+            {
+                result = new NodeInfo(ScriptableObject.CreateInstance<Node>(), null);
+                result.node.title = "UNKNOWN TYPE";
+            }
+
+            return result;
+        }
+
+        public static void UpdateTreeFromGraph(AI.BehaviorTree result, Graph source)
+        {
+            foreach(Node n in source.nodes)
+            {
+                
+            }
         }
     }
 }

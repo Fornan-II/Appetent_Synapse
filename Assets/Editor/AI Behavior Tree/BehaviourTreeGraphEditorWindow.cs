@@ -10,18 +10,29 @@ namespace BehaviourTreeUI
     public class BehaviourTreeGraphEditorWindow : EditorWindow
     {
         static BehaviourTreeGraphEditorWindow graphEditorWindow;
-        Graph behaviourTreeGraph;
+        TreeGraph behaviourTreeGraph;
         GraphGUIEX behaviourTreeGraphGUI;
 
         [MenuItem("Window/Behaviour Tree")]
-        static void Do()
+        public static void Do()
         {
             graphEditorWindow = GetWindow<BehaviourTreeGraphEditorWindow>();
         }
 
-        void CreateGraph()
+        public static void DoTree(AI.BehaviorTree tree)
         {
-            behaviourTreeGraph = ScriptableObject.CreateInstance<Graph>();
+            graphEditorWindow = GetWindow<BehaviourTreeGraphEditorWindow>();
+
+            graphEditorWindow.behaviourTreeGraph = ScriptableObject.CreateInstance<TreeGraph>();
+            graphEditorWindow.behaviourTreeGraph.Tree = tree;
+            graphEditorWindow.behaviourTreeGraph.CreateTree();
+            graphEditorWindow.behaviourTreeGraphGUI = ScriptableObject.CreateInstance<GraphGUIEX>();
+            graphEditorWindow.behaviourTreeGraphGUI.graph = graphEditorWindow.behaviourTreeGraph;
+        }
+
+        void CreateGenericGraph()
+        {
+            behaviourTreeGraph = ScriptableObject.CreateInstance<TreeGraph>();
             behaviourTreeGraph.hideFlags = HideFlags.HideAndDontSave;
 
             //Create new node
@@ -61,9 +72,9 @@ namespace BehaviourTreeUI
 
                 behaviourTreeGraphGUI.EndGraphGUI();
             }
-            else if(behaviourTreeGraph == null)
+            else if(graphEditorWindow)
             {
-                CreateGraph();
+                //CreateGenericGraph();
             }
         }
     }

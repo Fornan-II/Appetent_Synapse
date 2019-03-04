@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AI
 {
-    public abstract class State
+    public abstract class Behavior
     {
         public enum StatePhase
         {
@@ -17,15 +17,15 @@ namespace AI
         protected StatePhase _currentPhase = StatePhase.ENTERING;
         public StatePhase CurrentPhase { get { return _currentPhase; } }
 
-        public abstract void OnEnter(GameObject gameObject);
+        public abstract void OnEnter(Blackboard b);
 
-        public abstract void ActiveBehavior(GameObject gameObject);
+        public abstract void ActiveBehavior(Blackboard b);
 
-        public abstract void OnExit(GameObject gameObject);
+        public abstract void OnExit(Blackboard b);
 
-        public virtual void EnterBehavior(GameObject gameObject) { }
+        public virtual void EnterBehavior(Blackboard b) { }
 
-        public virtual void ExitBehavior(GameObject gameObject) { }
+        public virtual void ExitBehavior(Blackboard b) { }
 
         public virtual void ForceEndState()
         {
