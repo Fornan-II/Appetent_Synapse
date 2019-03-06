@@ -19,13 +19,22 @@ namespace BehaviourTreeUI
             graphEditorWindow = GetWindow<BehaviourTreeGraphEditorWindow>();
         }
 
-        public static void DoTree(AI.BehaviorTree tree)
+        public static void DoAITree(AI.BehaviorTree tree)
         {
             graphEditorWindow = GetWindow<BehaviourTreeGraphEditorWindow>();
 
             graphEditorWindow.behaviourTreeGraph = ScriptableObject.CreateInstance<TreeGraph>();
             graphEditorWindow.behaviourTreeGraph.Tree = tree;
             graphEditorWindow.behaviourTreeGraph.CreateTree();
+            graphEditorWindow.behaviourTreeGraphGUI = ScriptableObject.CreateInstance<GraphGUIEX>();
+            graphEditorWindow.behaviourTreeGraphGUI.graph = graphEditorWindow.behaviourTreeGraph;
+        }
+
+        public static void DoTree(TreeGraph tree)
+        {
+            graphEditorWindow = GetWindow<BehaviourTreeGraphEditorWindow>();
+
+            graphEditorWindow.behaviourTreeGraph = tree;
             graphEditorWindow.behaviourTreeGraphGUI = ScriptableObject.CreateInstance<GraphGUIEX>();
             graphEditorWindow.behaviourTreeGraphGUI.graph = graphEditorWindow.behaviourTreeGraph;
         }
