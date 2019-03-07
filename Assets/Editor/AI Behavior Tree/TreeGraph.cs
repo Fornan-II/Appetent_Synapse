@@ -9,6 +9,7 @@ namespace BehaviourTreeUI
     public class TreeGraph : Graph
     {
         public AI.BehaviorTree Tree;
+        public string nodeFolderPath;
         public float nodeWidth = 300;
         public float nodeHeight = 200;
         public Dictionary<Node, AI.Node> nodeReference;
@@ -31,11 +32,15 @@ namespace BehaviourTreeUI
             {
                 AI.Root r = n as AI.Root;
                 Node dispNode = BehaviorNodes.NewRoot().node;
+                SaveNode(dispNode);
                 dispNode.position.position = pos;
 
-                Slot nextInputSlot = CreateNode(r.NextNode, pos + new Vector2(150, 0));
+                if(r.NextNode)
+                {
+                    Slot nextInputSlot = CreateNode(r.NextNode, pos + new Vector2(150, 0));
 
-                Connect(dispNode.slots[0], nextInputSlot);
+                    Connect(dispNode.slots[0], nextInputSlot);
+                }
 
                 AddNode(dispNode);
                 nodeReference.Add(dispNode, n);
@@ -45,6 +50,7 @@ namespace BehaviourTreeUI
             {
                 AI.Selector sel = n as AI.Selector;
                 NodeInfo dispNode = BehaviorNodes.NewSelector();
+                SaveNode(dispNode.node);
                 dispNode.node.position.position = pos;
 
                 int outName = 0;
@@ -68,6 +74,7 @@ namespace BehaviourTreeUI
             {
                 AI.Sequence seq = n as AI.Sequence;
                 NodeInfo dispNode = BehaviorNodes.NewSequence();
+                SaveNode(dispNode.node);
                 dispNode.node.SetPropertyValue("Sequence Position", seq.SequencePosition);
                 dispNode.node.position.position = pos;
 
@@ -92,6 +99,7 @@ namespace BehaviourTreeUI
             {
                 AI.Leaf l = n as AI.Leaf;
                 NodeInfo dispNode = BehaviorNodes.NewLeaf();
+                SaveNode(dispNode.node);
                 //dispNode.node.SetPropertyValue("Behavior Phase", l.nodeBehavior.CurrentPhase);
                 dispNode.node.position.position = pos;
 
@@ -102,6 +110,25 @@ namespace BehaviourTreeUI
 
             Debug.LogWarning("Something went wrong in TreeGraph.CreateNode()");
             return null;
+        }
+
+        protected virtual void OnValidate()
+        {
+            Debug.Log("Validating " + name);
+        }
+
+        protected virtual void SaveNode(Node n)
+        {
+            string fileName = n.title + " 1.asset";
+            int assetNum = 2;
+            while (AssetDatabase.IsMainAssetAtPathLoaded(nodeFolderPath + "/" + fileName))
+            {
+                fileName = fileName.Replace(" " + (assetNum - 1), " " + assetNum);
+                assetNum++;
+            }
+
+            AssetDatabase.CreateAsset(n, nodeFolderPath + "/" + fileName);
+            AssetDatabase.SaveAssets();
         }
     }
 }

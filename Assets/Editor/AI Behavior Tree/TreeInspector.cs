@@ -6,7 +6,8 @@ using UnityEditor;
 [CustomEditor(typeof(AI.BehaviorTree))]
 public class TreeInspector : Editor
 {
-    protected BehaviourTreeUI.TreeGraph treeRepresentation;
+    const string editorPath = "Assets/Editor/AI Behavior Tree";
+    const string treeFolder = "TreeGraphs";
 
     public override void OnInspectorGUI()
     {
@@ -17,11 +18,7 @@ public class TreeInspector : Editor
             {
                 if(target is AI.BehaviorTree)
                 {
-                    if(treeRepresentation == null)
-                    {
-                        treeRepresentation = GetNewTree(target as AI.BehaviorTree);
-                    }
-                    BehaviourTreeUI.BehaviourTreeGraphEditorWindow.DoTree(treeRepresentation);
+                    BehaviourTreeUI.BehaviourTreeGraphEditorWindow.DoTree(GetTree(target as AI.BehaviorTree));
                 }
             }
         }
@@ -29,42 +26,45 @@ public class TreeInspector : Editor
 
     protected BehaviourTreeUI.TreeGraph GetTree(AI.BehaviorTree sourceTree)
     {
-        string editorPath = "Assets/Editor";
-        string treeFolder = "TreeGraphs";
         string treePath = editorPath + "/" + treeFolder;
+        string fileName = sourceTree.name + "Graph.asset";
 
-        //if (AssetDatabase.IsMainAssetAtPathLoaded(treePath + "/" + fileName))
-        //{
-
-        //}
-
-        return null;
+        if (AssetDatabase.IsMainAssetAtPathLoaded(treePath + "/" + fileName))
+        {
+            return AssetDatabase.LoadAssetAtPath<BehaviourTreeUI.TreeGraph>(treePath + "/" + fileName);
+        }
+        else
+        {
+            return GetNewTree(sourceTree);
+        }
     }
 
     protected BehaviourTreeUI.TreeGraph GetNewTree(AI.BehaviorTree sourceTree)
     {
+        //Initialize tree scriptable object
         BehaviourTreeUI.TreeGraph uiTree = ScriptableObject.CreateInstance<BehaviourTreeUI.TreeGraph>();
-        uiTree.Tree = target as AI.BehaviorTree;
-        uiTree.CreateTree();
 
-        string editorPath = "Assets/Editor";
-        string treeFolder = "TreeGraphs";
+        //Save scriptable object
+        //
         string treePath = editorPath + "/" + treeFolder;
         if (!AssetDatabase.IsValidFolder(treePath))
         {
             AssetDatabase.CreateFolder(editorPath, treeFolder);
         }
 
-        string fileName = sourceTree.name + " graph 1.asset";
-        int assetNum = 2;
-        while (AssetDatabase.IsMainAssetAtPathLoaded(treePath + "/" + fileName))
-        {
-            fileName = fileName.Replace(" " + (assetNum - 1), " " + assetNum);
-            assetNum++;
-        }
+        string fileName = sourceTree.name + "Graph";
 
-        AssetDatabase.CreateAsset(uiTree, treePath + "/" + fileName);
+        AssetDatabase.CreateAsset(uiTree, treePath + "/" + fileName + ".asset");
+        AssetDatabase.CreateFolder(treePath, fileName);
         AssetDatabase.SaveAssets();
+        //
+
+        //Generate tree
+        //
+        uiTree.Tree = target as AI.BehaviorTree;
+        uiTree.nodeFolderPath = treePath + "/" + fileName;
+        uiTree.CreateTree();
+        //
 
         return uiTree;
     }

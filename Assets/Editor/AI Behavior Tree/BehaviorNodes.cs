@@ -123,10 +123,7 @@ namespace BehaviourTreeUI
 
         public static void UpdateTreeFromGraph(AI.BehaviorTree result, Graph source)
         {
-            foreach(Node n in source.nodes)
-            {
-                
-            }
+
         }
     }
 }

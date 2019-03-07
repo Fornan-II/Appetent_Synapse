@@ -39,12 +39,6 @@ namespace AI
         }
 
 #if UNITY_EDITOR
-        [ContextMenu("Open Graph Window")]
-        public void ShowGraph()
-        {
-            
-        }
-
         [ContextMenu("New Root")]
         public void CreateRoot()
         {
@@ -74,12 +68,12 @@ namespace AI
 
             return newNode;
         }
-#endif
 
         public string GetNodeDirectory()
         {
             string treePath = AssetDatabase.GetAssetPath(GetInstanceID());
             return treePath.Remove(treePath.Length - (7 + name.Length));
         }
+#endif
     }
 }
