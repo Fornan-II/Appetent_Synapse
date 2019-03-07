@@ -9,10 +9,10 @@ namespace BehaviourTreeUI
     public class TreeGraph : Graph
     {
         public AI.BehaviorTree Tree;
-        public string nodeFolderPath;
+        protected BehaviorNode _rootNode;
+        public string graphNodeFolderPath;
         public float nodeWidth = 300;
         public float nodeHeight = 200;
-        public Dictionary<Node, AI.Node> nodeReference;
 
         public virtual void CreateTree()
         {
@@ -22,7 +22,6 @@ namespace BehaviourTreeUI
                 return;
             }
 
-            nodeReference = new Dictionary<Node, AI.Node>();
             CreateNode(Tree.root, Vector2.zero);
         }
 
@@ -31,8 +30,9 @@ namespace BehaviourTreeUI
             if(n is AI.Root)
             {
                 AI.Root r = n as AI.Root;
-                Node dispNode = BehaviorNodes.NewRoot().node;
-                SaveNode(dispNode);
+                BehaviorNode dispNode = BehaviorNode.NewRoot().node;
+                SaveGraphNodeAsset(dispNode);
+                dispNode.sourceNode = r;
                 dispNode.position.position = pos;
 
                 if(r.NextNode)
@@ -42,15 +42,21 @@ namespace BehaviourTreeUI
                     Connect(dispNode.slots[0], nextInputSlot);
                 }
 
+                if(_rootNode)
+                {
+                    Debug.LogWarning("Tree Graph seems to already have root node? Overwriting.");
+                }
+                _rootNode = dispNode;
+
                 AddNode(dispNode);
-                nodeReference.Add(dispNode, n);
                 return null;
             }
             else if(n is AI.Selector)
             {
                 AI.Selector sel = n as AI.Selector;
-                NodeInfo dispNode = BehaviorNodes.NewSelector();
-                SaveNode(dispNode.node);
+                NodeInfo dispNode = BehaviorNode.NewSelector();
+                SaveGraphNodeAsset(dispNode.node);
+                dispNode.node.sourceNode = sel;
                 dispNode.node.position.position = pos;
 
                 int outName = 0;
@@ -67,14 +73,14 @@ namespace BehaviourTreeUI
                 }
 
                 AddNode(dispNode.node);
-                nodeReference.Add(dispNode.node, n);
                 return dispNode.inSlot;
             }
             else if(n is AI.Sequence)
             {
                 AI.Sequence seq = n as AI.Sequence;
-                NodeInfo dispNode = BehaviorNodes.NewSequence();
-                SaveNode(dispNode.node);
+                NodeInfo dispNode = BehaviorNode.NewSequence();
+                SaveGraphNodeAsset(dispNode.node);
+                dispNode.node.sourceNode = seq;
                 dispNode.node.SetPropertyValue("Sequence Position", seq.SequencePosition);
                 dispNode.node.position.position = pos;
 
@@ -92,19 +98,18 @@ namespace BehaviourTreeUI
                 }
 
                 AddNode(dispNode.node);
-                nodeReference.Add(dispNode.node, n);
                 return dispNode.inSlot;
             }
             else if(n is AI.Leaf)
             {
                 AI.Leaf l = n as AI.Leaf;
-                NodeInfo dispNode = BehaviorNodes.NewLeaf();
-                SaveNode(dispNode.node);
+                NodeInfo dispNode = BehaviorNode.NewLeaf();
+                SaveGraphNodeAsset(dispNode.node);
+                dispNode.node.sourceNode = l;
                 //dispNode.node.SetPropertyValue("Behavior Phase", l.nodeBehavior.CurrentPhase);
                 dispNode.node.position.position = pos;
 
                 AddNode(dispNode.node);
-                nodeReference.Add(dispNode.node, n);
                 return dispNode.inSlot;
             }
 
@@ -112,23 +117,65 @@ namespace BehaviourTreeUI
             return null;
         }
 
-        protected virtual void OnValidate()
-        {
-            Debug.Log("Validating " + name);
-        }
-
-        protected virtual void SaveNode(Node n)
+        protected virtual void SaveGraphNodeAsset(Node n)
         {
             string fileName = n.title + " 1.asset";
             int assetNum = 2;
-            while (AssetDatabase.IsMainAssetAtPathLoaded(nodeFolderPath + "/" + fileName))
+            while (AssetDatabase.IsMainAssetAtPathLoaded(graphNodeFolderPath + "/" + fileName))
             {
                 fileName = fileName.Replace(" " + (assetNum - 1), " " + assetNum);
                 assetNum++;
             }
 
-            AssetDatabase.CreateAsset(n, nodeFolderPath + "/" + fileName);
+            AssetDatabase.CreateAsset(n, graphNodeFolderPath + "/" + fileName);
             AssetDatabase.SaveAssets();
+        }
+
+        public virtual void Validate()
+        {
+            bool treeIsValid = true;
+            if(!_rootNode)
+            {
+                treeIsValid = false;
+                return;
+            }
+
+            //Validating one node validates all the node's children.
+            _rootNode.IsValid();
+            Debug.Log("treeIsValid: " + treeIsValid);
+
+            if(EditorApplication.isPlaying && treeIsValid)
+            {
+                BehaviorNode activeNode = FindActiveNode(_rootNode);
+                if(activeNode)
+                {
+                    activeNode.color = Styles.Color.Green;
+                }
+            }
+        }
+
+        protected virtual BehaviorNode FindActiveNode(BehaviorNode bn)
+        {
+            if (bn.sourceNode == Tree.ActiveNode)
+            {
+                return bn;
+            }
+
+            foreach(Edge e in bn.outputEdges)
+            {
+                if(e.toSlot != null)
+                {
+                    if(e.toSlot.node)
+                    {
+                        if(e.toSlot.node is BehaviorNode)
+                        {
+                            return FindActiveNode(e.toSlot.node as BehaviorNode);
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

@@ -8,6 +8,7 @@ public class TreeInspector : Editor
 {
     const string editorPath = "Assets/Editor/AI Behavior Tree";
     const string treeFolder = "TreeGraphs";
+    const string fileNameSuffix = "Graph";
 
     public override void OnInspectorGUI()
     {
@@ -22,12 +23,25 @@ public class TreeInspector : Editor
                 }
             }
         }
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("Regenerate Graph"))
+        {
+            if(target)
+            {
+                if(target is AI.BehaviorTree)
+                {
+                    ResetGraph(target as AI.BehaviorTree);
+                }
+            }
+        }
     }
 
     protected BehaviourTreeUI.TreeGraph GetTree(AI.BehaviorTree sourceTree)
     {
         string treePath = editorPath + "/" + treeFolder;
-        string fileName = sourceTree.name + "Graph.asset";
+        string fileName = sourceTree.name + fileNameSuffix + ".asset";
 
         if (AssetDatabase.IsMainAssetAtPathLoaded(treePath + "/" + fileName))
         {
@@ -52,7 +66,7 @@ public class TreeInspector : Editor
             AssetDatabase.CreateFolder(editorPath, treeFolder);
         }
 
-        string fileName = sourceTree.name + "Graph";
+        string fileName = sourceTree.name + fileNameSuffix;
 
         AssetDatabase.CreateAsset(uiTree, treePath + "/" + fileName + ".asset");
         AssetDatabase.CreateFolder(treePath, fileName);
@@ -62,10 +76,18 @@ public class TreeInspector : Editor
         //Generate tree
         //
         uiTree.Tree = target as AI.BehaviorTree;
-        uiTree.nodeFolderPath = treePath + "/" + fileName;
+        uiTree.graphNodeFolderPath = treePath + "/" + fileName;
         uiTree.CreateTree();
         //
 
         return uiTree;
+    }
+    protected void ResetGraph(AI.BehaviorTree sourceTree)
+    {
+        string treePath = editorPath + "/" + treeFolder;
+        string treeFileName = sourceTree.name + fileNameSuffix;
+
+        AssetDatabase.DeleteAsset(treePath + "/" + treeFileName);
+        AssetDatabase.DeleteAsset(treePath + "/" + treeFileName + ".asset");
     }
 }

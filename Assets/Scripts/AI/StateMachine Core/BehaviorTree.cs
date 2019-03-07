@@ -15,6 +15,24 @@ namespace AI
         //1 : ActiveLeaf
         //2 : Any Sequences
         //If nothing, return to root
+        public Node ActiveNode
+        {
+            get
+            {
+                if (_nodesToProcess == null)
+                {
+                    return null;
+                }
+                else if(_nodesToProcess.Count > 0)
+                {
+                    return _nodesToProcess.Peek();
+                }
+                else
+                {
+                    return root;
+                }
+            }
+        }
 
         public virtual void ProcessTree()
         {

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 13141, guid: 0000000000000000e000000000000000, type: 0}
+  m_Script: {fileID: 11500000, guid: e9d0c86d72a1a9b4c97ff474aa3d5d95, type: 3}
   m_Name: Selector 1
   m_EditorClassIdentifier: 
   m_Slots:
@@ -31,8 +31,9 @@ MonoBehaviour:
   style: node
   position:
     serializedVersion: 2
-    x: 96
-    y: -108
-    width: 41
-    height: 65
+    x: 150
+    y: 0
+    width: 0
+    height: 0
   showEmptySlots: 1
+  sourceNode: {fileID: 11400000, guid: 56d895305d6078948b415c7b86c61aaa, type: 2}
