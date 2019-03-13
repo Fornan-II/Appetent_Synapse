@@ -41,7 +41,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 300
     y: 0
-    width: 0
-    height: 0
+    width: 600
+    height: 400
   showEmptySlots: 1
   sourceNode: {fileID: 11400000, guid: 3c3d9e18db8832e4fbef60fc26f9f4f6, type: 2}

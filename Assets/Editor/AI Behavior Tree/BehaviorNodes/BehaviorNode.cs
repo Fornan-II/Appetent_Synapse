@@ -17,7 +17,7 @@ namespace BehaviourTreeUI
         }
     }
 
-    public class BehaviorNode : Node
+    public abstract class BehaviorNode : Node
     {
         #region Static Node Primatives
         public static NodeInfo NewRoot()
@@ -26,7 +26,6 @@ namespace BehaviourTreeUI
 
             root.title = "Root";
             root.AddOutputSlot("out");
-            root.position = new Rect(0, 0, 300, 200);
 
             return new NodeInfo(root, null);
         }
@@ -37,7 +36,6 @@ namespace BehaviourTreeUI
 
             selector.title = "Selector";
             Slot i = selector.AddInputSlot("in");
-            //root.position = new Rect(0, 0, 300, 200);
 
             //selector.AddProperty(new Property(typeof(AI.Selector), "Logic"));
 
@@ -75,7 +73,13 @@ namespace BehaviourTreeUI
         }
         #endregion
 
-        protected bool Validation(bool value)
+        public abstract AI.Node GetAINode();
+
+        public abstract void SaveDataToAINode();
+
+        public abstract bool IsValid();
+
+        protected virtual bool Validation(bool value)
         {
             if (value)
             {
@@ -89,52 +93,20 @@ namespace BehaviourTreeUI
             return value;
         }
 
-        public AI.Node sourceNode;
-
-        public bool IsValid()
+        public virtual List<BehaviorNode> GetNextNodes()
         {
-            if (!sourceNode)
+            List<BehaviorNode> nextNodes = new List<BehaviorNode>();
+
+            foreach (Edge e in outputEdges)
             {
-                color = Styles.Color.Red;
-                return Validation(false);
-            }
-
-            bool allOutputsValid = true;
-            bool noOutputs = true;
-
-            foreach (Slot s in outputSlots)
-            {
-                noOutputs = false;
-
-                if (s.edges.Count > 1)
+                Node next = e.toSlot.node;
+                if(next is BehaviorNode)
                 {
-                    allOutputsValid = false;
-                }
-
-                if (s.edges.Count >= 1)
-                {
-                    Node next = s.edges[0].toSlot.node;
-                    if (next is BehaviorNode)
-                    {
-                        (next as BehaviorNode).IsValid();
-                    }
-                    else
-                    {
-                        allOutputsValid = false;
-                    }
-                }
-                else
-                {
-                    allOutputsValid = false;
+                    nextNodes.Add(next as BehaviorNode);
                 }
             }
-            
-            if(noOutputs)
-            {
-                return Validation(sourceNode is AI.Leaf);
-            }
 
-            return Validation(allOutputsValid);
+            return nextNodes;
         }
     }
 }

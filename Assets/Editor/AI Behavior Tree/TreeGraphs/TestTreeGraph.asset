@@ -34,6 +34,6 @@ MonoBehaviour:
     color: {r: 1, g: 1, b: 1, a: 1}
   m_InvalidEdges: []
   Tree: {fileID: 11400000, guid: 75f899a0b6b987944bbc30614e256b46, type: 2}
-  nodeFolderPath: Assets/Editor/AI Behavior Tree/TreeGraphs/TestTreeGraph
+  graphNodeFolderPath: Assets/Editor/AI Behavior Tree/TreeGraphs/TestTreeGraph
   nodeWidth: 300
   nodeHeight: 200

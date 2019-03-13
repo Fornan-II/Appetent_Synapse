@@ -156,26 +156,35 @@ namespace BehaviourTreeUI
 
         protected virtual BehaviorNode FindActiveNode(BehaviorNode bn)
         {
-            if (bn.sourceNode == Tree.ActiveNode)
+            foreach(BehaviorNode ben in nodes)
             {
-                return bn;
-            }
-
-            foreach(Edge e in bn.outputEdges)
-            {
-                if(e.toSlot != null)
+                if (ben.sourceNode == Tree.ActiveNode)
                 {
-                    if(e.toSlot.node)
-                    {
-                        if(e.toSlot.node is BehaviorNode)
-                        {
-                            return FindActiveNode(e.toSlot.node as BehaviorNode);
-                        }
-                    }
+                    return ben;
                 }
             }
-
             return null;
+
+            //if (bn.sourceNode == Tree.ActiveNode)
+            //{
+            //    return bn;
+            //}
+
+            //foreach(Edge e in bn.outputEdges)
+            //{
+            //    if(e.toSlot != null)
+            //    {
+            //        if(e.toSlot.node)
+            //        {
+            //            if(e.toSlot.node is BehaviorNode)
+            //            {
+            //                return FindActiveNode(e.toSlot.node as BehaviorNode);
+            //            }
+            //        }
+            //    }
+            //}
+
+            //return null;
         }
     }
 }
