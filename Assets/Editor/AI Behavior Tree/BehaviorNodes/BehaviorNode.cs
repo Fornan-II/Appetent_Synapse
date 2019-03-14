@@ -22,7 +22,7 @@ namespace BehaviourTreeUI
         #region Static Node Primatives
         public static NodeInfo NewRoot()
         {
-            BehaviorNode root = ScriptableObject.CreateInstance<BehaviorNode>();
+            GraphRoot root = ScriptableObject.CreateInstance<GraphRoot>();
 
             root.title = "Root";
             root.AddOutputSlot("out");
@@ -32,7 +32,7 @@ namespace BehaviourTreeUI
 
         public static NodeInfo NewSelector()
         {
-            BehaviorNode selector = ScriptableObject.CreateInstance<BehaviorNode>();
+            GraphSelector selector = ScriptableObject.CreateInstance<GraphSelector>();
 
             selector.title = "Selector";
             Slot i = selector.AddInputSlot("in");
@@ -46,7 +46,7 @@ namespace BehaviourTreeUI
 
         public static NodeInfo NewSequence()
         {
-            BehaviorNode sequence = ScriptableObject.CreateInstance<BehaviorNode>();
+            GraphSequence sequence = ScriptableObject.CreateInstance<GraphSequence>();
 
             sequence.title = "Sequence";
             Slot i = sequence.AddInputSlot("in");
@@ -60,7 +60,7 @@ namespace BehaviourTreeUI
 
         public static NodeInfo NewLeaf()
         {
-            BehaviorNode leaf = ScriptableObject.CreateInstance<BehaviorNode>();
+            GraphLeaf leaf = ScriptableObject.CreateInstance<GraphLeaf>();
 
             leaf.title = "Leaf";
             Slot i = leaf.AddInputSlot("in");
@@ -77,7 +77,7 @@ namespace BehaviourTreeUI
 
         public abstract void SaveDataToAINode();
 
-        public abstract bool IsValid();
+        public abstract bool IsValid(bool recursive = false);
 
         protected virtual bool Validation(bool value)
         {
@@ -97,12 +97,23 @@ namespace BehaviourTreeUI
         {
             List<BehaviorNode> nextNodes = new List<BehaviorNode>();
 
-            foreach (Edge e in outputEdges)
+            foreach (Slot s in outputSlots)
             {
-                Node next = e.toSlot.node;
-                if(next is BehaviorNode)
+                if (s.edges.Count > 0)
                 {
-                    nextNodes.Add(next as BehaviorNode);
+                    Node next = s.edges[0].toSlot.node;
+                    if (next is BehaviorNode)
+                    {
+                        nextNodes.Add(next as BehaviorNode);
+                    }
+                    else
+                    {
+                        nextNodes.Add(null);
+                    }
+                }
+                else
+                {
+                    nextNodes.Add(null);
                 }
             }
 

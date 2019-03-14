@@ -30,7 +30,7 @@ namespace BehaviourTreeUI
             if(n is AI.Root)
             {
                 AI.Root r = n as AI.Root;
-                BehaviorNode dispNode = BehaviorNode.NewRoot().node;
+                GraphRoot dispNode = BehaviorNode.NewRoot().node as GraphRoot;
                 SaveGraphNodeAsset(dispNode);
                 dispNode.sourceNode = r;
                 dispNode.position.position = pos;
@@ -54,16 +54,17 @@ namespace BehaviourTreeUI
             else if(n is AI.Selector)
             {
                 AI.Selector sel = n as AI.Selector;
-                NodeInfo dispNode = BehaviorNode.NewSelector();
-                SaveGraphNodeAsset(dispNode.node);
-                dispNode.node.sourceNode = sel;
-                dispNode.node.position.position = pos;
+                NodeInfo nodeInfo = BehaviorNode.NewSelector();
+                GraphSelector dispNode = nodeInfo.node as GraphSelector;
+                SaveGraphNodeAsset(dispNode);
+                dispNode.sourceNode = sel;
+                dispNode.position.position = pos;
 
                 int outName = 0;
                 float verticalOffset = 0.0f - ((sel.NextNodes.Length * 100.0f) / 2.0f);
                 foreach(AI.Node child in sel.NextNodes)
                 {
-                    Slot o = dispNode.node.AddOutputSlot("out:" + outName);
+                    Slot o = dispNode.AddOutputSlot("out:" + outName);
                     Slot nextInputSlot = CreateNode(child, pos + new Vector2(150, verticalOffset));
 
                     Connect(o, nextInputSlot);
@@ -72,23 +73,24 @@ namespace BehaviourTreeUI
                     verticalOffset += 100.0f;
                 }
 
-                AddNode(dispNode.node);
-                return dispNode.inSlot;
+                AddNode(dispNode);
+                return nodeInfo.inSlot;
             }
             else if(n is AI.Sequence)
             {
                 AI.Sequence seq = n as AI.Sequence;
-                NodeInfo dispNode = BehaviorNode.NewSequence();
-                SaveGraphNodeAsset(dispNode.node);
-                dispNode.node.sourceNode = seq;
-                dispNode.node.SetPropertyValue("Sequence Position", seq.SequencePosition);
-                dispNode.node.position.position = pos;
+                NodeInfo nodeInfo = BehaviorNode.NewSequence();
+                GraphSequence dispNode = nodeInfo.node as GraphSequence;
+                SaveGraphNodeAsset(dispNode);
+                dispNode.sourceNode = seq;
+                dispNode.SetPropertyValue("Sequence Position", seq.SequencePosition);
+                dispNode.position.position = pos;
 
                 int outName = 0;
                 float verticalOffset = 0.0f - ((seq.sequenceNodes.Length * 100.0f) / 2.0f);
                 foreach (AI.Node child in seq.sequenceNodes)
                 {
-                    Slot o = dispNode.node.AddOutputSlot("out:" + outName);
+                    Slot o = dispNode.AddOutputSlot("out:" + outName);
                     Slot nextInputSlot = CreateNode(child, pos + new Vector2(150, verticalOffset));
 
                     Connect(o, nextInputSlot);
@@ -97,20 +99,21 @@ namespace BehaviourTreeUI
                     verticalOffset += 100.0f;
                 }
 
-                AddNode(dispNode.node);
-                return dispNode.inSlot;
+                AddNode(dispNode);
+                return nodeInfo.inSlot;
             }
             else if(n is AI.Leaf)
             {
                 AI.Leaf l = n as AI.Leaf;
-                NodeInfo dispNode = BehaviorNode.NewLeaf();
-                SaveGraphNodeAsset(dispNode.node);
-                dispNode.node.sourceNode = l;
+                NodeInfo nodeInfo = BehaviorNode.NewLeaf();
+                GraphLeaf dispNode = nodeInfo.node as GraphLeaf;
+                SaveGraphNodeAsset(dispNode);
+                dispNode.sourceNode = l;
                 //dispNode.node.SetPropertyValue("Behavior Phase", l.nodeBehavior.CurrentPhase);
-                dispNode.node.position.position = pos;
+                dispNode.position.position = pos;
 
-                AddNode(dispNode.node);
-                return dispNode.inSlot;
+                AddNode(dispNode);
+                return nodeInfo.inSlot;
             }
 
             Debug.LogWarning("Something went wrong in TreeGraph.CreateNode()");
@@ -141,7 +144,7 @@ namespace BehaviourTreeUI
             }
 
             //Validating one node validates all the node's children.
-            _rootNode.IsValid();
+            treeIsValid = _rootNode.IsValid(true);
             Debug.Log("treeIsValid: " + treeIsValid);
 
             if(EditorApplication.isPlaying && treeIsValid)
@@ -154,13 +157,13 @@ namespace BehaviourTreeUI
             }
         }
 
-        protected virtual BehaviorNode FindActiveNode(BehaviorNode bn)
+        protected virtual BehaviorNode FindActiveNode(BehaviorNode DEPRECATEDbn)
         {
-            foreach(BehaviorNode ben in nodes)
+            foreach(BehaviorNode bn in nodes)
             {
-                if (ben.sourceNode == Tree.ActiveNode)
+                if (bn.GetAINode() == Tree.ActiveNode)
                 {
-                    return ben;
+                    return bn;
                 }
             }
             return null;

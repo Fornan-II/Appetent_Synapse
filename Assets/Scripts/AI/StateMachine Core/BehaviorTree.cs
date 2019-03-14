@@ -9,7 +9,8 @@ namespace AI
     public class BehaviorTree : ScriptableObject
     {
         public Root root;
-        public Blackboard blackboard;
+
+        [HideInInspector] public Blackboard currentBlackboard;
         protected Stack<Node> _nodesToProcess;
         //On the stack:
         //1 : ActiveLeaf
@@ -34,8 +35,9 @@ namespace AI
             }
         }
 
-        public virtual void ProcessTree()
+        public virtual void ProcessTree(Blackboard b)
         {
+            currentBlackboard = b;
             Node activeNode = _nodesToProcess.Peek();
             if(activeNode == null)
             {
@@ -49,6 +51,7 @@ namespace AI
                     _nodesToProcess.Pop();
                 }
             }
+            currentBlackboard = null;
         }
 
         public virtual void QueueNode(Node n)

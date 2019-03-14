@@ -14,19 +14,37 @@ namespace BehaviourTreeUI
             return sourceNode;
         }
 
-        public override bool IsValid()
+        public override bool IsValid(bool recursive = false)
         {
             if (!sourceNode)
             {
                 return Validation(false);
             }
 
-            return Validation(GetNextNodes().Count == 1);
+            List<BehaviorNode> nextNodes = GetNextNodes();
+            bool validChildren = true;
+            if(recursive)
+            {
+                foreach(BehaviorNode bn in nextNodes)
+                {
+                    if(bn)
+                    {
+                        if(!bn.IsValid(true))
+                        {
+                            validChildren = false;
+                        }
+                    }
+                }
+            }
+            return Validation(validChildren && nextNodes.Count == 1 && !nextNodes.Contains(null));
         }
 
         public override void SaveDataToAINode()
         {
-            throw new System.NotImplementedException();
+            if(!IsValid()) { return; }
+
+            List<BehaviorNode> nextNodes = GetNextNodes();
+            sourceNode.NextNode = nextNodes[0].GetAINode();
         }
     }
 }

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d0c86d72a1a9b4c97ff474aa3d5d95, type: 3}
+  m_Script: {fileID: 11500000, guid: 4bd402173bc7c9d49a1244cf16cb8110, type: 3}
   m_Name: Sequence 1
   m_EditorClassIdentifier: 
   m_Slots:
@@ -41,7 +41,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 300
     y: 0
-    width: 600
-    height: 400
+    width: 0
+    height: 0
   showEmptySlots: 1
   sourceNode: {fileID: 11400000, guid: 3c3d9e18db8832e4fbef60fc26f9f4f6, type: 2}

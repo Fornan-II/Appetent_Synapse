@@ -16,6 +16,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e0064f7c1ba81154eb00335879ea7788, type: 2}
   - {fileID: 11400000, guid: 0ad000e87c7a6144f95e215ac539483e, type: 2}
   - {fileID: 11400000, guid: 3811c80f3465ab64d80a390bc9e5cf12, type: 2}
+  - {fileID: 11400000, guid: bb8d563403f1cce459ed922e86818d17, type: 2}
+  - {fileID: 11400000, guid: 567cb4be90d678f4cbc10480bfce6712, type: 2}
+  - {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
+  - {fileID: 11400000, guid: 5553fe3acc1b2414db0815ba9f52ce26, type: 2}
   edges:
   - m_FromNode: {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
     m_ToNode: {fileID: 11400000, guid: e0064f7c1ba81154eb00335879ea7788, type: 2}
@@ -30,6 +34,21 @@ MonoBehaviour:
   - m_FromNode: {fileID: 11400000, guid: 567cb4be90d678f4cbc10480bfce6712, type: 2}
     m_ToNode: {fileID: 11400000, guid: 3811c80f3465ab64d80a390bc9e5cf12, type: 2}
     m_FromSlotName: out:1
+    m_ToSlotName: in
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - m_FromNode: {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
+    m_ToNode: {fileID: 11400000, guid: 567cb4be90d678f4cbc10480bfce6712, type: 2}
+    m_FromSlotName: out:1
+    m_ToSlotName: in
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - m_FromNode: {fileID: 11400000, guid: 5553fe3acc1b2414db0815ba9f52ce26, type: 2}
+    m_ToNode: {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
+    m_FromSlotName: out
+    m_ToSlotName: in
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - m_FromNode: {fileID: 11400000, guid: 567cb4be90d678f4cbc10480bfce6712, type: 2}
+    m_ToNode: {fileID: 11400000, guid: bb8d563403f1cce459ed922e86818d17, type: 2}
+    m_FromSlotName: out:2
     m_ToSlotName: in
     color: {r: 1, g: 1, b: 1, a: 1}
   m_InvalidEdges: []

@@ -1,0 +1,38 @@
+using System;
+
+namespace IComparableTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Okay, let's go");
+
+            bool a = false;
+            bool b = true;
+
+            Console.WriteLine("Evaluation: " + Evaluate(a, b));
+            Console.WriteLine("...");
+            Console.ReadLine();
+        }
+
+        static int Evaluate<T>(T x, T y) where T : System.IComparable<T>
+        {
+            return x.CompareTo(y);
+        }
+    }
+}
+
+//INT
+//a = b : 0
+//a < b : -1
+//a > b : 1
+//
+//FLOAT
+//a = b : 0
+//a < b : -1
+//a > b : 1
+//
+//BOOL
+//a = b : 0
+//a ! b : -1

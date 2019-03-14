@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d0c86d72a1a9b4c97ff474aa3d5d95, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a3eee2eda2f0a6409b3b8aecf444500, type: 3}
   m_Name: Leaf 1
   m_EditorClassIdentifier: 
   m_Slots:
@@ -29,7 +29,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 600
-    height: 300
+    width: 0
+    height: 0
   showEmptySlots: 1
   sourceNode: {fileID: 0}

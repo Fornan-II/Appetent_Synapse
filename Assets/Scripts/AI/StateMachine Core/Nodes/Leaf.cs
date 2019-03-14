@@ -21,28 +21,28 @@ namespace AI
                     {
                         if (_previousPhase != nodeBehavior.CurrentPhase)
                         {
-                            nodeBehavior.OnEnter(tree.blackboard);
+                            nodeBehavior.OnEnter(tree.currentBlackboard);
                         }
                         else
                         {
-                            nodeBehavior.EnterBehavior(tree.blackboard);
+                            nodeBehavior.EnterBehavior(tree.currentBlackboard);
                         }
                         break;
                     }
                 case Behavior.StatePhase.ACTIVE:
                     {
-                        nodeBehavior.ActiveBehavior(tree.blackboard);
+                        nodeBehavior.ActiveBehavior(tree.currentBlackboard);
                         break;
                     }
                 case Behavior.StatePhase.EXITING:
                     {
                         if (_previousPhase != nodeBehavior.CurrentPhase)
                         {
-                            nodeBehavior.OnExit(tree.blackboard);
+                            nodeBehavior.OnExit(tree.currentBlackboard);
                         }
                         else
                         {
-                            nodeBehavior.ExitBehavior(tree.blackboard);
+                            nodeBehavior.ExitBehavior(tree.currentBlackboard);
                         }
                         break;
                     }
