@@ -17,19 +17,15 @@ MonoBehaviour:
     m_Title: In
     m_Name: in
     m_DataTypeString: 
-  m_Properties:
-  - m_Name: Behavior Phase
-    m_TypeString: AI.Behavior+StatePhase, Assembly-CSharp##0
-    m_Value: ENTERING
-    m_RefValues: []
+  m_Properties: []
   m_GenericTypeString: 
   color: 0
   style: node
   position:
     serializedVersion: 2
-    x: 456
-    y: 60
-    width: 22
-    height: 41
+    x: 0
+    y: 0
+    width: 0
+    height: 0
   showEmptySlots: 1
-  sourceNode: {fileID: 11400000, guid: dd6e5c4d73b6a3d45870c486fda6655f, type: 2}
+  sourceNode: {fileID: 0}

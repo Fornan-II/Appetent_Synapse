@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Graphs;
+using AI;
 
 namespace BehaviourTreeUI
 {
@@ -21,30 +22,46 @@ namespace BehaviourTreeUI
                 return Validation(false);
             }
 
-            List<BehaviorNode> nextNodes = GetNextNodes();
+            List<NodeInfo> nextNodes = GetNextNodes();
             bool validChildren = true;
-            if(recursive)
+            bool noNullValues = true;
+            if (recursive)
             {
-                foreach(BehaviorNode bn in nextNodes)
+                foreach (NodeInfo bn in nextNodes)
                 {
-                    if(bn)
+                    if (bn.node)
                     {
-                        if(!bn.IsValid(true))
+                        if (!bn.node.IsValid(true))
                         {
                             validChildren = false;
                         }
                     }
+                    else
+                    {
+                        noNullValues = false;
+                    }
                 }
             }
-            return Validation(validChildren && nextNodes.Count == 1 && !nextNodes.Contains(null));
+            else
+            {
+                foreach(NodeInfo bn in nextNodes)
+                {
+                    if(!bn.node)
+                    {
+                        noNullValues = false;
+                    }
+                }
+            }
+            
+            return Validation(validChildren && nextNodes.Count == 1 && noNullValues);
         }
 
         public override void SaveDataToAINode()
         {
             if(!IsValid()) { return; }
 
-            List<BehaviorNode> nextNodes = GetNextNodes();
-            sourceNode.NextNode = nextNodes[0].GetAINode();
+            List<NodeInfo> nextNodes = GetNextNodes();
+            sourceNode.NextNode = nextNodes[0].node.GetAINode();
         }
     }
 }

@@ -20,34 +20,50 @@ namespace BehaviourTreeUI
                 return Validation(false);
             }
 
-            List<BehaviorNode> nextNodes = GetNextNodes();
+            List<NodeInfo> nextNodes = GetNextNodes();
             bool validChildren = true;
+            bool noNullValues = true;
             if (recursive)
             {
-                foreach (BehaviorNode bn in nextNodes)
+                foreach (NodeInfo bn in nextNodes)
                 {
-                    if(bn)
+                    if (bn.node)
                     {
-                        if (!bn.IsValid(true))
+                        if (!bn.node.IsValid(true))
                         {
                             validChildren = false;
                         }
                     }
+                    else
+                    {
+                        noNullValues = false;
+                    }
                 }
             }
-            return Validation(validChildren && nextNodes.Count > 0 && !nextNodes.Contains(null));
+            else
+            {
+                foreach (NodeInfo bn in nextNodes)
+                {
+                    if (!bn.node)
+                    {
+                        noNullValues = false;
+                    }
+                }
+            }
+
+            return Validation(validChildren && noNullValues);
         }
 
         public override void SaveDataToAINode()
         {
             if (!IsValid()) { return; }
 
-            List<BehaviorNode> nextNodes = GetNextNodes();
+            List<NodeInfo> nextNodes = GetNextNodes();
             List<AI.Node> nextAINodes = new List<AI.Node>();
 
-            foreach(BehaviorNode bn in nextNodes)
+            foreach(NodeInfo bn in nextNodes)
             {
-                nextAINodes.Add(bn.GetAINode());
+                nextAINodes.Add(bn.node.GetAINode());
             }
 
             sourceNode.sequenceNodes = nextAINodes.ToArray();

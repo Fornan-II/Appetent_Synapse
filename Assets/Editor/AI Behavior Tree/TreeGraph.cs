@@ -13,6 +13,7 @@ namespace BehaviourTreeUI
         public string graphNodeFolderPath;
         public float nodeWidth = 300;
         public float nodeHeight = 200;
+        protected bool _treeIsValid = false;
 
         public virtual void CreateTree()
         {
@@ -31,7 +32,7 @@ namespace BehaviourTreeUI
             {
                 AI.Root r = n as AI.Root;
                 GraphRoot dispNode = BehaviorNode.NewRoot().node as GraphRoot;
-                SaveGraphNodeAsset(dispNode);
+                SaveGraphNodeAsset(dispNode, n.name);
                 dispNode.sourceNode = r;
                 dispNode.position.position = pos;
 
@@ -56,22 +57,18 @@ namespace BehaviourTreeUI
                 AI.Selector sel = n as AI.Selector;
                 NodeInfo nodeInfo = BehaviorNode.NewSelector();
                 GraphSelector dispNode = nodeInfo.node as GraphSelector;
-                SaveGraphNodeAsset(dispNode);
+                SaveGraphNodeAsset(dispNode, n.name);
                 dispNode.sourceNode = sel;
                 dispNode.position.position = pos;
 
-                int outName = 0;
-                float verticalOffset = 0.0f - ((sel.NextNodes.Length * 100.0f) / 2.0f);
-                foreach(AI.Node child in sel.NextNodes)
-                {
-                    Slot o = dispNode.AddOutputSlot("out:" + outName);
-                    Slot nextInputSlot = CreateNode(child, pos + new Vector2(150, verticalOffset));
+                Slot o = dispNode.AddOutputSlot("true:");
+                Slot nextInputSlot = CreateNode(sel.nodeOnTrue, pos + new Vector2(150, -50));
+                Connect(o, nextInputSlot);
 
-                    Connect(o, nextInputSlot);
-
-                    outName++;
-                    verticalOffset += 100.0f;
-                }
+                o = dispNode.AddOutputSlot("false:");
+                nextInputSlot = CreateNode(sel.nodeOnFalse, pos + new Vector2(150, 50));
+                Connect(o, nextInputSlot);
+                
 
                 AddNode(dispNode);
                 return nodeInfo.inSlot;
@@ -81,13 +78,12 @@ namespace BehaviourTreeUI
                 AI.Sequence seq = n as AI.Sequence;
                 NodeInfo nodeInfo = BehaviorNode.NewSequence();
                 GraphSequence dispNode = nodeInfo.node as GraphSequence;
-                SaveGraphNodeAsset(dispNode);
+                SaveGraphNodeAsset(dispNode, n.name);
                 dispNode.sourceNode = seq;
-                dispNode.SetPropertyValue("Sequence Position", seq.SequencePosition);
                 dispNode.position.position = pos;
 
                 int outName = 0;
-                float verticalOffset = 0.0f - ((seq.sequenceNodes.Length * 100.0f) / 2.0f);
+                float verticalOffset = 50.0f - ((seq.sequenceNodes.Length * 100.0f) / 2.0f);
                 foreach (AI.Node child in seq.sequenceNodes)
                 {
                     Slot o = dispNode.AddOutputSlot("out:" + outName);
@@ -107,7 +103,7 @@ namespace BehaviourTreeUI
                 AI.Leaf l = n as AI.Leaf;
                 NodeInfo nodeInfo = BehaviorNode.NewLeaf();
                 GraphLeaf dispNode = nodeInfo.node as GraphLeaf;
-                SaveGraphNodeAsset(dispNode);
+                SaveGraphNodeAsset(dispNode, n.name);
                 dispNode.sourceNode = l;
                 //dispNode.node.SetPropertyValue("Behavior Phase", l.nodeBehavior.CurrentPhase);
                 dispNode.position.position = pos;
@@ -120,15 +116,9 @@ namespace BehaviourTreeUI
             return null;
         }
 
-        protected virtual void SaveGraphNodeAsset(Node n)
+        protected virtual void SaveGraphNodeAsset(Node n, string assetName)
         {
-            string fileName = n.title + " 1.asset";
-            int assetNum = 2;
-            while (AssetDatabase.IsMainAssetAtPathLoaded(graphNodeFolderPath + "/" + fileName))
-            {
-                fileName = fileName.Replace(" " + (assetNum - 1), " " + assetNum);
-                assetNum++;
-            }
+            string fileName = assetName;
 
             AssetDatabase.CreateAsset(n, graphNodeFolderPath + "/" + fileName);
             AssetDatabase.SaveAssets();
@@ -136,24 +126,36 @@ namespace BehaviourTreeUI
 
         public virtual void Validate()
         {
-            bool treeIsValid = true;
+            _treeIsValid = true;
             if(!_rootNode)
             {
-                treeIsValid = false;
+                _treeIsValid = false;
                 return;
             }
 
             //Validating one node validates all the node's children.
-            treeIsValid = _rootNode.IsValid(true);
-            Debug.Log("treeIsValid: " + treeIsValid);
+            _treeIsValid = _rootNode.IsValid(true);
 
-            if(EditorApplication.isPlaying && treeIsValid)
+            if(EditorApplication.isPlaying && _treeIsValid)
             {
                 BehaviorNode activeNode = FindActiveNode(_rootNode);
                 if(activeNode)
                 {
                     activeNode.color = Styles.Color.Green;
                 }
+            }
+        }
+
+        public virtual void SaveGraphToSources()
+        {
+            if(!_treeIsValid)
+            {
+                return;
+            }
+
+            foreach(BehaviorNode bn in nodes)
+            {
+                bn.SaveDataToAINode();
             }
         }
 

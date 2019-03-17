@@ -36,9 +36,7 @@ namespace BehaviourTreeUI
 
             selector.title = "Selector";
             Slot i = selector.AddInputSlot("in");
-
-            //selector.AddProperty(new Property(typeof(AI.Selector), "Logic"));
-
+            //new AI.SelectorLogic().
             //Select number of slots based on AI.Selector output options
 
             return new NodeInfo(selector, i);
@@ -51,8 +49,6 @@ namespace BehaviourTreeUI
             sequence.title = "Sequence";
             Slot i = sequence.AddInputSlot("in");
 
-            sequence.AddProperty(new Property(typeof(int), "Sequence Position"));
-
             //Any number of outputs. This node stays active while waiting for it's outputs to execute.
 
             return new NodeInfo(sequence, i);
@@ -64,8 +60,6 @@ namespace BehaviourTreeUI
 
             leaf.title = "Leaf";
             Slot i = leaf.AddInputSlot("in");
-
-            leaf.AddProperty(new Property(typeof(AI.Behavior.StatePhase), "Behavior Phase"));
 
             //leaf.AddProperty(new Property(typeof(AI.Behavior), "Behavior"));
 
@@ -93,9 +87,9 @@ namespace BehaviourTreeUI
             return value;
         }
 
-        public virtual List<BehaviorNode> GetNextNodes()
+        public virtual List<NodeInfo> GetNextNodes()
         {
-            List<BehaviorNode> nextNodes = new List<BehaviorNode>();
+            List<NodeInfo> nextNodes = new List<NodeInfo>();
 
             foreach (Slot s in outputSlots)
             {
@@ -104,16 +98,16 @@ namespace BehaviourTreeUI
                     Node next = s.edges[0].toSlot.node;
                     if (next is BehaviorNode)
                     {
-                        nextNodes.Add(next as BehaviorNode);
+                        nextNodes.Add(new NodeInfo(next as BehaviorNode, s));
                     }
                     else
                     {
-                        nextNodes.Add(null);
+                        nextNodes.Add(new NodeInfo(null, s));
                     }
                 }
                 else
                 {
-                    nextNodes.Add(null);
+                    nextNodes.Add(new NodeInfo(null, s));
                 }
             }
 

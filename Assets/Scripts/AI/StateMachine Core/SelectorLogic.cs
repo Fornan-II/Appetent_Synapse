@@ -4,12 +4,11 @@ using UnityEngine;
 
 namespace AI
 {
+    [System.Serializable]
     public class SelectorLogic
     {
         public string PropertyOneToEvaluate;
         public string PropertyTwoToEvaluate;
-
-        
 
         public enum ComparisonMode
         {
@@ -22,30 +21,34 @@ namespace AI
         }
         public ComparisonMode Mode = ComparisonMode.EQUAL;
 
-        public bool Evaluate(Blackboard bbThis, Blackboard bbOther)
+        public bool Evaluate(Blackboard bb)
         {
-            if (bbThis.Properties.ContainsKey(PropertyOneToEvaluate))
+            if (bb.Properties.ContainsKey(PropertyOneToEvaluate))
             {
-                if(bbThis.Properties[PropertyOneToEvaluate] is bool)
-                return (bool)bbThis.Properties[PropertyOneToEvaluate];
+                return EvaluateByType(bb.Properties[PropertyOneToEvaluate], GetPropertyTwoValue(bb)); 
             }
 
             return false;
         }
 
-        protected bool EvaluateByType(object o)
+        protected bool EvaluateByType(object obj1, object obj2)
         {
-            if (o is bool)
+            if(obj1 == null || obj2 == null)
             {
-                return EvaluateWithComparisonMode((bool)o, true);
+                return false;
             }
-            else if (o is int)
+
+            if (obj1 is bool)
             {
-                return EvaluateWithComparisonMode((int)o, 0);
+                return EvaluateWithComparisonMode((bool)obj1, (bool)obj2);
             }
-            else if (o is float)
+            else if (obj1 is int)
             {
-                return EvaluateWithComparisonMode((float)o, 0);
+                return EvaluateWithComparisonMode((int)obj1, (int)obj2);
+            }
+            else if (obj1 is float)
+            {
+                return EvaluateWithComparisonMode((float)obj1, (float)obj2);
             }
             else
             {
@@ -90,12 +93,38 @@ namespace AI
             }
         }
 
-        //protected object GetPropertyTwoValue(Blackboard bb)
-        //{
-        //    if(!bb)
-        //    {
-        //        return 
-        //    }
-        //}
+        protected object GetPropertyTwoValue(Blackboard bb)
+        {
+            if(PropertyTwoToEvaluate.StartsWith("(bool)"))
+            {
+                bool value;
+                if(bool.TryParse(PropertyTwoToEvaluate.Substring(6), out value))
+                {
+                    return value;
+                }
+                return null;
+            }
+            else if(PropertyTwoToEvaluate.StartsWith("(int)"))
+            {
+                int value;
+                if (int.TryParse(PropertyTwoToEvaluate.Substring(5), out value))
+                {
+                    return value;
+                }
+                return null;
+            }
+            else if(PropertyTwoToEvaluate.StartsWith("(float)"))
+            {
+                float value;
+                if (float.TryParse(PropertyTwoToEvaluate.Substring(7), out value))
+                {
+                    return value;
+                }
+                return null;
+            }
+
+            if (bb == null) { return null; }
+            return bb.Properties[PropertyTwoToEvaluate];
+        }
     }
 }

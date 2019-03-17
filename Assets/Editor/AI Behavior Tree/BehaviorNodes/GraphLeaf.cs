@@ -9,9 +9,11 @@ namespace BehaviourTreeUI
     {
         public AI.Leaf sourceNode;
 
+        public AI.Behavior behavior;
+
         public override Node GetAINode()
         {
-            throw new System.NotImplementedException();
+            return sourceNode;
         }
 
         public override bool IsValid(bool recursive = false)
@@ -30,7 +32,7 @@ namespace BehaviourTreeUI
         {
             if (!IsValid()) { return; }
 
-            //Set behavior node
+            sourceNode.nodeBehavior = behavior;
         }
     }
 }
