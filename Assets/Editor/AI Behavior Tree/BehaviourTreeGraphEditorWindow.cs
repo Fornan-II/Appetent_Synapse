@@ -14,16 +14,13 @@ namespace BehaviourTreeUI
         TreeGraph behaviourTreeGraph;
         GraphGUIEX behaviourTreeGraphGUI;
 
-        public delegate void ToolBarAction();
-        int _selectedToolbarItem = -1;
-        protected List<KeyValuePair<string, ToolBarAction>> _toolbarItems = new List<KeyValuePair<string, ToolBarAction>>();
-
         [MenuItem("Window/Behaviour Tree")]
         public static void Do()
         {
             graphEditorWindow = GetWindow<BehaviourTreeGraphEditorWindow>();
         }
 
+        #region Graph Creation
         public static void DoAITree(AI.BehaviorTree tree)
         {
             graphEditorWindow = GetWindow<BehaviourTreeGraphEditorWindow>();
@@ -34,7 +31,11 @@ namespace BehaviourTreeUI
             graphEditorWindow.behaviourTreeGraphGUI = ScriptableObject.CreateInstance<GraphGUIEX>();
             graphEditorWindow.behaviourTreeGraphGUI.graph = graphEditorWindow.behaviourTreeGraph;
 
+            graphEditorWindow._toolbarItems.Clear();
             AddToolBarItem("Save Tree", graphEditorWindow.behaviourTreeGraph.SaveGraphToSources);
+            AddToolBarItem("New Leaf Node", graphEditorWindow.CreateNewLeaf);
+            AddToolBarItem("New Selector Node", graphEditorWindow.CreateNewSelector);
+            AddToolBarItem("New Sequence Node", graphEditorWindow.CreateNewSequence);
         }
 
         public static void DoTree(TreeGraph tree)
@@ -45,8 +46,18 @@ namespace BehaviourTreeUI
             graphEditorWindow.behaviourTreeGraphGUI = ScriptableObject.CreateInstance<GraphGUIEX>();
             graphEditorWindow.behaviourTreeGraphGUI.graph = graphEditorWindow.behaviourTreeGraph;
 
+            graphEditorWindow._toolbarItems.Clear();
             AddToolBarItem("Save Tree", graphEditorWindow.behaviourTreeGraph.SaveGraphToSources);
+            AddToolBarItem("New Leaf Node", graphEditorWindow.CreateNewLeaf);
+            AddToolBarItem("New Selector Node", graphEditorWindow.CreateNewSelector);
+            AddToolBarItem("New Sequence Node", graphEditorWindow.CreateNewSequence);
         }
+        #endregion
+
+        #region Toolbar Management
+        public delegate void ToolBarAction();
+        int _selectedToolbarItem = -1;
+        protected List<KeyValuePair<string, ToolBarAction>> _toolbarItems = new List<KeyValuePair<string, ToolBarAction>>();
 
         public static void AddToolBarItem(string label, ToolBarAction function)
         {
@@ -78,6 +89,29 @@ namespace BehaviourTreeUI
                 graphEditorWindow._toolbarItems.RemoveAt(index);
             }
         }
+        #endregion
+
+        #region Toolbar Function
+        protected void CreateNewLeaf()
+        {
+            if(!graphEditorWindow)
+            {
+                return;
+            }
+
+            graphEditorWindow.behaviourTreeGraph.CreateNewNode<AI.Leaf>(graphEditorWindow.behaviourTreeGraphGUI.GetCenterPosition());
+        }
+
+        protected void CreateNewSelector()
+        {
+            graphEditorWindow.behaviourTreeGraph.CreateNewNode<AI.Selector>(graphEditorWindow.behaviourTreeGraphGUI.GetCenterPosition());
+        }
+
+        protected void CreateNewSequence()
+        {
+            graphEditorWindow.behaviourTreeGraph.CreateNewNode<AI.Sequence>(graphEditorWindow.behaviourTreeGraphGUI.GetCenterPosition());
+        }
+        #endregion
 
         private void OnGUI()
         {
@@ -97,7 +131,7 @@ namespace BehaviourTreeUI
 
                 _selectedToolbarItem = GUI.Toolbar(new Rect(0, 0, graphEditorWindow.position.width, 30), _selectedToolbarItem, items.ToArray());
 
-                behaviourTreeGraphGUI.BeginGraphGUI(graphEditorWindow, new Rect(0, 30, graphEditorWindow.position.width, graphEditorWindow.position.height));
+                behaviourTreeGraphGUI.BeginGraphGUI(graphEditorWindow, new Rect(0, 30, graphEditorWindow.position.width, graphEditorWindow.position.height - 30));
 
                 behaviourTreeGraphGUI.OnGraphGUI();
 

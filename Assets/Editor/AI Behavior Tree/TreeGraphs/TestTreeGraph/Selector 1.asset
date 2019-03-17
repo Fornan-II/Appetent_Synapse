@@ -17,15 +17,27 @@ MonoBehaviour:
     m_Title: In
     m_Name: in
     m_DataTypeString: 
+  - type: 1
+    m_Title: 'True:'
+    m_Name: 'true:'
+    m_DataTypeString: 
+  - type: 1
+    m_Title: 'False:'
+    m_Name: 'false:'
+    m_DataTypeString: 
   m_Properties: []
   m_GenericTypeString: 
   color: 0
   style: node
   position:
     serializedVersion: 2
-    x: 0
+    x: 150
     y: 0
     width: 0
     height: 0
   showEmptySlots: 1
-  sourceNode: {fileID: 0}
+  sourceNode: {fileID: 11400000, guid: 56d895305d6078948b415c7b86c61aaa, type: 2}
+  PropertyOneToEvaluate: 
+  PropertyTwoToEvaluate: 
+  PropertyTwoType: 0
+  Mode: 4

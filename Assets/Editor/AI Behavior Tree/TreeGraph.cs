@@ -11,8 +11,6 @@ namespace BehaviourTreeUI
         public AI.BehaviorTree Tree;
         protected BehaviorNode _rootNode;
         public string graphNodeFolderPath;
-        public float nodeWidth = 300;
-        public float nodeHeight = 200;
         protected bool _treeIsValid = false;
 
         public virtual void CreateTree()
@@ -62,13 +60,18 @@ namespace BehaviourTreeUI
                 dispNode.position.position = pos;
 
                 Slot o = dispNode.AddOutputSlot("true:");
-                Slot nextInputSlot = CreateNode(sel.nodeOnTrue, pos + new Vector2(150, -50));
-                Connect(o, nextInputSlot);
+                if (sel.nodeOnTrue)
+                {
+                    Slot nextInputSlot = CreateNode(sel.nodeOnTrue, pos + new Vector2(150, -50));
+                    Connect(o, nextInputSlot);
+                }
 
                 o = dispNode.AddOutputSlot("false:");
-                nextInputSlot = CreateNode(sel.nodeOnFalse, pos + new Vector2(150, 50));
-                Connect(o, nextInputSlot);
-                
+                if (sel.nodeOnFalse)
+                {
+                    Slot nextInputSlot = CreateNode(sel.nodeOnFalse, pos + new Vector2(150, 50));
+                    Connect(o, nextInputSlot);
+                }
 
                 AddNode(dispNode);
                 return nodeInfo.inSlot;
@@ -118,7 +121,7 @@ namespace BehaviourTreeUI
 
         protected virtual void SaveGraphNodeAsset(Node n, string assetName)
         {
-            string fileName = assetName;
+            string fileName = assetName + ".asset";
 
             AssetDatabase.CreateAsset(n, graphNodeFolderPath + "/" + fileName);
             AssetDatabase.SaveAssets();
@@ -134,7 +137,15 @@ namespace BehaviourTreeUI
             }
 
             //Validating one node validates all the node's children.
-            _treeIsValid = _rootNode.IsValid(true);
+            //_treeIsValid = _rootNode.IsValid(true);
+
+            foreach(BehaviorNode bn in nodes)
+            {
+                if(!bn.IsValid())
+                {
+                    _treeIsValid = false;
+                }
+            }
 
             if(EditorApplication.isPlaying && _treeIsValid)
             {
@@ -143,19 +154,6 @@ namespace BehaviourTreeUI
                 {
                     activeNode.color = Styles.Color.Green;
                 }
-            }
-        }
-
-        public virtual void SaveGraphToSources()
-        {
-            if(!_treeIsValid)
-            {
-                return;
-            }
-
-            foreach(BehaviorNode bn in nodes)
-            {
-                bn.SaveDataToAINode();
             }
         }
 
@@ -191,5 +189,26 @@ namespace BehaviourTreeUI
 
             //return null;
         }
+
+        #region Toolbar functionality
+        public virtual void SaveGraphToSources()
+        {
+            if (!_treeIsValid)
+            {
+                return;
+            }
+
+            foreach (BehaviorNode bn in nodes)
+            {
+                bn.SaveDataToAINode(Tree);
+            }
+        }
+
+        public virtual void CreateNewNode<T>(Vector2 pos) where T : AI.Node
+        {
+            AI.Node newNode = Tree.CreateNode(ScriptableObject.CreateInstance<T>());
+            CreateNode(newNode, pos);
+        }
+        #endregion
     }
 }

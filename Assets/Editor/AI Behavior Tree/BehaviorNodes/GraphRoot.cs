@@ -19,6 +19,7 @@ namespace BehaviourTreeUI
         {
             if (!sourceNode)
             {
+                Debug.LogWarning(name + " somehow exists without an existing sourceNode!");
                 return Validation(false);
             }
 
@@ -56,7 +57,7 @@ namespace BehaviourTreeUI
             return Validation(validChildren && nextNodes.Count == 1 && noNullValues);
         }
 
-        public override void SaveDataToAINode()
+        public override void SaveDataToAINode(AI.BehaviorTree tree)
         {
             if(!IsValid()) { return; }
 

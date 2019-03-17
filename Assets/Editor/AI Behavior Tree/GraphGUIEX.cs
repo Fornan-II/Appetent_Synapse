@@ -7,6 +7,12 @@ namespace BehaviourTreeUI
 {
     public class GraphGUIEX : GraphGUI
     {
+
+        public new virtual Vector2 GetCenterPosition()
+        {
+            return base.GetCenterPosition();
+        }
+
         public override void OnGraphGUI()
         {
             base.OnGraphGUI();

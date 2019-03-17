@@ -29,11 +29,6 @@ namespace BehaviourTreeUI
 
         public override bool IsValid(bool recursive = false)
         {
-            if (!sourceNode)
-            {
-                return Validation(false);
-            }
-
             //Also will need to check:
             //If a selector statement is chosen
             //If selector statement is valid
@@ -71,9 +66,14 @@ namespace BehaviourTreeUI
             return Validation(validChildren && noNullValues);
         }
 
-        public override void SaveDataToAINode()
+        public override void SaveDataToAINode(AI.BehaviorTree tree)
         {
             if (!IsValid()) { return; }
+
+            if(!sourceNode)
+            {
+                tree.CreateNode(ScriptableObject.CreateInstance<AI.Selector>());
+            }
 
             List<NodeInfo> nextNodes = GetNextNodes();
 

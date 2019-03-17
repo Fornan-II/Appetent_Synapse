@@ -15,11 +15,6 @@ namespace BehaviourTreeUI
 
         public override bool IsValid(bool recursive = false)
         {
-            if (!sourceNode)
-            {
-                return Validation(false);
-            }
-
             List<NodeInfo> nextNodes = GetNextNodes();
             bool validChildren = true;
             bool noNullValues = true;
@@ -54,9 +49,14 @@ namespace BehaviourTreeUI
             return Validation(validChildren && noNullValues);
         }
 
-        public override void SaveDataToAINode()
+        public override void SaveDataToAINode(AI.BehaviorTree tree)
         {
             if (!IsValid()) { return; }
+
+            if(!sourceNode)
+            {
+                tree.CreateNode(ScriptableObject.CreateInstance<AI.Sequence>());
+            }
 
             List<NodeInfo> nextNodes = GetNextNodes();
             List<AI.Node> nextAINodes = new List<AI.Node>();

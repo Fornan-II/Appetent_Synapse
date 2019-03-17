@@ -69,7 +69,7 @@ namespace BehaviourTreeUI
 
         public abstract AI.Node GetAINode();
 
-        public abstract void SaveDataToAINode();
+        public abstract void SaveDataToAINode(AI.BehaviorTree tree);
 
         public abstract bool IsValid(bool recursive = false);
 

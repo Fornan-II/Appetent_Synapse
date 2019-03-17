@@ -18,19 +18,20 @@ namespace BehaviourTreeUI
 
         public override bool IsValid(bool recursive = false)
         {
-            if (!sourceNode)
-            {
-                return Validation(false);
-            }
             //Also will need to check:
             //If a a behavior is chosen (maybe null behaviors are fine? Probably not);
             //If behavior is valid (may not be anything to check here)
             return Validation(true);
         }
 
-        public override void SaveDataToAINode()
+        public override void SaveDataToAINode(AI.BehaviorTree tree)
         {
             if (!IsValid()) { return; }
+
+            if(!sourceNode)
+            {
+                tree.CreateNode(ScriptableObject.CreateInstance<AI.Leaf>());
+            }
 
             sourceNode.nodeBehavior = behavior;
         }
