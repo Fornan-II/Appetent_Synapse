@@ -5,6 +5,8 @@ using UnityEditor.Graphs;
 
 namespace BehaviourTreeUI
 {
+    public delegate void SaveTreeGraphNodeAsset(Node n, string fileName);
+
     public struct NodeInfo
     {
         public BehaviorNode node;
@@ -24,7 +26,7 @@ namespace BehaviourTreeUI
         {
             GraphRoot root = ScriptableObject.CreateInstance<GraphRoot>();
 
-            root.title = "Root";
+            root.Label = "Root";
             root.AddOutputSlot("out");
 
             return new NodeInfo(root, null);
@@ -34,7 +36,7 @@ namespace BehaviourTreeUI
         {
             GraphSelector selector = ScriptableObject.CreateInstance<GraphSelector>();
 
-            selector.title = "Selector";
+            selector.Label = "Selector";
             Slot i = selector.AddInputSlot("in");
             //new AI.SelectorLogic().
             //Select number of slots based on AI.Selector output options
@@ -46,7 +48,7 @@ namespace BehaviourTreeUI
         {
             GraphSequence sequence = ScriptableObject.CreateInstance<GraphSequence>();
 
-            sequence.title = "Sequence";
+            sequence.Label = "Sequence";
             Slot i = sequence.AddInputSlot("in");
 
             //Any number of outputs. This node stays active while waiting for it's outputs to execute.
@@ -58,7 +60,7 @@ namespace BehaviourTreeUI
         {
             GraphLeaf leaf = ScriptableObject.CreateInstance<GraphLeaf>();
 
-            leaf.title = "Leaf";
+            leaf.Label = "Leaf";
             Slot i = leaf.AddInputSlot("in");
 
             //leaf.AddProperty(new Property(typeof(AI.Behavior), "Behavior"));
@@ -67,9 +69,11 @@ namespace BehaviourTreeUI
         }
         #endregion
 
+        public string Label;
+
         public abstract AI.Node GetAINode();
 
-        public abstract void SaveDataToAINode(AI.BehaviorTree tree);
+        public abstract void SaveDataToAINode(AI.BehaviorTree tree, SaveTreeGraphNodeAsset nodeAssetSaver);
 
         public abstract bool IsValid();
 
@@ -131,18 +135,9 @@ namespace BehaviourTreeUI
             return true;
         }
 
-        /*private void OnDestroy()
+        protected virtual void OnValidate()
         {
-            string graphNodePath = UnityEditor.AssetDatabase.GetAssetPath(this);
-
-            AI.Node ai = GetAINode();
-            if (ai)
-            {
-                string AINodePath = UnityEditor.AssetDatabase.GetAssetPath(ai);
-                UnityEditor.AssetDatabase.DeleteAsset(AINodePath);
-            }
-
-            UnityEditor.AssetDatabase.DeleteAsset(graphNodePath);
-        }*/
+            title = Label;
+        }
     }
 }

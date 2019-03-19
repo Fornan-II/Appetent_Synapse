@@ -35,13 +35,14 @@ namespace BehaviourTreeUI
             return Validation(AllSlotsUsed());
         }
 
-        public override void SaveDataToAINode(AI.BehaviorTree tree)
+        public override void SaveDataToAINode(AI.BehaviorTree tree, SaveTreeGraphNodeAsset nodeAssetSaver)
         {
             if (!IsValid()) { return; }
 
-            if(!sourceNode)
+            if (!UnityEditor.AssetDatabase.Contains(sourceNode))
             {
-                tree.CreateNode(ScriptableObject.CreateInstance<AI.Selector>());
+                AI.Node aiNode = tree.CreateNode(sourceNode);
+                nodeAssetSaver.Invoke(this, aiNode.name);
             }
 
             List<NodeInfo> nextNodes = GetNextNodes();
@@ -58,6 +59,10 @@ namespace BehaviourTreeUI
                 }
             }
 
+            if(sourceNode.Logic == null)
+            {
+                sourceNode.Logic = new SelectorLogic();
+            }
             sourceNode.Logic.PropertyOneToEvaluate = PropertyOneToEvaluate;
             sourceNode.Logic.Mode = Mode;
 

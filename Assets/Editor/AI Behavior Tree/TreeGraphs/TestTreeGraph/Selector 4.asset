@@ -9,13 +9,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a3eee2eda2f0a6409b3b8aecf444500, type: 3}
-  m_Name: Leaf 4
+  m_Script: {fileID: 11500000, guid: 7420f82977882304695b329d73d1f422, type: 3}
+  m_Name: Selector 4
   m_EditorClassIdentifier: 
   m_Slots:
   - type: 0
     m_Title: In
     m_Name: in
+    m_DataTypeString: 
+  - type: 1
+    m_Title: 'True:'
+    m_Name: 'true:'
+    m_DataTypeString: 
+  - type: 1
+    m_Title: 'False:'
+    m_Name: 'false:'
     m_DataTypeString: 
   m_Properties: []
   m_GenericTypeString: 
@@ -23,10 +31,14 @@ MonoBehaviour:
   style: node
   position:
     serializedVersion: 2
-    x: 0
-    y: 0
+    x: 450
+    y: -100
     width: 0
     height: 0
   showEmptySlots: 1
-  Label: Leaf
-  sourceNode: {fileID: 0}
+  Label: Selector
+  sourceNode: {fileID: 11400000, guid: e52f405f9f2a01f408b8652e4de40b93, type: 2}
+  PropertyOneToEvaluate: 
+  PropertyTwoToEvaluate: 
+  PropertyTwoType: 0
+  Mode: 4

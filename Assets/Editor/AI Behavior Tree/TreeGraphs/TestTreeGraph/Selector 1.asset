@@ -36,6 +36,7 @@ MonoBehaviour:
     width: 0
     height: 0
   showEmptySlots: 1
+  Label: Selector
   sourceNode: {fileID: 11400000, guid: 56d895305d6078948b415c7b86c61aaa, type: 2}
   PropertyOneToEvaluate: 
   PropertyTwoToEvaluate: 

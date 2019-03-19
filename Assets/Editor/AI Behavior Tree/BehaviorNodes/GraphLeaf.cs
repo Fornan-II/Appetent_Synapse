@@ -24,13 +24,14 @@ namespace BehaviourTreeUI
             return Validation(AllSlotsUsed());
         }
 
-        public override void SaveDataToAINode(AI.BehaviorTree tree)
+        public override void SaveDataToAINode(AI.BehaviorTree tree, SaveTreeGraphNodeAsset nodeAssetSaver)
         {
             if (!IsValid()) { return; }
 
-            if(!sourceNode)
+            if (!UnityEditor.AssetDatabase.Contains(sourceNode))
             {
-                tree.CreateNode(ScriptableObject.CreateInstance<AI.Leaf>());
+                AI.Node aiNode = tree.CreateNode(sourceNode);
+                nodeAssetSaver.Invoke(this, aiNode.name);
             }
 
             sourceNode.nodeBehavior = behavior;

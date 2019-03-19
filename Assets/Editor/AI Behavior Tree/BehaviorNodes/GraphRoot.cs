@@ -26,7 +26,7 @@ namespace BehaviourTreeUI
             return Validation(AllSlotsUsed());
         }
 
-        public override void SaveDataToAINode(AI.BehaviorTree tree)
+        public override void SaveDataToAINode(AI.BehaviorTree tree, SaveTreeGraphNodeAsset nodeAssetSaver)
         {
             if(!IsValid()) { return; }
 

@@ -13,42 +13,41 @@ MonoBehaviour:
   m_Name: TestTreeGraph
   m_EditorClassIdentifier: 
   nodes:
-  - {fileID: 11400000, guid: 32c0ad951786cc948adad576762e6f1a, type: 2}
-  - {fileID: 11400000, guid: 0ad000e87c7a6144f95e215ac539483e, type: 2}
   - {fileID: 11400000, guid: 5f6cf5c46970e2c48a722f8020860e31, type: 2}
   - {fileID: 11400000, guid: 70e855b5e8d8d0a479968fb3291f08ff, type: 2}
-  - {fileID: 11400000, guid: 567cb4be90d678f4cbc10480bfce6712, type: 2}
-  - {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
-  - {fileID: 11400000, guid: 5553fe3acc1b2414db0815ba9f52ce26, type: 2}
+  - {fileID: 11400000, guid: 2bb9e86be457d504ea1e31ebbf6cd4c7, type: 2}
+  - {fileID: 11400000, guid: 73344008540735a4ca27a88ece5faa1c, type: 2}
+  - {fileID: 11400000, guid: 0fef45f04083d414e8d0e39133e17ecf, type: 2}
+  - {fileID: 11400000, guid: 32c0ad951786cc948adad576762e6f1a, type: 2}
   edges:
-  - m_FromNode: {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
-    m_ToNode: {fileID: 11400000, guid: 32c0ad951786cc948adad576762e6f1a, type: 2}
+  - m_FromNode: {fileID: 11400000, guid: 2bb9e86be457d504ea1e31ebbf6cd4c7, type: 2}
+    m_ToNode: {fileID: 11400000, guid: 5f6cf5c46970e2c48a722f8020860e31, type: 2}
     m_FromSlotName: 'true:'
     m_ToSlotName: in
     color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: 567cb4be90d678f4cbc10480bfce6712, type: 2}
-    m_ToNode: {fileID: 11400000, guid: 0ad000e87c7a6144f95e215ac539483e, type: 2}
-    m_FromSlotName: out:0
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: 567cb4be90d678f4cbc10480bfce6712, type: 2}
-    m_ToNode: {fileID: 11400000, guid: 5f6cf5c46970e2c48a722f8020860e31, type: 2}
-    m_FromSlotName: out:1
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: 567cb4be90d678f4cbc10480bfce6712, type: 2}
+  - m_FromNode: {fileID: 11400000, guid: 2bb9e86be457d504ea1e31ebbf6cd4c7, type: 2}
     m_ToNode: {fileID: 11400000, guid: 70e855b5e8d8d0a479968fb3291f08ff, type: 2}
-    m_FromSlotName: out:2
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
-    m_ToNode: {fileID: 11400000, guid: 567cb4be90d678f4cbc10480bfce6712, type: 2}
     m_FromSlotName: 'false:'
     m_ToSlotName: in
     color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: 5553fe3acc1b2414db0815ba9f52ce26, type: 2}
-    m_ToNode: {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
-    m_FromSlotName: out
+  - m_FromNode: {fileID: 11400000, guid: 0fef45f04083d414e8d0e39133e17ecf, type: 2}
+    m_ToNode: {fileID: 11400000, guid: 2bb9e86be457d504ea1e31ebbf6cd4c7, type: 2}
+    m_FromSlotName: 'true:'
+    m_ToSlotName: in
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - m_FromNode: {fileID: 11400000, guid: 0fef45f04083d414e8d0e39133e17ecf, type: 2}
+    m_ToNode: {fileID: 11400000, guid: 73344008540735a4ca27a88ece5faa1c, type: 2}
+    m_FromSlotName: 'false:'
+    m_ToSlotName: in
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - m_FromNode: {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
+    m_ToNode: {fileID: 11400000, guid: 0fef45f04083d414e8d0e39133e17ecf, type: 2}
+    m_FromSlotName: 'true:'
+    m_ToSlotName: in
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - m_FromNode: {fileID: 11400000, guid: e81847f6753883640b51b80c52b39f62, type: 2}
+    m_ToNode: {fileID: 11400000, guid: 32c0ad951786cc948adad576762e6f1a, type: 2}
+    m_FromSlotName: 'true:'
     m_ToSlotName: in
     color: {r: 1, g: 1, b: 1, a: 1}
   m_InvalidEdges: []

@@ -9,12 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e8f3a8e5b778ba4ab3fe33315343de2, type: 3}
-  m_Name: Selector 1
+  m_Script: {fileID: 11500000, guid: 41191347cdbc5a44e863e5ec1d69ac74, type: 3}
+  m_Name: Leaf 5
   m_EditorClassIdentifier: 
-  nodeOnTrue: {fileID: 0}
-  nodeOnFalse: {fileID: 0}
-  Logic:
-    PropertyOneToEvaluate: 
-    PropertyTwoToEvaluate: 
-    Mode: 4
