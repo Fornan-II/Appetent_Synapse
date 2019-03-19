@@ -31,10 +31,10 @@ MonoBehaviour:
   style: node
   position:
     serializedVersion: 2
-    x: 300
-    y: -50
-    width: 0
-    height: 0
+    x: 312
+    y: 0
+    width: 42
+    height: 65
   showEmptySlots: 1
   Label: Selector
   sourceNode: {fileID: 11400000, guid: 18fea8e3f015fcd4b84353add200cad0, type: 2}

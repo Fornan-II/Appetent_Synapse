@@ -186,6 +186,7 @@ namespace BehaviourTreeUI
         {
             if (!_treeIsValid)
             {
+                Debug.Log("Cannot save graph - currently invalid");
                 return;
             }
 
@@ -193,12 +194,17 @@ namespace BehaviourTreeUI
             {
                 bn.SaveDataToAINode(Tree, SaveGraphNodeAsset);
             }
+
+            Debug.Log("Graph saved.");
         }
 
         public virtual void CreateNewNode<T>(Vector2 pos) where T : AI.Node
         {
             AI.Node newNode = ScriptableObject.CreateInstance<T>();
-            CreateNode(newNode, pos, false);
+            Slot s = CreateNode(newNode, pos, false);
+            BehaviorNode bn = s.node as BehaviorNode;
+            bn.Label = newNode.GetType().ToString().Substring(3);
+            bn.title = bn.Label;
         }
         #endregion
 
