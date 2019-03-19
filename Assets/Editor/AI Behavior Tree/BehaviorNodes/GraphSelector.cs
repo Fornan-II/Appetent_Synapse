@@ -27,43 +27,12 @@ namespace BehaviourTreeUI
             return sourceNode;
         }
 
-        public override bool IsValid(bool recursive = false)
+        public override bool IsValid()
         {
             //Also will need to check:
             //If a selector statement is chosen
             //If selector statement is valid
-            List<NodeInfo> nextNodes = GetNextNodes();
-            bool validChildren = true;
-            bool noNullValues = true;
-            if (recursive)
-            {
-                foreach (NodeInfo bn in nextNodes)
-                {
-                    if (bn.node)
-                    {
-                        if (!bn.node.IsValid(true))
-                        {
-                            validChildren = false;
-                        }
-                    }
-                    else
-                    {
-                        noNullValues = false;
-                    }
-                }
-            }
-            else
-            {
-                foreach (NodeInfo bn in nextNodes)
-                {
-                    if (!bn.node)
-                    {
-                        noNullValues = false;
-                    }
-                }
-            }
-
-            return Validation(validChildren && noNullValues);
+            return Validation(AllSlotsUsed());
         }
 
         public override void SaveDataToAINode(AI.BehaviorTree tree)

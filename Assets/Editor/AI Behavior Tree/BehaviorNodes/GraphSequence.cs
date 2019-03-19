@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.Graphs;
 
 namespace BehaviourTreeUI
 {
@@ -13,40 +14,9 @@ namespace BehaviourTreeUI
             return sourceNode;
         }
 
-        public override bool IsValid(bool recursive = false)
+        public override bool IsValid()
         {
-            List<NodeInfo> nextNodes = GetNextNodes();
-            bool validChildren = true;
-            bool noNullValues = true;
-            if (recursive)
-            {
-                foreach (NodeInfo bn in nextNodes)
-                {
-                    if (bn.node)
-                    {
-                        if (!bn.node.IsValid(true))
-                        {
-                            validChildren = false;
-                        }
-                    }
-                    else
-                    {
-                        noNullValues = false;
-                    }
-                }
-            }
-            else
-            {
-                foreach (NodeInfo bn in nextNodes)
-                {
-                    if (!bn.node)
-                    {
-                        noNullValues = false;
-                    }
-                }
-            }
-
-            return Validation(validChildren && noNullValues);
+            return Validation(AllSlotsUsed());
         }
 
         public override void SaveDataToAINode(AI.BehaviorTree tree)
@@ -67,6 +37,49 @@ namespace BehaviourTreeUI
             }
 
             sourceNode.sequenceNodes = nextAINodes.ToArray();
+        }
+
+        public virtual void AddOutput()
+        {
+            int highestOutPutNum = -1;
+            foreach (Slot s in outputSlots)
+            {
+                string slotNumAsString = s.name.Substring(4);
+                int slotNum;
+                if (int.TryParse(slotNumAsString, out slotNum))
+                {
+                    if (slotNum > highestOutPutNum)
+                    {
+                        highestOutPutNum = slotNum;
+                    }
+                }
+            }
+
+            AddOutputSlot("out: " + (highestOutPutNum + 1));
+        }
+
+        public virtual void RemoveOutput()
+        {
+            int highestOutPutNum = -1;
+            Slot highestSlot = null;
+            foreach (Slot s in outputSlots)
+            {
+                string slotNumAsString = s.name.Substring(4);
+                int slotNum;
+                if (int.TryParse(slotNumAsString, out slotNum))
+                {
+                    if (slotNum > highestOutPutNum)
+                    {
+                        highestOutPutNum = slotNum;
+                        highestSlot = s;
+                    }
+                }
+            }
+
+            if (highestSlot != null)
+            {
+                RemoveSlot(highestSlot);
+            }
         }
     }
 }

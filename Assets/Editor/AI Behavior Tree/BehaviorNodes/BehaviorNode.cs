@@ -71,7 +71,7 @@ namespace BehaviourTreeUI
 
         public abstract void SaveDataToAINode(AI.BehaviorTree tree);
 
-        public abstract bool IsValid(bool recursive = false);
+        public abstract bool IsValid();
 
         protected virtual bool Validation(bool value)
         {
@@ -113,5 +113,36 @@ namespace BehaviourTreeUI
 
             return nextNodes;
         }
+
+        public virtual bool AllSlotsUsed()
+        {
+            foreach(Slot s in slots)
+            {
+                if(s.edges.Count <= 0)
+                {
+                    return false;
+                }
+                if(!s.edges[0].toSlot.node)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /*private void OnDestroy()
+        {
+            string graphNodePath = UnityEditor.AssetDatabase.GetAssetPath(this);
+
+            AI.Node ai = GetAINode();
+            if (ai)
+            {
+                string AINodePath = UnityEditor.AssetDatabase.GetAssetPath(ai);
+                UnityEditor.AssetDatabase.DeleteAsset(AINodePath);
+            }
+
+            UnityEditor.AssetDatabase.DeleteAsset(graphNodePath);
+        }*/
     }
 }

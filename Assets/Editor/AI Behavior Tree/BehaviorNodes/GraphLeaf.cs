@@ -16,12 +16,12 @@ namespace BehaviourTreeUI
             return sourceNode;
         }
 
-        public override bool IsValid(bool recursive = false)
+        public override bool IsValid()
         {
             //Also will need to check:
             //If a a behavior is chosen (maybe null behaviors are fine? Probably not);
             //If behavior is valid (may not be anything to check here)
-            return Validation(true);
+            return Validation(AllSlotsUsed());
         }
 
         public override void SaveDataToAINode(AI.BehaviorTree tree)

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e8f3a8e5b778ba4ab3fe33315343de2, type: 3}
   m_Name: Selector 1
   m_EditorClassIdentifier: 
-  nodeOnTrue: {fileID: 11400000, guid: 3fa24f14996868f47b7824bef89fab09, type: 2}
+  nodeOnTrue: {fileID: 11400000, guid: 70558b574d79d5b469022bf9c7cc10e7, type: 2}
   nodeOnFalse: {fileID: 11400000, guid: 3c3d9e18db8832e4fbef60fc26f9f4f6, type: 2}
   Logic:
     PropertyOneToEvaluate: 
-    PropertyTwoToEvaluate: 
+    PropertyTwoToEvaluate: (bool)
     Mode: 4

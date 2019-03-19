@@ -86,16 +86,19 @@ namespace BehaviourTreeUI
                 dispNode.position.position = pos;
 
                 int outName = 0;
-                float verticalOffset = 50.0f - ((seq.sequenceNodes.Length * 100.0f) / 2.0f);
-                foreach (AI.Node child in seq.sequenceNodes)
+                if(seq.sequenceNodes != null)
                 {
-                    Slot o = dispNode.AddOutputSlot("out:" + outName);
-                    Slot nextInputSlot = CreateNode(child, pos + new Vector2(150, verticalOffset));
+                    float verticalOffset = 50.0f - ((seq.sequenceNodes.Length * 100.0f) / 2.0f);
+                    foreach (AI.Node child in seq.sequenceNodes)
+                    {
+                        Slot o = dispNode.AddOutputSlot("out:" + outName);
+                        Slot nextInputSlot = CreateNode(child, pos + new Vector2(150, verticalOffset));
 
-                    Connect(o, nextInputSlot);
+                        Connect(o, nextInputSlot);
 
-                    outName++;
-                    verticalOffset += 100.0f;
+                        outName++;
+                        verticalOffset += 100.0f;
+                    }
                 }
 
                 AddNode(dispNode);
@@ -210,5 +213,25 @@ namespace BehaviourTreeUI
             CreateNode(newNode, pos);
         }
         #endregion
+
+        public override void DestroyNode(Node node)
+        {
+            string graphNodePath = AssetDatabase.GetAssetPath(node);
+
+            if(node is BehaviorNode)
+            {
+                BehaviorNode bn = node as BehaviorNode;
+                AI.Node ai = bn.GetAINode();
+                if (ai)
+                {
+                    string AINodePath = AssetDatabase.GetAssetPath(ai);
+                    AssetDatabase.DeleteAsset(AINodePath);
+                }
+                
+            }
+
+            base.DestroyNode(node);
+            AssetDatabase.DeleteAsset(graphNodePath);
+        }
     }
 }
