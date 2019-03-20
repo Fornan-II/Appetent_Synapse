@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace AI
 {
+    [System.Serializable]
     public abstract class Behavior
     {
         public enum StatePhase

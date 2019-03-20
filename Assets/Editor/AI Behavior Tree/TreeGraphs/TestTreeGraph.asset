@@ -44,11 +44,6 @@ MonoBehaviour:
     m_FromSlotName: 'false:'
     m_ToSlotName: in
     color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
-    m_ToNode: {fileID: 11400000, guid: 0fef45f04083d414e8d0e39133e17ecf, type: 2}
-    m_FromSlotName: 'true:'
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
   - m_FromNode: {fileID: 11400000, guid: e81847f6753883640b51b80c52b39f62, type: 2}
     m_ToNode: {fileID: 11400000, guid: 32c0ad951786cc948adad576762e6f1a, type: 2}
     m_FromSlotName: 'true:'
@@ -67,6 +62,11 @@ MonoBehaviour:
   - m_FromNode: {fileID: 11400000, guid: 5553fe3acc1b2414db0815ba9f52ce26, type: 2}
     m_ToNode: {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
     m_FromSlotName: out
+    m_ToSlotName: in
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - m_FromNode: {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
+    m_ToNode: {fileID: 11400000, guid: 0fef45f04083d414e8d0e39133e17ecf, type: 2}
+    m_FromSlotName: 'true:'
     m_ToSlotName: in
     color: {r: 1, g: 1, b: 1, a: 1}
   m_InvalidEdges: []

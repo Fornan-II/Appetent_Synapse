@@ -59,6 +59,15 @@ namespace AI
             _nodesToProcess.Push(n);
         }
 
+        public virtual void InterruptBehavior()
+        {
+            Node activeNode = _nodesToProcess.Peek();
+            if(activeNode is Leaf)
+            {
+                (activeNode as Leaf).ForceBehaviorToEnd();
+            }
+        }
+
 #if UNITY_EDITOR
         [ContextMenu("New Root")]
         public void CreateRoot()

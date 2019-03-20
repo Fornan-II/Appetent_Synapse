@@ -13,6 +13,12 @@ namespace AI
 
         public override bool Process(BehaviorTree tree)
         {
+            if(nodeBehavior == null)
+            {
+                Debug.LogWarning(name + " is leaf node with unassigned nodeBehavior");
+                return true;
+            }
+
             Behavior.StatePhase phaseOnStateProcessing = nodeBehavior.CurrentPhase;
 
             switch (nodeBehavior.CurrentPhase)
@@ -48,12 +54,19 @@ namespace AI
                     }
                 case Behavior.StatePhase.INACTIVE:
                     {
-                        nodeBehavior = null;
                         return true;
                     }
             }
 
             return false;
+        }
+
+        public virtual void ForceBehaviorToEnd()
+        {
+            if(nodeBehavior != null)
+            {
+                nodeBehavior.ForceEndState();
+            }
         }
     }
 }
