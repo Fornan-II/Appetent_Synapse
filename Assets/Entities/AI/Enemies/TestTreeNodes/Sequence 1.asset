@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e8f3a8e5b778ba4ab3fe33315343de2, type: 3}
-  m_Name: Selector 4
+  m_Script: {fileID: 11500000, guid: e4b6fbb1d7e7ebb479c7d33e96fd353f, type: 3}
+  m_Name: Sequence 1
   m_EditorClassIdentifier: 
-  nodeOnTrue: {fileID: 0}
-  nodeOnFalse: {fileID: 0}
-  Logic:
-    PropertyOneToEvaluate: 
-    PropertyTwoToEvaluate: 
-    Mode: 4
+  sequenceNodes: []

@@ -32,7 +32,7 @@ MonoBehaviour:
   position:
     serializedVersion: 2
     x: 240
-    y: 168
+    y: 120
     width: 42
     height: 65
   showEmptySlots: 1
