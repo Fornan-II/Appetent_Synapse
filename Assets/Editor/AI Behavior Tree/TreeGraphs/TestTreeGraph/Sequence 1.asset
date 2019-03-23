@@ -18,16 +18,16 @@ MonoBehaviour:
     m_Name: in
     m_DataTypeString: 
   - type: 1
-    m_Title: 'Out: 0'
-    m_Name: 'out: 0'
+    m_Title: Out:0
+    m_Name: out:0
     m_DataTypeString: 
   - type: 1
-    m_Title: 'Out: 1'
-    m_Name: 'out: 1'
+    m_Title: Out:1
+    m_Name: out:1
     m_DataTypeString: 
   - type: 1
-    m_Title: 'Out: 2'
-    m_Name: 'out: 2'
+    m_Title: Out:2
+    m_Name: out:2
     m_DataTypeString: 
   m_Properties: []
   m_GenericTypeString: 
@@ -35,9 +35,9 @@ MonoBehaviour:
   style: node
   position:
     serializedVersion: 2
-    x: 300
-    y: -72
-    width: 44
+    x: 192
+    y: -144
+    width: 41
     height: 77
   showEmptySlots: 1
   Label: Sequence

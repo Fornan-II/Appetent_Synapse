@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace AI
 {
-    public abstract class Behavior
+    [System.Serializable]
+    public class Behavior
     {
         public enum StatePhase
         {
@@ -17,11 +18,20 @@ namespace AI
         protected StatePhase _currentPhase = StatePhase.ENTERING;
         public StatePhase CurrentPhase { get { return _currentPhase; } }
 
-        public abstract void OnEnter(Blackboard b);
+        public virtual void OnEnter(Blackboard b)
+        {
+            throw new System.NotImplementedException();
+        }
 
-        public abstract void ActiveBehavior(Blackboard b);
+        public virtual void ActiveBehavior(Blackboard b)
+        {
+            throw new System.NotImplementedException();
+        }
 
-        public abstract void OnExit(Blackboard b);
+        public virtual void OnExit(Blackboard b)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public virtual void EnterBehavior(Blackboard b) { }
 

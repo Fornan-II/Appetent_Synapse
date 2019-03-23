@@ -4,6 +4,7 @@ using UnityEngine;
 
 using AI;
 
+[System.Serializable]
 public class MoveToLocation : AI.Behavior
 {
     public override void OnEnter(Blackboard b)

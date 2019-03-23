@@ -24,7 +24,7 @@ MonoBehaviour:
   position:
     serializedVersion: 2
     x: 336
-    y: 192
+    y: -48
     width: 22
     height: 41
   showEmptySlots: 1

@@ -23,8 +23,8 @@ MonoBehaviour:
   style: node
   position:
     serializedVersion: 2
-    x: 456
-    y: -120
+    x: 450
+    y: 0
     width: 22
     height: 41
   showEmptySlots: 1

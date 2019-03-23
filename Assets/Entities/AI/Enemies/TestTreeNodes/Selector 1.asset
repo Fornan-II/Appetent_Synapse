@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e8f3a8e5b778ba4ab3fe33315343de2, type: 3}
   m_Name: Selector 1
   m_EditorClassIdentifier: 
-  nodeOnTrue: {fileID: 0}
-  nodeOnFalse: {fileID: 0}
+  nodeOnTrue: {fileID: 11400000, guid: 200d69a58d49bb54faa5a5b215c1ed6d, type: 2}
+  nodeOnFalse: {fileID: 11400000, guid: 26d18de1b10e34e46b092711081760ed, type: 2}
   Logic:
     PropertyOneToEvaluate: 
     PropertyTwoToEvaluate: 
