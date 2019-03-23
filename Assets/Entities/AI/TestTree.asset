@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41191347cdbc5a44e863e5ec1d69ac74, type: 3}
-  m_Name: Leaf 2
+  m_Script: {fileID: 11500000, guid: 2b44abd7787b0114487c51b118a000dc, type: 3}
+  m_Name: TestTree
   m_EditorClassIdentifier: 
+  root: {fileID: 11400000, guid: 5c7a3cf9bcd678845b7933be449abeaa, type: 2}

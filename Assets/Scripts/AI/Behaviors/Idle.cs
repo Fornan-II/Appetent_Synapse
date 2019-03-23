@@ -4,7 +4,6 @@ using UnityEngine;
 
 using AI;
 
-[System.Serializable]
 public class Idle : AI.Behavior
 {
     public override void OnEnter(Blackboard b)

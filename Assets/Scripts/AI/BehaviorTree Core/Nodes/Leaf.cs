@@ -7,48 +7,71 @@ namespace AI
     [CreateAssetMenu(fileName = "Leaf 1", menuName = "BehaviorTree/Nodes/New Leaf")]
     public class Leaf : Node
     {
-        public Behavior nodeBehavior;
+        [SerializeField]protected Behavior _nodeBehavior;
+        public Behavior NodeBehavior
+        {
+            get
+            {
+                return _nodeBehavior;
+            }
+            set
+            {
+                if(UnityEditor.AssetDatabase.Contains(this))
+                {
+                    if (_nodeBehavior)
+                    {
+                        UnityEditor.AssetDatabase.RemoveObjectFromAsset(_nodeBehavior);
+                    }
+                    _nodeBehavior = value;
+                    UnityEditor.AssetDatabase.AddObjectToAsset(_nodeBehavior, this);
+                }
+                else
+                {
+                    _nodeBehavior = value;
+                }
+            }
+        }
 
         protected Behavior.StatePhase _previousPhase;
 
         public override bool Process(BehaviorTree tree)
         {
-            if(nodeBehavior == null)
+            if(_nodeBehavior == null)
             {
                 Debug.LogWarning(name + " is leaf node with unassigned nodeBehavior");
                 return true;
             }
 
-            Behavior.StatePhase phaseOnStateProcessing = nodeBehavior.CurrentPhase;
+            Behavior.StatePhase phaseOnStateProcessing = _nodeBehavior.CurrentPhase;
 
-            switch (nodeBehavior.CurrentPhase)
+            switch (_nodeBehavior.CurrentPhase)
             {
                 case Behavior.StatePhase.ENTERING:
                     {
-                        if (_previousPhase != nodeBehavior.CurrentPhase)
+                        if (_previousPhase != _nodeBehavior.CurrentPhase)
                         {
-                            nodeBehavior.OnEnter(tree.currentBlackboard);
+                            _nodeBehavior.OnEnter(tree.currentBlackboard);
                         }
                         else
                         {
-                            nodeBehavior.EnterBehavior(tree.currentBlackboard);
+                            _nodeBehavior.EnterBehavior(tree.currentBlackboard);
                         }
                         break;
                     }
                 case Behavior.StatePhase.ACTIVE:
                     {
-                        nodeBehavior.ActiveBehavior(tree.currentBlackboard);
+                        _nodeBehavior.ActiveBehavior(tree.currentBlackboard);
                         break;
                     }
                 case Behavior.StatePhase.EXITING:
                     {
-                        if (_previousPhase != nodeBehavior.CurrentPhase)
+                        if (_previousPhase != _nodeBehavior.CurrentPhase)
                         {
-                            nodeBehavior.OnExit(tree.currentBlackboard);
+                            _nodeBehavior.OnExit(tree.currentBlackboard);
                         }
                         else
                         {
-                            nodeBehavior.ExitBehavior(tree.currentBlackboard);
+                            _nodeBehavior.ExitBehavior(tree.currentBlackboard);
                         }
                         break;
                     }
@@ -63,9 +86,9 @@ namespace AI
 
         public virtual void ForceBehaviorToEnd()
         {
-            if(nodeBehavior != null)
+            if(_nodeBehavior != null)
             {
-                nodeBehavior.ForceEndState();
+                _nodeBehavior.ForceEndState();
             }
         }
     }

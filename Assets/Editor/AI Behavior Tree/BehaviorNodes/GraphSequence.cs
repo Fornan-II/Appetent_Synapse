@@ -38,6 +38,9 @@ namespace BehaviourTreeUI
             }
 
             sourceNode.sequenceNodes = nextAINodes.ToArray();
+
+            UnityEditor.EditorUtility.SetDirty(this);
+            UnityEditor.EditorUtility.SetDirty(sourceNode);
         }
 
         public virtual void AddOutput()

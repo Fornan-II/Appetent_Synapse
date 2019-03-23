@@ -195,6 +195,7 @@ namespace BehaviourTreeUI
                 bn.SaveDataToAINode(Tree, SaveGraphNodeAsset);
             }
 
+            AssetDatabase.SaveAssets();
             Debug.Log("Graph saved.");
         }
 

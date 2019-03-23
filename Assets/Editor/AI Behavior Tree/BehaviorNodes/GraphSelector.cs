@@ -89,6 +89,9 @@ namespace BehaviourTreeUI
                         break;
                     }
             }
+
+            UnityEditor.EditorUtility.SetDirty(this);
+            UnityEditor.EditorUtility.SetDirty(sourceNode);
         }
     }
 }

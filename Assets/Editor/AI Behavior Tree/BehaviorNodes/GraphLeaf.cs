@@ -9,8 +9,6 @@ namespace BehaviourTreeUI
     {
         public AI.Leaf sourceNode;
 
-        public AI.Behavior behavior;
-
         public override Node GetAINode()
         {
             return sourceNode;
@@ -34,7 +32,11 @@ namespace BehaviourTreeUI
                 nodeAssetSaver.Invoke(this, aiNode.name);
             }
 
-            sourceNode.nodeBehavior = behavior;
+            //Confirms that the nodeBehavior is saved to AssetDatabase
+            sourceNode.NodeBehavior = sourceNode.NodeBehavior;
+
+            UnityEditor.EditorUtility.SetDirty(this);
+            UnityEditor.EditorUtility.SetDirty(sourceNode);
         }
     }
 }

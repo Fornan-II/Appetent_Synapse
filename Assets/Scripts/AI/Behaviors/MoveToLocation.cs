@@ -4,7 +4,6 @@ using UnityEngine;
 
 using AI;
 
-[System.Serializable]
 public class MoveToLocation : AI.Behavior
 {
     public override void OnEnter(Blackboard b)
@@ -14,7 +13,7 @@ public class MoveToLocation : AI.Behavior
 
     public override void ActiveBehavior(Blackboard b)
     {
-        Debug.Log("Moving!");
+        Debug.Log("Yaahhhahaa!");
         _currentPhase = StatePhase.EXITING;
     }
 

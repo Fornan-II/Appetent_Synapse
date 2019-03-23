@@ -9,6 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41191347cdbc5a44e863e5ec1d69ac74, type: 3}
-  m_Name: Leaf 4
+  m_Script: {fileID: 11500000, guid: e4b6fbb1d7e7ebb479c7d33e96fd353f, type: 3}
+  m_Name: Sequence 1
   m_EditorClassIdentifier: 
+  sequenceNodes:
+  - {fileID: 0}
+  - {fileID: 0}

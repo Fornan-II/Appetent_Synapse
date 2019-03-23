@@ -17,28 +17,16 @@ MonoBehaviour:
     m_Title: In
     m_Name: in
     m_DataTypeString: 
-  - type: 1
-    m_Title: Out:0
-    m_Name: out:0
-    m_DataTypeString: 
-  - type: 1
-    m_Title: Out:1
-    m_Name: out:1
-    m_DataTypeString: 
-  - type: 1
-    m_Title: Out:2
-    m_Name: out:2
-    m_DataTypeString: 
   m_Properties: []
   m_GenericTypeString: 
   color: 0
   style: node
   position:
     serializedVersion: 2
-    x: 192
-    y: -144
-    width: 41
-    height: 77
+    x: 0
+    y: 0
+    width: 0
+    height: 0
   showEmptySlots: 1
   Label: Sequence
-  sourceNode: {fileID: 11400000, guid: 200d69a58d49bb54faa5a5b215c1ed6d, type: 2}
+  sourceNode: {fileID: 0}

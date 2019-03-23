@@ -32,6 +32,9 @@ namespace BehaviourTreeUI
 
             List<NodeInfo> nextNodes = GetNextNodes();
             sourceNode.NextNode = nextNodes[0].node.GetAINode();
+
+            UnityEditor.EditorUtility.SetDirty(this);
+            UnityEditor.EditorUtility.SetDirty(sourceNode);
         }
     }
 }

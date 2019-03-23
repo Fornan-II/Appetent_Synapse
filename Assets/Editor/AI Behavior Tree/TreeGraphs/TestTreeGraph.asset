@@ -12,57 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9ddaceb94f3a0e4cb921959e10d38cc, type: 3}
   m_Name: TestTreeGraph
   m_EditorClassIdentifier: 
-  nodes:
-  - {fileID: 11400000, guid: 5f6cf5c46970e2c48a722f8020860e31, type: 2}
-  - {fileID: 11400000, guid: 70e855b5e8d8d0a479968fb3291f08ff, type: 2}
-  - {fileID: 11400000, guid: 73344008540735a4ca27a88ece5faa1c, type: 2}
-  - {fileID: 11400000, guid: ca37704d0306f314da0909254dd8ec87, type: 2}
-  - {fileID: 11400000, guid: 32c0ad951786cc948adad576762e6f1a, type: 2}
-  - {fileID: 11400000, guid: 0ad000e87c7a6144f95e215ac539483e, type: 2}
-  - {fileID: 11400000, guid: e81847f6753883640b51b80c52b39f62, type: 2}
-  - {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
-  - {fileID: 11400000, guid: 5553fe3acc1b2414db0815ba9f52ce26, type: 2}
-  edges:
-  - m_FromNode: {fileID: 11400000, guid: ca37704d0306f314da0909254dd8ec87, type: 2}
-    m_ToNode: {fileID: 11400000, guid: 5f6cf5c46970e2c48a722f8020860e31, type: 2}
-    m_FromSlotName: out:0
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: ca37704d0306f314da0909254dd8ec87, type: 2}
-    m_ToNode: {fileID: 11400000, guid: 73344008540735a4ca27a88ece5faa1c, type: 2}
-    m_FromSlotName: out:2
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: e81847f6753883640b51b80c52b39f62, type: 2}
-    m_ToNode: {fileID: 11400000, guid: 32c0ad951786cc948adad576762e6f1a, type: 2}
-    m_FromSlotName: 'true:'
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: e81847f6753883640b51b80c52b39f62, type: 2}
-    m_ToNode: {fileID: 11400000, guid: 0ad000e87c7a6144f95e215ac539483e, type: 2}
-    m_FromSlotName: 'false:'
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
-    m_ToNode: {fileID: 11400000, guid: e81847f6753883640b51b80c52b39f62, type: 2}
-    m_FromSlotName: 'false:'
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: 5553fe3acc1b2414db0815ba9f52ce26, type: 2}
-    m_ToNode: {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
-    m_FromSlotName: out
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: feaac3eb22642ca45ac669538803bb7e, type: 2}
-    m_ToNode: {fileID: 11400000, guid: ca37704d0306f314da0909254dd8ec87, type: 2}
-    m_FromSlotName: 'true:'
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: ca37704d0306f314da0909254dd8ec87, type: 2}
-    m_ToNode: {fileID: 11400000, guid: 70e855b5e8d8d0a479968fb3291f08ff, type: 2}
-    m_FromSlotName: out:1
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
+  nodes: []
+  edges: []
   m_InvalidEdges: []
-  Tree: {fileID: 11400000, guid: 75f899a0b6b987944bbc30614e256b46, type: 2}
-  graphNodeFolderPath: Assets/Editor/AI Behavior Tree/TreeGraphs/TestTreeGraph
+  Tree: {fileID: 0}
+  graphNodeFolderPath: 

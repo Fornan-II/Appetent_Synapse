@@ -18,7 +18,7 @@ namespace BehaviourTreeUI
         {
             base.OnInspectorGUI();
 
-            if (GUILayout.Button("Refresh behaviors") || !_initialized)
+            if (GUILayout.Button("Refresh behavior options") || !_initialized)
             {
                 types = BehaviorTreeUtil.GetClasses();
                 listOptions = new string[types.Length];
@@ -29,9 +29,9 @@ namespace BehaviourTreeUI
                         if(target is GraphLeaf)
                         {
                             GraphLeaf leaf = target as GraphLeaf;
-                            if(leaf.sourceNode.nodeBehavior != null)
+                            if(leaf.sourceNode.NodeBehavior != null)
                             {
-                                if(types[i] == leaf.sourceNode.nodeBehavior.GetType())
+                                if(types[i] == leaf.sourceNode.NodeBehavior.GetType())
                                 {
                                     _choiceIndex = i;
                                 }
@@ -59,27 +59,27 @@ namespace BehaviourTreeUI
             {
                 GraphLeaf leaf = target as GraphLeaf;
 
-                if(leaf.sourceNode.nodeBehavior == null)
+                if(leaf.sourceNode.NodeBehavior == null)
                 {
-                    SetBehaviorType(ref leaf.sourceNode.nodeBehavior, types[_choiceIndex]);
+                    SetBehaviorType(ref leaf.sourceNode, types[_choiceIndex]);
                 }
-                else if (leaf.sourceNode.nodeBehavior.GetType() != types[_choiceIndex])
+                else if (leaf.sourceNode.NodeBehavior.GetType() != types[_choiceIndex])
                 {
-                    SetBehaviorType(ref leaf.sourceNode.nodeBehavior, types[_choiceIndex]);
+                    SetBehaviorType(ref leaf.sourceNode, types[_choiceIndex]);
                 }
             }
         }
 
-        protected virtual void SetBehaviorType(ref AI.Behavior nodeBehavior, Type T)
+        protected virtual void SetBehaviorType(ref AI.Leaf node, Type T)
         {
-            object newBehavior = Activator.CreateInstance(T);
+            ScriptableObject newBehavior = ScriptableObject.CreateInstance(T);
             if (newBehavior is AI.Behavior)
             {
-                nodeBehavior = newBehavior as AI.Behavior;
+                node.NodeBehavior = newBehavior as AI.Behavior;
             }
             else
             {
-                Debug.LogWarning("nodeBehavior can only be assigned objects inheriting from AI.Behavior, not " + T);
+                Debug.LogWarning("NodeBehavior can only be assigned objects inheriting from AI.Behavior, not " + T);
             }
         }
     }
