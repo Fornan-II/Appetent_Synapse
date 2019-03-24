@@ -43,12 +43,16 @@ public class TreeInspector : Editor
         string treePath = editorPath + "/" + treeFolder;
         string fileName = sourceTree.name + fileNameSuffix + ".asset";
 
-        if (AssetDatabase.IsMainAssetAtPathLoaded(treePath + "/" + fileName))
+        BehaviourTreeUI.TreeGraph treeAsset = AssetDatabase.LoadAssetAtPath<BehaviourTreeUI.TreeGraph>(treePath + "/" + fileName);
+
+        if (treeAsset)
         {
-            return AssetDatabase.LoadAssetAtPath<BehaviourTreeUI.TreeGraph>(treePath + "/" + fileName);
+            Debug.Log("Found tree asset");
+            return treeAsset;
         }
         else
         {
+            Debug.Log("Making new tree asset");
             return GetNewTree(sourceTree);
         }
     }

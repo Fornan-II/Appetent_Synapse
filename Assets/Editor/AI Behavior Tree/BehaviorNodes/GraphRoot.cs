@@ -26,7 +26,7 @@ namespace BehaviourTreeUI
             return Validation(AllSlotsUsed());
         }
 
-        public override void SaveDataToAINode(AI.BehaviorTree tree, SaveTreeGraphNodeAsset nodeAssetSaver)
+        protected override void SaveDataToAINode(AI.BehaviorTree tree, SaveTreeGraphNodeAsset nodeAssetSaver)
         {
             if(!IsValid()) { return; }
 
@@ -35,6 +35,16 @@ namespace BehaviourTreeUI
 
             UnityEditor.EditorUtility.SetDirty(this);
             UnityEditor.EditorUtility.SetDirty(sourceNode);
+        }
+
+        public override void SaveDataRecursive(BehaviorTree tree, SaveTreeGraphNodeAsset nodeAssetSaver)
+        {
+            foreach(NodeInfo nextNode in GetNextNodes())
+            {
+                nextNode.node.SaveDataRecursive(tree, nodeAssetSaver);
+            }
+
+            SaveDataToAINode(tree, nodeAssetSaver);
         }
     }
 }

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41191347cdbc5a44e863e5ec1d69ac74, type: 3}
-  m_Name: Leaf 2
+  m_Name: Leaf 4
   m_EditorClassIdentifier: 
-  _nodeBehavior: {fileID: 114767845469139746}
---- !u!114 &114767845469139746
+  _nodeBehavior: {fileID: 114925842440956648}
+--- !u!114 &114925842440956648
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22,6 +22,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aca87bdf78ddbf4cb4d3a82bea230fc, type: 3}
+  m_Script: {fileID: 11500000, guid: f4629020022950b49ac01f25dd48ba9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

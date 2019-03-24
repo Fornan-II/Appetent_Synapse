@@ -73,7 +73,9 @@ namespace BehaviourTreeUI
 
         public abstract AI.Node GetAINode();
 
-        public abstract void SaveDataToAINode(AI.BehaviorTree tree, SaveTreeGraphNodeAsset nodeAssetSaver);
+        protected abstract void SaveDataToAINode(AI.BehaviorTree tree, SaveTreeGraphNodeAsset nodeAssetSaver);
+
+        public abstract void SaveDataRecursive(AI.BehaviorTree tree, SaveTreeGraphNodeAsset nodeAssetSaver);
 
         public abstract bool IsValid();
 

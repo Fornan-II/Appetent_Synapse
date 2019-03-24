@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Sequence 1
   m_EditorClassIdentifier: 
   sequenceNodes:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: b235b9117c5410548b08bc28ab38652f, type: 2}
+  - {fileID: 11400000, guid: 6ecaadee4fbdc984ba00b7cf73d8905c, type: 2}
+  - {fileID: 11400000, guid: 651fa9df2748d6b4eaab00f13e070ec2, type: 2}

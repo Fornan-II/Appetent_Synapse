@@ -190,10 +190,7 @@ namespace BehaviourTreeUI
                 return;
             }
 
-            foreach (BehaviorNode bn in nodes)
-            {
-                bn.SaveDataToAINode(Tree, SaveGraphNodeAsset);
-            }
+            _rootNode.SaveDataRecursive(Tree, SaveGraphNodeAsset);
 
             AssetDatabase.SaveAssets();
             Debug.Log("Graph saved.");
