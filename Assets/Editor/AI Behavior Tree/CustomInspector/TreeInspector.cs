@@ -47,12 +47,10 @@ public class TreeInspector : Editor
 
         if (treeAsset)
         {
-            Debug.Log("Found tree asset");
             return treeAsset;
         }
         else
         {
-            Debug.Log("Making new tree asset");
             return GetNewTree(sourceTree);
         }
     }

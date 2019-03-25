@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60a906cf5bce1a741abf7352228655b1, type: 3}
-  m_Name: Root 1
+  m_Script: {fileID: 11500000, guid: 2b44abd7787b0114487c51b118a000dc, type: 3}
+  m_Name: Brawler
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 11400000, guid: 8598689d48ed6394db88216243d5c91a, type: 2}
+  root: {fileID: 11400000, guid: 1c0646b21e234d648ae4f321dc38b19b, type: 2}
