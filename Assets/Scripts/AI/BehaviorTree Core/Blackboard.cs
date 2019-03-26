@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace AI
 {
+    [System.Serializable]
     public class Blackboard
     {
         public Dictionary<string, object> Properties;
@@ -11,6 +12,39 @@ namespace AI
         public Blackboard()
         {
             Properties = new Dictionary<string, object>();
+        }
+
+        public virtual object GetProperty(string propertyName)
+        {
+            if(Properties.ContainsKey(propertyName))
+            {
+                return Properties[propertyName];
+            }
+
+            return null;
+        }
+
+        public virtual void SetProperty(string propertyName, object value = null)
+        {
+            if (Properties.ContainsKey(propertyName))
+            {
+                Properties[propertyName] = value;
+            }
+            else
+            {
+                Properties.Add(propertyName, value);
+            }
+        }
+
+        public virtual void RemoveProperty(string propertyName)
+        {
+            Properties.Remove(propertyName);
+        }
+
+        public virtual System.Type GetPropertyType(string propertyName)
+        {
+            return GetProperty(propertyName).GetType();
+
         }
     }
 }
