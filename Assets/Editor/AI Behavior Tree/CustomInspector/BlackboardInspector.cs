@@ -8,29 +8,45 @@ using AI;
 [CustomPropertyDrawer(typeof(Blackboard))]
 public class BlackboardInspector : PropertyDrawer
 {
+    protected bool letDisplay = false;
+
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         //base.OnGUI(position, property, label);
 
         EditorGUI.BeginProperty(position, label, property);
 
-        position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+        Rect labelRect = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+        letDisplay = EditorGUI.Foldout(position, letDisplay, label);
+        position.y += labelRect.height + EditorGUIUtility.standardVerticalSpacing;
+        if(letDisplay)
+        {
+            object val = fieldInfo.GetValue(property.serializedObject.targetObject);
+            if (val is Blackboard)
+            {
+                Blackboard bb = val as Blackboard;
+                float yOffset = 0.0f;
+                float yDelta = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-        var indent = EditorGUI.indentLevel;
-        EditorGUI.indentLevel = 0;
+                foreach (KeyValuePair<string, object> kvp in bb.Properties)
+                {
+                    Rect keyPos = new Rect(position.x, position.y + yOffset, 100, position.height);
+                    Rect valPos = new Rect(position.x + 105, position.y + yOffset, 100, position.height);
+                    string newKey = EditorGUI.TextField(keyPos, kvp.Key);
+                    string newValue = EditorGUI.TextField(valPos, kvp.Value.ToString());
 
-        // Calculate rects
-        var amountRect = new Rect(position.x, position.y, 30, position.height);
-        var unitRect = new Rect(position.x + 35, position.y, 50, position.height);
-        var nameRect = new Rect(position.x + 90, position.y, position.width - 90, position.height);
+                    yOffset += yDelta;
+                }
 
-        // Draw fields - passs GUIContent.none to each so they are drawn without labels
-        EditorGUI.PropertyField(amountRect, property.FindPropertyRelative("amount"), GUIContent.none);
-        EditorGUI.PropertyField(unitRect, property.FindPropertyRelative("unit"), GUIContent.none);
-        EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("name"), GUIContent.none);
+                Rect sillyRect = position;
+                position.height = 1;
+                position.y = yOffset;
 
+                
+                //EditorGUI.DrawRect(sillyRect, Color.red);
+            }
+        }
         // Set indent back to what it was
-        EditorGUI.indentLevel = indent;
 
         EditorGUI.EndProperty();
     }

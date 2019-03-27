@@ -10,7 +10,9 @@ public class TEST : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        bb.SetProperty("banan", false);
+        bb.SetProperty("quartz", 1);
+        bb.SetProperty("lmao", 7.7f);
     }
 
     // Update is called once per frame
