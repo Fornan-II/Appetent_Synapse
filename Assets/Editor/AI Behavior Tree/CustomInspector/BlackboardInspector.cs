@@ -12,42 +12,66 @@ public class BlackboardInspector : PropertyDrawer
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        //base.OnGUI(position, property, label);
-
         EditorGUI.BeginProperty(position, label, property);
 
-        Rect labelRect = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
-        letDisplay = EditorGUI.Foldout(position, letDisplay, label);
-        position.y += labelRect.height + EditorGUIUtility.standardVerticalSpacing;
-        if(letDisplay)
+        SerializedProperty bbProperties = property.FindPropertyRelative("Properties");
+        SerializedProperty keys = bbProperties.FindPropertyRelative("keys");
+        SerializedProperty valueTypes = bbProperties.FindPropertyRelative("valueTypes");
+        SerializedProperty serializedValues = bbProperties.FindPropertyRelative("serializedValues");
+
+        Rect propertyRect = new Rect(position.x, position.y + EditorGUIUtility.standardVerticalSpacing + EditorGUIUtility.singleLineHeight, position.width / 3.0f, EditorGUIUtility.singleLineHeight);
+
+        //EditorGUI.LabelField(position, "Blackboard \"" + property.name + "\" Properties");
+        letDisplay = EditorGUI.Foldout(position, letDisplay, "Blackboard \"" + property.name + "\" Properties");
+        if (letDisplay)
         {
-            object val = fieldInfo.GetValue(property.serializedObject.targetObject);
-            if (val is Blackboard)
+            int max = keys.arraySize;
+            EditorGUI.indentLevel++;
+            if(max <= 0)
             {
-                Blackboard bb = val as Blackboard;
-                float yOffset = 0.0f;
-                float yDelta = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.LabelField(propertyRect, "No properties currently.");
+            }
+            for (int i = 0; i < max; i++)
+            {
+                float startX = propertyRect.x;
+                EditorGUI.PropertyField(propertyRect, keys.GetArrayElementAtIndex(i), GUIContent.none);
+                propertyRect.x += propertyRect.width;
+                EditorGUI.PropertyField(propertyRect, valueTypes.GetArrayElementAtIndex(i), GUIContent.none);
+                propertyRect.x += propertyRect.width;
+                EditorGUI.PropertyField(propertyRect, serializedValues.GetArrayElementAtIndex(i), GUIContent.none);
+                propertyRect.x = startX;
 
-                foreach (KeyValuePair<string, object> kvp in bb.Properties)
+                propertyRect.y += propertyRect.height + EditorGUIUtility.standardVerticalSpacing;
+            }
+
+            EditorGUI.indentLevel--;
+        }
+        EditorGUI.EndProperty();
+    }
+
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        if(property.type == "Blackboard")
+        {
+            SerializedProperty bbProperties = property.FindPropertyRelative("Properties");
+            SerializedProperty keys = bbProperties.FindPropertyRelative("keys");
+            if (letDisplay)
+            {
+                int keyCount = keys.arraySize;
+                if(keyCount <= 0)
                 {
-                    Rect keyPos = new Rect(position.x, position.y + yOffset, 100, position.height);
-                    Rect valPos = new Rect(position.x + 105, position.y + yOffset, 100, position.height);
-                    string newKey = EditorGUI.TextField(keyPos, kvp.Key);
-                    string newValue = EditorGUI.TextField(valPos, kvp.Value.ToString());
-
-                    yOffset += yDelta;
+                    keyCount = 1;
                 }
-
-                Rect sillyRect = position;
-                position.height = 1;
-                position.y = yOffset;
-
-                
-                //EditorGUI.DrawRect(sillyRect, Color.red);
+                return (keyCount + 1) * (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing);
+            }
+            else
+            {
+                return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             }
         }
-        // Set indent back to what it was
-
-        EditorGUI.EndProperty();
+        else
+        {
+            return base.GetPropertyHeight(property, label);
+        }
     }
 }

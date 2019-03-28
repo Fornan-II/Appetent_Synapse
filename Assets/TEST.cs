@@ -13,6 +13,7 @@ public class TEST : MonoBehaviour
         bb.SetProperty("banan", false);
         bb.SetProperty("quartz", 1);
         bb.SetProperty("lmao", 7.7f);
+        bb.SetProperty("Friends", new List<int> { 1, 2, 3, 4 });
     }
 
     // Update is called once per frame
