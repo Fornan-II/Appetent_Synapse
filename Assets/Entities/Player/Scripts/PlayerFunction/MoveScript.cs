@@ -16,8 +16,10 @@ public class MoveScript : MonoBehaviour
     public bool allowCrouching = true;
     public float acceleration = 1.0f;
     public float maxSpeed = 10.0f;
-    public AnimationCurve accelCurve;
-    [Range(0, 1)] public float friction;
+    public AnimationCurve groundedAccelCurve;
+    public AnimationCurve airborneAccelCurve;
+    [Range(0, 1)] public float groundedFriction;
+    [Range(0, 1)] public float airborneFriction;
     public float sprintMultiplier = 2.0f;
     public float crouchMultiplier = 0.5f;
     public float crouchRate = 0.2f;
@@ -179,20 +181,19 @@ public class MoveScript : MonoBehaviour
         {
             inputVector.x += 1.0f;
         }
+        _isJumping = Input.GetKey(KeyCode.Space) && _isGrounded;
+
         inputVector = Util.VectorInCircleSpace(inputVector);
         //Vector2 inputVector = Util.VectorInCircleSpace(_strafeVelocity, _forwardVelocity);
 
         //Initialize base forces
         float moveForce = Time.fixedDeltaTime * acceleration;
         Vector3 inputDirection = transform.forward * inputVector.y + transform.right * inputVector.x;
-        Vector3 velocityInInputDirection = Vector3.Project(_rb.velocity, inputDirection);
+        Vector3 planarVelocity = _rb.velocity;
+        planarVelocity.y = 0;
+        Vector3 velocityInInputDirection = Vector3.Project(planarVelocity, inputDirection);
 
-        float yForce = 0.0f;
-
-        if (!_isGrounded)
-        {
-            yForce = gravity * Time.fixedDeltaTime * -1f;
-        }
+        float yForce = GetYForce();
 
         // T FACTOR
         //
@@ -204,14 +205,55 @@ public class MoveScript : MonoBehaviour
         //VELOCITY
         //
         // * Calculate acceleration using animation curve
-        float accelMultiplier = accelCurve.Evaluate(tFactor);
+        float accelMultiplier;
+        if (_isGrounded)
+        {
+            accelMultiplier = groundedAccelCurve.Evaluate(tFactor);
+        }
+        else
+        {
+            accelMultiplier = airborneAccelCurve.Evaluate(tFactor);
+        }
 
         //_rb.velocity -= (_rb.velocity.normalized * moveForce + velocityInInputDirection);
-        _rb.velocity -= velocityInInputDirection;
-        _rb.velocity *= friction;
+        planarVelocity -= velocityInInputDirection;
+        if(_isGrounded)
+        {
+            planarVelocity = Vector3.Lerp(Vector3.zero, planarVelocity, groundedFriction);
+        }
+        else
+        {
+            planarVelocity = Vector3.Lerp(Vector3.zero, planarVelocity, airborneFriction);
+        }
+        planarVelocity += velocityInInputDirection + (inputDirection * moveForce * accelMultiplier);
 
+        if (_isGrounded)
+        {
+            _rb.velocity = Vector3.ProjectOnPlane(new Vector3(planarVelocity.x, yForce, planarVelocity.z), _groundContactNormal);
+            
+        }
+        else
+        {
+            _rb.velocity = new Vector3(planarVelocity.x, yForce, planarVelocity.z);
+        }
+    }
 
-        _rb.velocity += velocityInInputDirection + (inputDirection * moveForce * accelMultiplier);
+    protected virtual float GetYForce()
+    {
+        if (_isJumping)
+        {
+            _isJumping = false;
+            _isGrounded = false;
+            return jumpForce;
+        }
+        else if (_isGrounded)
+        {
+            return _rb.velocity.y;
+        }
+        else
+        {
+            return _rb.velocity.y + gravity * Time.fixedDeltaTime * -1f;
+        }
     }
 
     //Adjusts player height to reflect crouch state
