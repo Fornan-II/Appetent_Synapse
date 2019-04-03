@@ -31,14 +31,14 @@ MonoBehaviour:
   style: node
   position:
     serializedVersion: 2
-    x: 72
+    x: 150
     y: 0
     width: 42
     height: 65
   showEmptySlots: 1
-  Label: Am I aggrod?
+  Label: Aggrod?
   sourceNode: {fileID: 11400000, guid: 4eda4a44ba03eb441934622d0effadb7, type: 2}
-  PropertyOneToEvaluate: 
-  PropertyTwoToEvaluate: 
+  PropertyOneToEvaluate: IsAggrod
+  PropertyTwoToEvaluate: true
   PropertyTwoType: 0
   Mode: 4

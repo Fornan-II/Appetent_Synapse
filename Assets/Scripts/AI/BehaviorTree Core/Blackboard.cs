@@ -7,6 +7,26 @@ namespace AI
     [System.Serializable]
     public class Blackboard
     {
+        //NodesToProcess used by BehaviorTree
+        [HideInInspector]public Stack<Node> NodesToProcess = new Stack<Node>();
+        //On the stack:
+        //1 : ActiveLeaf
+        //2 : Any Sequences
+        //If nothing, return to root
+        public Node ActiveNode
+        {
+            get
+            {
+                if (NodesToProcess == null || NodesToProcess.Count <= 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return NodesToProcess.Peek();
+                }
+            }
+        }
 
         public BlackBoardDictionary Properties;
         

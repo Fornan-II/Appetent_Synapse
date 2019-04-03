@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bd402173bc7c9d49a1244cf16cb8110, type: 3}
-  m_Name: Sequence 1
+  m_Script: {fileID: 11500000, guid: 7420f82977882304695b329d73d1f422, type: 3}
+  m_Name: Selector 1
   m_EditorClassIdentifier: 
   m_Slots:
   - type: 0
@@ -18,12 +18,12 @@ MonoBehaviour:
     m_Name: in
     m_DataTypeString: 
   - type: 1
-    m_Title: Out:0
-    m_Name: out:0
+    m_Title: 'True:'
+    m_Name: 'true:'
     m_DataTypeString: 
   - type: 1
-    m_Title: Out:1
-    m_Name: out:1
+    m_Title: 'False:'
+    m_Name: 'false:'
     m_DataTypeString: 
   m_Properties: []
   m_GenericTypeString: 
@@ -31,10 +31,14 @@ MonoBehaviour:
   style: node
   position:
     serializedVersion: 2
-    x: 360
-    y: -168
-    width: 41
+    x: 264
+    y: -96
+    width: 42
     height: 65
   showEmptySlots: 1
-  Label: Sequence
-  sourceNode: {fileID: 11400000, guid: 98b116c5acf268b4caaf465676ab4ea2, type: 2}
+  Label: Do alert?
+  sourceNode: {fileID: 11400000, guid: 19b9c0d3854c82c42995ceafe7b0fa33, type: 2}
+  PropertyOneToEvaluate: DoAlert
+  PropertyTwoToEvaluate: true
+  PropertyTwoType: 0
+  Mode: 4

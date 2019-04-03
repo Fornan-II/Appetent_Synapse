@@ -290,7 +290,7 @@ public class MoveScript : MonoBehaviour
     {
         //Prepare data for use in CheckSphere()
         Vector3 checkPos = _col.transform.position + _col.center;
-        float checkDist = (_col.height / 2 - _col.radius) * transform.localScale.y;
+        float checkDist = (_col.height / 2 - _col.radius) * transform.localScale.y * 1.1f;
 
         //If the player's feet are touching something, player is grounded
         RaycastHit hitInfo;

@@ -11,34 +11,11 @@ namespace AI
         public Root root;
 
         [HideInInspector] public Blackboard currentBlackboard;
-        protected Stack<Node> _nodesToProcess;
-        //On the stack:
-        //1 : ActiveLeaf
-        //2 : Any Sequences
-        //If nothing, return to root
-        public Node ActiveNode
-        {
-            get
-            {
-                if (_nodesToProcess == null)
-                {
-                    return null;
-                }
-                else if(_nodesToProcess.Count > 0)
-                {
-                    return _nodesToProcess.Peek();
-                }
-                else
-                {
-                    return root;
-                }
-            }
-        }
 
         public virtual void ProcessTree(Blackboard b)
         {
             currentBlackboard = b;
-            Node activeNode = _nodesToProcess.Peek();
+            Node activeNode = b.ActiveNode;
             if(activeNode == null)
             {
                 activeNode = root;
@@ -46,9 +23,9 @@ namespace AI
 
             if(activeNode.Process(this))
             {
-                if(_nodesToProcess.Count > 0)
+                if(b.NodesToProcess.Count > 0)
                 {
-                    _nodesToProcess.Pop();
+                    b.NodesToProcess.Pop();
                 }
             }
             currentBlackboard = null;
@@ -56,15 +33,29 @@ namespace AI
 
         public virtual void QueueNode(Node n)
         {
-            _nodesToProcess.Push(n);
+            if(currentBlackboard == null)
+            {
+                Debug.LogWarning("Could not QueueNode at this time - no blackboard");
+                return;
+            }
+            currentBlackboard.NodesToProcess.Push(n);
         }
 
         public virtual void InterruptBehavior()
         {
-            Node activeNode = _nodesToProcess.Peek();
+            if (currentBlackboard == null)
+            {
+                Debug.LogWarning("Could not InterruptBehavior at this time - no blackboard");
+                return;
+            }
+            Node activeNode = currentBlackboard.NodesToProcess.Peek();
             if(activeNode is Leaf)
             {
                 (activeNode as Leaf).ForceBehaviorToEnd();
+            }
+            else
+            {
+                currentBlackboard.NodesToProcess.Clear();
             }
         }
 

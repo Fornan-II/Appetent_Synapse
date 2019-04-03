@@ -9,9 +9,10 @@ namespace BehaviourTreeUI
     public class TreeGraph : Graph
     {
         public AI.BehaviorTree Tree;
-        protected BehaviorNode _rootNode;
+        [SerializeField]protected BehaviorNode _rootNode;
         public string graphNodeFolderPath;
         protected bool _treeIsValid = false;
+        protected string validationErrorMessage = "";
 
         public virtual void CreateTree()
         {
@@ -26,7 +27,7 @@ namespace BehaviourTreeUI
 
         protected virtual Slot CreateNode(AI.Node n, Vector2 pos, bool saveToDatabase = true)
         {
-            if(n is AI.Root)
+            if (n is AI.Root)
             {
                 AI.Root r = n as AI.Root;
                 GraphRoot dispNode = BehaviorNode.NewRoot().node as GraphRoot;
@@ -37,14 +38,14 @@ namespace BehaviourTreeUI
                 dispNode.sourceNode = r;
                 dispNode.position.position = pos;
 
-                if(r.NextNode)
+                if (r.NextNode)
                 {
                     Slot nextInputSlot = CreateNode(r.NextNode, pos + new Vector2(150, 0), saveToDatabase);
 
                     Connect(dispNode.slots[0], nextInputSlot);
                 }
 
-                if(_rootNode)
+                if (_rootNode)
                 {
                     Debug.LogWarning("Tree Graph seems to already have root node? Overwriting.");
                 }
@@ -53,7 +54,7 @@ namespace BehaviourTreeUI
                 AddNode(dispNode);
                 return null;
             }
-            else if(n is AI.Selector)
+            else if (n is AI.Selector)
             {
                 AI.Selector sel = n as AI.Selector;
                 NodeInfo nodeInfo = BehaviorNode.NewSelector();
@@ -64,6 +65,52 @@ namespace BehaviourTreeUI
                 }
                 dispNode.sourceNode = sel;
                 dispNode.position.position = pos;
+
+                if (sel.Logic != null)
+                {
+                    dispNode.PropertyOneToEvaluate = sel.Logic.PropertyOneToEvaluate;
+
+                    string propertyTwo = sel.Logic.PropertyTwoToEvaluate;
+                    if (propertyTwo[0] == '(')
+                    {
+                        int typeEndIndex = propertyTwo.IndexOf(')');
+                        switch (propertyTwo.Substring(0, typeEndIndex + 1))
+                        {
+                            case "(bool)":
+                                {
+                                    dispNode.PropertyTwoToEvaluate = propertyTwo.Substring(typeEndIndex + 1);
+                                    dispNode.PropertyTwoType = GraphSelector.PropertyType.BOOL;
+                                    break;
+                                }
+                            case "(float)":
+                                {
+                                    dispNode.PropertyTwoToEvaluate = propertyTwo.Substring(typeEndIndex + 1);
+                                    dispNode.PropertyTwoType = GraphSelector.PropertyType.FLOAT;
+                                    break;
+                                }
+                            case "(int)":
+                                {
+                                    dispNode.PropertyTwoToEvaluate = propertyTwo.Substring(typeEndIndex + 1);
+                                    dispNode.PropertyTwoType = GraphSelector.PropertyType.INT;
+                                    break;
+                                }
+                            default:
+                                {
+                                    Debug.LogWarning("Logic property 2 starts with \'(\' but isn't a type. Try not to use parantheses in property names.");
+                                    dispNode.PropertyTwoToEvaluate = propertyTwo;
+                                    dispNode.PropertyTwoType = GraphSelector.PropertyType.BLACKBOARD;
+                                    break;
+                                }
+                        }
+                    }
+                    else
+                    {
+                        dispNode.PropertyTwoType = GraphSelector.PropertyType.BLACKBOARD;
+                        dispNode.PropertyTwoToEvaluate = sel.Logic.PropertyTwoToEvaluate;
+                    }
+
+                    dispNode.Mode = sel.Logic.Mode;
+                }
 
                 Slot o = dispNode.AddOutputSlot("true:");
                 if (sel.nodeOnTrue)
@@ -144,10 +191,13 @@ namespace BehaviourTreeUI
 
         public virtual void Validate()
         {
+            validationErrorMessage = "";
             _treeIsValid = true;
+
             if(!_rootNode)
             {
                 _treeIsValid = false;
+                validationErrorMessage += "\nNo root node";
                 return;
             }
 
@@ -155,13 +205,15 @@ namespace BehaviourTreeUI
             {
                 if(!bn.IsValid())
                 {
+                    validationErrorMessage += "\nNode " + bn.name + " is invalid";
                     _treeIsValid = false;
                 }
             }
             
+            //Show which tree node is active;
             if(EditorApplication.isPlaying && _treeIsValid)
             {
-                BehaviorNode activeNode = FindActiveNode(_rootNode);
+                BehaviorNode activeNode = FindActiveNode();
                 if(activeNode)
                 {
                     activeNode.color = Styles.Color.Green;
@@ -169,11 +221,21 @@ namespace BehaviourTreeUI
             }
         }
 
-        protected virtual BehaviorNode FindActiveNode(BehaviorNode DEPRECATEDbn)
+        protected virtual BehaviorNode FindActiveNode()
         {
+            if(Tree.currentBlackboard == null)
+            {
+                return null;
+            }
+
+            AI.Node ActiveNode = Tree.currentBlackboard.ActiveNode;
+            if(ActiveNode == null)
+            {
+                ActiveNode = Tree.root;
+            }
             foreach(BehaviorNode bn in nodes)
             {
-                if (bn.GetAINode() == Tree.ActiveNode)
+                if (bn.GetAINode() == ActiveNode)
                 {
                     return bn;
                 }
@@ -186,7 +248,7 @@ namespace BehaviourTreeUI
         {
             if (!_treeIsValid)
             {
-                Debug.Log("Cannot save graph - currently invalid");
+                Debug.Log("Cannot save graph - currently invalid." + validationErrorMessage);
                 return;
             }
 

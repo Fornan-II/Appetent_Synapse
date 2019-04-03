@@ -8,7 +8,14 @@ public class AIController : MonoBehaviour
     public AI.Blackboard localBlackboard;// = new AI.Blackboard();
     public int treeUpdateInterval = 64;
 
-    private int _treeTicks = 0; 
+    private int _treeTicks = 0;
+
+    private void Start()
+    {
+        localBlackboard = new AI.Blackboard();
+        localBlackboard.SetProperty("Transform", transform);
+        localBlackboard.SetProperty("IsAggrod", false);
+    }
 
     protected virtual void FixedUpdate()
     {
