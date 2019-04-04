@@ -223,12 +223,12 @@ namespace BehaviourTreeUI
 
         protected virtual BehaviorNode FindActiveNode()
         {
-            if(Tree.currentBlackboard == null)
+            if(Tree.currentAI == null)
             {
                 return null;
             }
 
-            AI.Node ActiveNode = Tree.currentBlackboard.ActiveNode;
+            AI.Node ActiveNode = Tree.currentAI.ActiveNode;
             if(ActiveNode == null)
             {
                 ActiveNode = Tree.root;

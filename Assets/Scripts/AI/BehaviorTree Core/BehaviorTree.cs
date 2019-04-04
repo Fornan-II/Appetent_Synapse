@@ -10,12 +10,12 @@ namespace AI
     {
         public Root root;
 
-        [HideInInspector] public Blackboard currentBlackboard;
+        [HideInInspector] public AIController currentAI;
 
-        public virtual void ProcessTree(Blackboard b)
+        public virtual void ProcessTree(AIController ai)
         {
-            currentBlackboard = b;
-            Node activeNode = b.ActiveNode;
+            currentAI = ai;
+            Node activeNode = ai.ActiveNode;
             if(activeNode == null)
             {
                 activeNode = root;
@@ -23,39 +23,46 @@ namespace AI
 
             if(activeNode.Process(this))
             {
-                if(b.NodesToProcess.Count > 0)
+                if(currentAI.NodesToProcess.Count > 0)
                 {
-                    b.NodesToProcess.Pop();
+                    if(currentAI.ActiveNode is Sequence)
+                    {
+                        currentAI.instanceSequencePositions.Remove(currentAI.ActiveNode as Sequence);
+                    }
+                    //Debug.Log("Popping " + currentAI.ActiveNode + " for " + currentAI);
+                    currentAI.NodesToProcess.Pop();
                 }
             }
-            currentBlackboard = null;
+            currentAI = null;
         }
 
         public virtual void QueueNode(Node n)
         {
-            if(currentBlackboard == null)
+            if(currentAI == null)
             {
-                Debug.LogWarning("Could not QueueNode at this time - no blackboard");
+                Debug.LogWarning("Could not QueueNode at this time - no AIController");
                 return;
             }
-            currentBlackboard.NodesToProcess.Push(n);
+
+            //Debug.Log("Queueing node " + n + " for " + currentAI);
+            currentAI.NodesToProcess.Push(n);
         }
 
         public virtual void InterruptBehavior()
         {
-            if (currentBlackboard == null)
+            if (currentAI == null)
             {
-                Debug.LogWarning("Could not InterruptBehavior at this time - no blackboard");
+                Debug.LogWarning("Could not InterruptBehavior at this time - no AIController");
                 return;
             }
-            Node activeNode = currentBlackboard.NodesToProcess.Peek();
+            Node activeNode = currentAI.NodesToProcess.Peek();
             if(activeNode is Leaf)
             {
                 (activeNode as Leaf).ForceBehaviorToEnd();
             }
             else
             {
-                currentBlackboard.NodesToProcess.Clear();
+                currentAI.NodesToProcess.Clear();
             }
         }
 

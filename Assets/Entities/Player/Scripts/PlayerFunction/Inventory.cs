@@ -33,15 +33,15 @@ public class Inventory : MonoBehaviour
                 selectedHeldItem++;
             }
 
-            Debug.Log(selectedHeldItem);
+            //Debug.Log(selectedHeldItem);
             if(selectedHeldItem < 0)
             {
-                Debug.Log("Go to top");
+                //Debug.Log("Go to top");
                 selectedHeldItem = holdableItems.Count - 1;
             }
             if(selectedHeldItem >= holdableItems.Count)
             {
-                Debug.Log("Go to bottom");
+                //Debug.Log("Go to bottom");
                 selectedHeldItem = 0;
             }
 

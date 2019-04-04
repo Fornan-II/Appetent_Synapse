@@ -7,38 +7,28 @@ using UnityEngine.AI;
 
 public class Patrol : AI.Behavior
 {
-    public override void OnEnter(Blackboard b)
+    public override void OnEnter(AIController ai)
     {
-        object T = b.GetProperty("Transform");
-        if (T is Transform)
-        {
-            Transform transform = T as Transform;
-            b.SetProperty("PathToNextDestination", CalculatePath(transform, GetRandomNearbyPoint(transform.position, 15)));
-            _currentPhase = StatePhase.ACTIVE;
-        }
-        else
-        {
-            _currentPhase = StatePhase.INACTIVE;
-        }
+        ai.localBlackboard.SetProperty("PathToNextDestination", CalculatePath(ai.transform, GetRandomNearbyPoint(ai.transform.position, 15)));
+        _currentPhase = StatePhase.ACTIVE;
     }
 
-    public override void ActiveBehavior(Blackboard b)
+    public override void ActiveBehavior(AIController ai)
     {
-        object pathObj = b.GetProperty("PathToNextDestination");
-        object T = b.GetProperty("Transform");
-        if(pathObj is Vector3[] && T is Transform)
+        object pathObj = ai.localBlackboard.GetProperty("PathToNextDestination");
+        if(pathObj is Vector3[])
         {
             Vector3[] path = pathObj as Vector3[];
-            Vector3 prevPoint = (T as Transform).position;
+            Vector3 prevPoint = ai.transform.position;
             foreach(Vector3 point in path)
             {
-                Debug.DrawLine(prevPoint, point, Color.blue);
+                Debug.DrawLine(prevPoint, point, Color.blue, ai.treeUpdateInterval);
                 prevPoint = point;
             }
         }
     }
 
-    public override void OnExit(Blackboard b)
+    public override void OnExit(AIController ai)
     {
         _currentPhase = StatePhase.INACTIVE;
     }

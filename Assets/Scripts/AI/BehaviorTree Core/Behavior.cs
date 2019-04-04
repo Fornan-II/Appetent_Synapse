@@ -22,15 +22,15 @@ namespace AI
         protected StatePhase _currentPhase = StatePhase.ENTERING;
         public StatePhase CurrentPhase { get { return _currentPhase; } }
 
-        public abstract void OnEnter(Blackboard b);
+        public abstract void OnEnter(AIController ai);
 
-        public abstract void ActiveBehavior(Blackboard b);
+        public abstract void ActiveBehavior(AIController ai);
 
-        public abstract void OnExit(Blackboard b);
+        public abstract void OnExit(AIController ai);
 
-        public virtual void EnterBehavior(Blackboard b) { }
+        public virtual void EnterBehavior(AIController ai) { }
 
-        public virtual void ExitBehavior(Blackboard b) { }
+        public virtual void ExitBehavior(AIController ai) { }
 
         public virtual void ForceEndState()
         {

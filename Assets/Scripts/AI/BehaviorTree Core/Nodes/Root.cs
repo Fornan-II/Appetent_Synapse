@@ -11,7 +11,7 @@ namespace AI
         
         public override bool Process(BehaviorTree tree)
         {
-            if(NextNode == null)
+            if (NextNode == null)
             {
                 Debug.LogWarning("Root node finished processing as non-leaf node");
                 return true;

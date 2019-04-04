@@ -21,12 +21,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a7fc2277517f2904283f7b3a11dfbfe1, type: 2}
   - {fileID: 11400000, guid: f515853e5bf354f40989c4fd8b270513, type: 2}
   - {fileID: 11400000, guid: b39a409d56c7f8444b1658f74f01b01f, type: 2}
+  - {fileID: 11400000, guid: bb5b9cf523cfcd94c85706c0f667ee39, type: 2}
+  - {fileID: 11400000, guid: b0a17f1abb9ddcc4eb06f9373bc47029, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   edges:
-  - m_FromNode: {fileID: 11400000, guid: aefe511d5ea749246ab39640de2d59b2, type: 2}
-    m_ToNode: {fileID: 11400000, guid: 63de1c3ce1894864c9bcd875ea2905f5, type: 2}
-    m_FromSlotName: 'false:'
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
   - m_FromNode: {fileID: 11400000, guid: f515853e5bf354f40989c4fd8b270513, type: 2}
     m_ToNode: {fileID: 11400000, guid: 63da702cd1639154eb8d7e2db23e9429, type: 2}
     m_FromSlotName: 'true:'
@@ -55,6 +54,31 @@ MonoBehaviour:
   - m_FromNode: {fileID: 11400000, guid: a7fc2277517f2904283f7b3a11dfbfe1, type: 2}
     m_ToNode: {fileID: 11400000, guid: aefe511d5ea749246ab39640de2d59b2, type: 2}
     m_FromSlotName: out
+    m_ToSlotName: in
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - m_FromNode: {fileID: 11400000, guid: aefe511d5ea749246ab39640de2d59b2, type: 2}
+    m_ToNode: {fileID: 11400000, guid: b0a17f1abb9ddcc4eb06f9373bc47029, type: 2}
+    m_FromSlotName: 'false:'
+    m_ToSlotName: in
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - m_FromNode: {fileID: 11400000, guid: b0a17f1abb9ddcc4eb06f9373bc47029, type: 2}
+    m_ToNode: {fileID: 11400000, guid: bb5b9cf523cfcd94c85706c0f667ee39, type: 2}
+    m_FromSlotName: 'out: 0'
+    m_ToSlotName: in
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - m_FromNode: {fileID: 11400000, guid: b0a17f1abb9ddcc4eb06f9373bc47029, type: 2}
+    m_ToNode: {fileID: 0}
+    m_FromSlotName: 'out: 1'
+    m_ToSlotName: in
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - m_FromNode: {fileID: 0}
+    m_ToNode: {fileID: 11400000, guid: 63de1c3ce1894864c9bcd875ea2905f5, type: 2}
+    m_FromSlotName: 'out: 1'
+    m_ToSlotName: in
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - m_FromNode: {fileID: 0}
+    m_ToNode: {fileID: 0}
+    m_FromSlotName: 'out: 0'
     m_ToSlotName: in
     color: {r: 1, g: 1, b: 1, a: 1}
   m_InvalidEdges: []

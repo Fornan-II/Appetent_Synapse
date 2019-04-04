@@ -158,7 +158,8 @@ public class PlayerController : MonoBehaviour
         //Will need to display on the camera of this pawn though, so maybe.
         if (value)
         {
-            Debug.Log(name + " START");
+            //Debug.Log(name + " START");
+            ControlledPawn.PassLockScreen(!ControlledPawn.MyLookScript.lockState);
         }
     }
 

@@ -16,7 +16,7 @@ namespace AI
             bool value = false;
             if(Logic != null)
             {
-                value = Logic.Evaluate(tree.currentBlackboard);
+                value = Logic.Evaluate(tree.currentAI.localBlackboard);
             }
 
             if(value)

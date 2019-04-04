@@ -73,6 +73,7 @@ namespace BehaviourTreeUI
         protected virtual void SetBehaviorType(ref AI.Leaf node, Type T)
         {
             ScriptableObject newBehavior = ScriptableObject.CreateInstance(T);
+            
             if (newBehavior is AI.Behavior)
             {
                 node.NodeBehavior = newBehavior as AI.Behavior;

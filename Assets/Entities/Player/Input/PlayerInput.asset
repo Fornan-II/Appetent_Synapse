@@ -25,5 +25,5 @@ MonoBehaviour:
   JumpButton: Jump
   SprintButton: Sprint
   CrouchButton: Crouch
-  StartButton: 
+  StartButton: Cancel
   BackButton: 
