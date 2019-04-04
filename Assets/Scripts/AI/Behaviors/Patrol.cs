@@ -7,32 +7,56 @@ using UnityEngine.AI;
 
 public class Patrol : AI.Behavior
 {
+    protected AIMoveScript movement;
+    protected bool newPathReady = false;
+
     public override void OnEnter(AIController ai)
     {
-        ai.localBlackboard.SetProperty("PathToNextDestination", CalculatePath(ai.transform, GetRandomNearbyPoint(ai.transform.position, 15)));
-        _currentPhase = StatePhase.ACTIVE;
+        movement = ai.GetComponent<AIMoveScript>();
+        if (movement)
+        {
+            movement.pathToDestination = new List<Vector3>(CalculatePath(ai.transform, GetRandomNearbyPoint(ai.transform.position, 15)));
+            movement.DoMovement = true;
+            movement.OnPathComplete += GoGetPath;
+            _currentPhase = StatePhase.ACTIVE;
+        }
+        else
+        {
+            _currentPhase = StatePhase.INACTIVE;
+        }
     }
 
     public override void ActiveBehavior(AIController ai)
     {
-        object pathObj = ai.localBlackboard.GetProperty("PathToNextDestination");
-        if(pathObj is Vector3[])
+        //Decide between idling and wandering around
+        if(newPathReady)
         {
-            Vector3[] path = pathObj as Vector3[];
-            Vector3 prevPoint = ai.transform.position;
-            foreach(Vector3 point in path)
-            {
-                Debug.DrawLine(prevPoint, point, Color.blue, ai.treeUpdateInterval);
-                prevPoint = point;
-            }
+            movement.DoMovement = true;
+            newPathReady = false;
+        }
+
+        //Debug line drawing
+        Vector3 prevPoint = ai.transform.position;
+        Color c = Color.red;
+        foreach(Vector3 point in movement.pathToDestination)
+        {
+            Debug.DrawLine(prevPoint, point, c, ai.treeUpdateInterval);
+            prevPoint = point;
+            c = Color.blue;
         }
     }
 
     public override void OnExit(AIController ai)
     {
+        movement.DoMovement = false;
         _currentPhase = StatePhase.INACTIVE;
     }
 
+    protected virtual void GoGetPath()
+    {
+        movement.pathToDestination = new List<Vector3>(CalculatePath(movement.transform, GetRandomNearbyPoint(movement.transform.position, 15)));
+        newPathReady = true;
+    }
 
     //Probably a lot of what is here can get moved to a util class
     protected virtual Vector3 GetRandomNearbyPoint(Vector3 currentPos, float radius)

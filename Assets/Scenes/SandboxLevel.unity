@@ -594,7 +594,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 86155993}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -57, y: 31, z: -4}
+  m_LocalPosition: {x: -83.5, y: 31, z: 14.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1736508884}
@@ -22516,8 +22516,9 @@ GameObject:
   - component: {fileID: 1164390962}
   - component: {fileID: 1164390961}
   - component: {fileID: 1164390960}
-  - component: {fileID: 1164390959}
   - component: {fileID: 1164390958}
+  - component: {fileID: 1164390959}
+  - component: {fileID: 1164390964}
   m_Layer: 0
   m_Name: TestBrawler
   m_TagString: Untagged
@@ -22637,6 +22638,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1164390964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164390957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d030518c090414f8fc1e8817952f03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMoveSpeed: 5
+  acceleration: 1
+  friction: 0.95
+  DoMovement: 0
+  popPathPointDistance: 0.5
+  doCheckForNearestPathPoint: 0
+  pathToDestination: []
 --- !u!1 &1167502531
 GameObject:
   m_ObjectHideFlags: 0
@@ -33518,8 +33538,9 @@ GameObject:
   - component: {fileID: 1908563865}
   - component: {fileID: 1908563864}
   - component: {fileID: 1908563863}
-  - component: {fileID: 1908563862}
   - component: {fileID: 1908563861}
+  - component: {fileID: 1908563862}
+  - component: {fileID: 1908563867}
   m_Layer: 0
   m_Name: TestBrawler (1)
   m_TagString: Untagged
@@ -33639,6 +33660,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1908563867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908563860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d030518c090414f8fc1e8817952f03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMoveSpeed: 7
+  acceleration: 3
+  friction: 0.95
+  DoMovement: 0
+  popPathPointDistance: 0.5
+  doCheckForNearestPathPoint: 0
+  pathToDestination: []
 --- !u!1 &1911824067
 GameObject:
   m_ObjectHideFlags: 0

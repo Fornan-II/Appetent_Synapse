@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41191347cdbc5a44e863e5ec1d69ac74, type: 3}
   m_Name: Leaf 4
   m_EditorClassIdentifier: 
-  _nodeBehavior: {fileID: 114404787371424970}
---- !u!114 &114404787371424970
+  _nodeBehavior: {fileID: 114769042195916914}
+--- !u!114 &114769042195916914
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

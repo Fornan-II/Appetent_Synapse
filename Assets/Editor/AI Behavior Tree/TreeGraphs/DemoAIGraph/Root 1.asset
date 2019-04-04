@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a3eee2eda2f0a6409b3b8aecf444500, type: 3}
-  m_Name: Leaf 3
+  m_Script: {fileID: 11500000, guid: 4e77dda710a9146459f834b1ab45eb38, type: 3}
+  m_Name: Root 1
   m_EditorClassIdentifier: 
   m_Slots:
-  - type: 0
-    m_Title: In
-    m_Name: in
+  - type: 1
+    m_Title: Out
+    m_Name: out
     m_DataTypeString: 
   m_Properties: []
   m_GenericTypeString: 
@@ -23,10 +23,10 @@ MonoBehaviour:
   style: node
   position:
     serializedVersion: 2
-    x: 348
-    y: 48
-    width: 22
+    x: 0
+    y: 0
+    width: 30
     height: 41
   showEmptySlots: 1
-  Label: Leaf
-  sourceNode: {fileID: 11400000, guid: 100fc2dc723d6714e98254f9788f30fc, type: 2}
+  Label: Root
+  sourceNode: {fileID: 11400000, guid: 62eb8d0cace447a4bb1650c7e7b7892a, type: 2}

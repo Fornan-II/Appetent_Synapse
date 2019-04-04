@@ -2,64 +2,65 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using AI;
-
-public class AIController : MonoBehaviour
+namespace AI
 {
-    #region Stuff used for instance management of Behavior Tree & Behaviors
-    //NodesToProcess used by BehaviorTree
-    public Stack<Node> NodesToProcess = new Stack<Node>();
-    //On the stack:
-    //1 : ActiveLeaf
-    //2 : Any Sequences
-    //If nothing, return to root
-    public Node ActiveNode
+    public class AIController : MonoBehaviour
     {
-        get
+        #region Stuff used for instance management of Behavior Tree & Behaviors
+        //NodesToProcess used by BehaviorTree
+        public Stack<Node> NodesToProcess = new Stack<Node>();
+        //On the stack:
+        //1 : ActiveLeaf
+        //2 : Any Sequences
+        //If nothing, return to root
+        public Node ActiveNode
         {
-            if (NodesToProcess == null || NodesToProcess.Count <= 0)
+            get
             {
-                return null;
-            }
-            else
-            {
-                return NodesToProcess.Peek();
+                if (NodesToProcess == null || NodesToProcess.Count <= 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return NodesToProcess.Peek();
+                }
             }
         }
-    }
 
-    public Node[] debugStack;
+        public Node[] debugStack;
 
-    [HideInInspector] public Behavior behaviorInstance;
-    [HideInInspector] public Dictionary<Sequence, int> instanceSequencePositions = new Dictionary<Sequence, int>();
-    #endregion
+        [HideInInspector] public Behavior behaviorInstance;
+        [HideInInspector] public Dictionary<Sequence, int> instanceSequencePositions = new Dictionary<Sequence, int>();
+        #endregion
 
-    public AI.BehaviorTree myTree;
-    public AI.Blackboard localBlackboard;// = new AI.Blackboard();
-    public int treeUpdateInterval = 64;
+        public AI.BehaviorTree myTree;
+        public AI.Blackboard localBlackboard;// = new AI.Blackboard();
+        public int treeUpdateInterval = 64;
 
-    private int _treeTicks = 0;
+        private int _treeTicks = 0;
 
-    public string debugOutput;
+        public string debugOutput;
 
-    private void Start()
-    {
-        localBlackboard = new AI.Blackboard();
-        localBlackboard.SetProperty("IsAggrod", false);
-    }
-
-    protected virtual void FixedUpdate()
-    {
-        debugStack = NodesToProcess.ToArray();
-
-        if(myTree && (localBlackboard != null))
+        private void Start()
         {
-            if (_treeTicks <= 0)
+            localBlackboard = new AI.Blackboard();
+            localBlackboard.SetProperty("IsAggrod", false);
+        }
+
+        protected virtual void FixedUpdate()
+        {
+            debugStack = NodesToProcess.ToArray();
+
+            if (myTree && (localBlackboard != null))
             {
-                myTree.ProcessTree(this);
-                _treeTicks = treeUpdateInterval;
+                if (_treeTicks <= 0)
+                {
+                    myTree.ProcessTree(this);
+                    _treeTicks = treeUpdateInterval;
+                }
+                _treeTicks--;
             }
-            _treeTicks--;
         }
     }
 }

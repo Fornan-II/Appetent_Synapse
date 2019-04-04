@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4b6fbb1d7e7ebb479c7d33e96fd353f, type: 3}
-  m_Name: Sequence 2
+  m_Script: {fileID: 11500000, guid: 2b44abd7787b0114487c51b118a000dc, type: 3}
+  m_Name: DemoAI
   m_EditorClassIdentifier: 
-  sequenceNodes:
-  - {fileID: 11400000, guid: 100fc2dc723d6714e98254f9788f30fc, type: 2}
-  - {fileID: 11400000, guid: 4541929799ad57a40a0d98042f6d6ccf, type: 2}
+  root: {fileID: 11400000, guid: 62eb8d0cace447a4bb1650c7e7b7892a, type: 2}
+  currentAI: {fileID: 0}
