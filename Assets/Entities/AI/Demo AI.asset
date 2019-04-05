@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b44abd7787b0114487c51b118a000dc, type: 3}
-  m_Name: DemoAI
+  m_Name: Demo AI
   m_EditorClassIdentifier: 
-  root: {fileID: 11400000, guid: 62eb8d0cace447a4bb1650c7e7b7892a, type: 2}
+  root: {fileID: 11400000, guid: 03b576eb25be6684e8f792fc64129268, type: 2}
   currentAI: {fileID: 0}

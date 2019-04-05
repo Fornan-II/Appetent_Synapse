@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9ddaceb94f3a0e4cb921959e10d38cc, type: 3}
-  m_Name: DemoAIGraph
+  m_Name: Demo AIGraph
   m_EditorClassIdentifier: 
   nodes:
-  - {fileID: 11400000, guid: 8f54c3ffe55506144b8f2ad47304bb4c, type: 2}
+  - {fileID: 11400000, guid: 843f6581e457b2745a7cd0169a3027d8, type: 2}
   - {fileID: 0}
   edges:
-  - m_FromNode: {fileID: 11400000, guid: 8f54c3ffe55506144b8f2ad47304bb4c, type: 2}
+  - m_FromNode: {fileID: 11400000, guid: 843f6581e457b2745a7cd0169a3027d8, type: 2}
     m_ToNode: {fileID: 0}
     m_FromSlotName: out
     m_ToSlotName: in
     color: {r: 1, g: 1, b: 1, a: 1}
   m_InvalidEdges: []
-  Tree: {fileID: 11400000, guid: 1faa7459211b8d44f83278839b0069a6, type: 2}
-  _rootNode: {fileID: 11400000, guid: 8f54c3ffe55506144b8f2ad47304bb4c, type: 2}
-  graphNodeFolderPath: Assets/Editor/AI Behavior Tree/TreeGraphs/DemoAIGraph
+  Tree: {fileID: 11400000, guid: c0dffe366cb7b9940a67cfc7c544a64d, type: 2}
+  _rootNode: {fileID: 11400000, guid: 843f6581e457b2745a7cd0169a3027d8, type: 2}
+  graphNodeFolderPath: Assets/Editor/AI Behavior Tree/TreeGraphs/Demo AIGraph
