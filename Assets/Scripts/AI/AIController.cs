@@ -28,8 +28,6 @@ namespace AI
             }
         }
 
-        public Node[] debugStack;
-
         [HideInInspector] public Behavior behaviorInstance;
         [HideInInspector] public Dictionary<Sequence, int> instanceSequencePositions = new Dictionary<Sequence, int>();
         #endregion
@@ -50,7 +48,8 @@ namespace AI
 
         protected virtual void FixedUpdate()
         {
-            debugStack = NodesToProcess.ToArray();
+            if(ActiveNode) { debugOutput = ActiveNode.ToString(); }
+            else { debugOutput = "null"; }
 
             if (myTree && (localBlackboard != null))
             {
@@ -60,6 +59,18 @@ namespace AI
                     _treeTicks = treeUpdateInterval;
                 }
                 _treeTicks--;
+            }
+        }
+
+        public virtual void InterruptBehavior()
+        {
+            Node currentNode = ActiveNode;
+            NodesToProcess.Clear();
+
+            if(currentNode is Leaf)
+            {
+                NodesToProcess.Push(currentNode);
+                (currentNode as Leaf).ForceBehaviorToEnd();
             }
         }
     }

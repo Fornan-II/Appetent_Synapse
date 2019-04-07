@@ -11,9 +11,12 @@ public class AIMoveScript : MonoBehaviour
     [Range(0.0f, 1.0f)]
     public float friction = 0.5f;
     public bool DoMovement = false;
+    public bool DoFriction = true;
     [Min(0.0f)]
-    public float popPathPointDistance = 0.5f;
-    public bool doCheckForNearestPathPoint = true;
+    public Vector3 footPositionOffset = Vector3.zero;
+    public float popPathPointDistance = 0.1f;
+    public float PathingGiveUpTime = 7.0f;
+    protected float _remainingGiveUpTime = 0.0f;
 
     public delegate void PathRethinkEvent();
     public event PathRethinkEvent OnPathComplete;
@@ -24,39 +27,31 @@ public class AIMoveScript : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _remainingGiveUpTime = PathingGiveUpTime;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(pathToDestination.Count <= 0 || !DoMovement)
+        Vector3 footPos = transform.position + footPositionOffset;
+
+        if (pathToDestination.Count <= 0 || !DoMovement)
         {
-            Vector3 frictionVelocity = Vector3.Lerp(Vector3.zero, _rb.velocity, friction);
-            frictionVelocity.y = _rb.velocity.y;
-            _rb.velocity = frictionVelocity;
+            if (DoFriction)
+            {
+                Vector3 frictionVelocity = Vector3.Lerp(Vector3.zero, _rb.velocity, friction);
+                frictionVelocity.y = _rb.velocity.y;
+                _rb.velocity = frictionVelocity;
+            }
             return;
         }
 
-        if (doCheckForNearestPathPoint)
-        {
-            float nearestSqrDistance = (transform.position - pathToDestination[0]).sqrMagnitude;
-            for (int i = 1; i < pathToDestination.Count; i++)
-            {
-                float indexSqrDistance = (transform.position - pathToDestination[i]).sqrMagnitude;
-                if(indexSqrDistance < nearestSqrDistance)
-                {
-                    //Remove all points that would have been before this point, as it's no longer necessary to move to them.
-                    pathToDestination.RemoveRange(0, i);
-                    i = 1;
-                }
-            }
-        }
-
         //Part where we actually move the AI
-        Vector3 moveDir = pathToDestination[0] - transform.position;
+        Vector3 moveDir = pathToDestination[0] - footPos;
         while(moveDir.sqrMagnitude <= popPathPointDistance * popPathPointDistance && DoMovement)
         {
             pathToDestination.RemoveAt(0);
+            _remainingGiveUpTime = PathingGiveUpTime;
             if (pathToDestination.Count <= 0)
             {
                 if (OnPathComplete != null) { OnPathComplete.Invoke(); }
@@ -64,7 +59,7 @@ public class AIMoveScript : MonoBehaviour
             }
             else
             {
-                moveDir = pathToDestination[0] - transform.position;
+                moveDir = pathToDestination[0] - footPos;
             }
         }
 
@@ -76,5 +71,47 @@ public class AIMoveScript : MonoBehaviour
             newVelocity.y = _rb.velocity.y;
         }
         _rb.velocity = newVelocity;
+
+        if(_remainingGiveUpTime <= 0.0f)
+        {
+            _remainingGiveUpTime = PathingGiveUpTime;
+            pathToDestination.Clear();
+            DoMovement = false;
+            Debug.Log(name + " says: \"I give up!\"");
+            if(OnGiveUpPathing != null) { OnGiveUpPathing.Invoke(); }
+        }
+    }
+
+    protected Coroutine activeStunRoutine;
+    public virtual void GetStunned(Pawn source)
+    {
+        if(activeStunRoutine != null)
+        {
+            StopCoroutine(activeStunRoutine);
+        }
+
+        activeStunRoutine = StartCoroutine(StunTimer());
+    }
+
+    protected virtual IEnumerator StunTimer()
+    {
+        bool tempFric = DoFriction;
+        bool tempMove = DoMovement;
+        DoFriction = false;
+        DoMovement = false;
+
+        yield return new WaitForSeconds(1.0f);
+
+        DoFriction = tempFric;
+        DoMovement = tempMove;
+        activeStunRoutine = null;
+    }
+
+    protected virtual void OnDrawGizmos()
+    {
+        Vector3 footPos = transform.position + footPositionOffset;
+
+        Gizmos.DrawLine(footPos + Vector3.forward * 0.3f, footPos - Vector3.forward * 0.3f);
+        Gizmos.DrawLine(footPos + Vector3.right * 0.3f, footPos - Vector3.right * 0.3f);
     }
 }

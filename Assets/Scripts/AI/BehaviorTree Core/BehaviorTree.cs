@@ -48,24 +48,6 @@ namespace AI
             currentAI.NodesToProcess.Push(n);
         }
 
-        public virtual void InterruptBehavior()
-        {
-            if (currentAI == null)
-            {
-                Debug.LogWarning("Could not InterruptBehavior at this time - no AIController");
-                return;
-            }
-            Node activeNode = currentAI.NodesToProcess.Peek();
-            if(activeNode is Leaf)
-            {
-                (activeNode as Leaf).ForceBehaviorToEnd();
-            }
-            else
-            {
-                currentAI.NodesToProcess.Clear();
-            }
-        }
-
 #if UNITY_EDITOR
         [ContextMenu("New Root")]
         public void CreateRoot()

@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+[System.Serializable]
+public class DamageEvent : UnityEvent<Pawn> { }
 
 [System.Serializable]
 public struct DamagePacket
@@ -23,7 +27,9 @@ public class DamageReciever : MonoBehaviour
 
     [Range(0.0f, 1.0f)]
     public float KnockbackResistance = 0.0f;
-    
+
+    public DamageEvent OnDamageTaken;
+    public DamageEvent OnKilled;
 
     private void Start()
     {
@@ -34,7 +40,7 @@ public class DamageReciever : MonoBehaviour
     {
         //Damage
         int finalHitPoints = Mathf.Max(0, (int)(hitPoints * (1.0f - DamageResistance)));
-        Debug.Log("Ouchie! " + hitPoints + " -> " + finalHitPoints);
+        OnDamageTaken.Invoke(source);
         Health -= finalHitPoints;
         if(Health <= 0)
         {
@@ -45,6 +51,7 @@ public class DamageReciever : MonoBehaviour
     public virtual void Die(Pawn killer)
     {
         //Temp, do something better here eventually.
+        OnKilled.Invoke(killer);
         Destroy(gameObject);
     }
 

@@ -6,14 +6,17 @@ namespace AI
 {
     public class AIListener : MonoBehaviour
     {
-        /*public AIBrain MyBrain;
+        public AIController controller;
 
-        public void Alert(Vector3 point, int priority)
+        public string AssociatePropertyName;
+
+        public virtual void Alert(object value)
         {
-            if(MyBrain)
+            if(controller)
             {
-                MyBrain.Alert(point, priority);
+                controller.localBlackboard.SetProperty(AssociatePropertyName, value);
+                controller.InterruptBehavior();
             }
-        }*/
+        }
     }
 }
