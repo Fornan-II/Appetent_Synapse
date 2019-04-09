@@ -37,14 +37,25 @@ public class MeleeAttack : Behavior
         //DEBUG LINE DRAWING
         AI.Util.DrawPath(ai.transform.position, movement.pathToDestination, ai.treeUpdateInterval * Time.fixedDeltaTime);
 
+        bool doPathCalculation = false;
         if((ai.transform.position - target.transform.position).sqrMagnitude > recalculatePathDistance * recalculatePathDistance)
         {
-            SetPathingToTarget();
+            //SetPathingToTarget();
+            doPathCalculation = true;
         }
 
         if((ai.transform.position - target.transform.position).sqrMagnitude <= weapon.reach * weapon.reach)
         {
             weapon.DoAttack(target.gameObject, ai.aiPawn);
+        }
+        else if(!movement.DoMovement)
+        {
+            doPathCalculation = true;
+        }
+
+        if(doPathCalculation)
+        {
+            SetPathingToTarget();
         }
     }
 
