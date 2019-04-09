@@ -40,7 +40,6 @@ public class MeleeAttack : Behavior
         bool doPathCalculation = false;
         if((ai.transform.position - target.transform.position).sqrMagnitude > recalculatePathDistance * recalculatePathDistance)
         {
-            //SetPathingToTarget();
             doPathCalculation = true;
         }
 

@@ -1,10 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-
-[System.Serializable]
-public class DamageEvent : UnityEvent<Pawn> { }
 
 [System.Serializable]
 public struct DamagePacket
@@ -28,8 +24,8 @@ public class DamageReciever : MonoBehaviour
     [Range(0.0f, 1.0f)]
     public float KnockbackResistance = 0.0f;
 
-    public DamageEvent OnDamageTaken;
-    public DamageEvent OnKilled;
+    public PawnEvent OnDamageTaken;
+    public PawnEvent OnKilled;
 
     private void Start()
     {
