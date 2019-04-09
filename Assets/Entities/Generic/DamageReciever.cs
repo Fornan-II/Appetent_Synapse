@@ -50,9 +50,7 @@ public class DamageReciever : MonoBehaviour
 
     public virtual void Die(Pawn killer)
     {
-        //Temp, do something better here eventually.
         OnKilled.Invoke(killer);
-        Destroy(gameObject);
     }
 
     public static void DealDamageToTarget(GameObject target, DamagePacket dmg, Pawn source)

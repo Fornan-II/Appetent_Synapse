@@ -46,5 +46,10 @@ namespace AI
             return GetProperty(propertyName).GetType();
 
         }
+
+        public virtual bool HasProperty(string propertyName)
+        {
+            return Properties.ContainsKey(propertyName);
+        }
     }
 }

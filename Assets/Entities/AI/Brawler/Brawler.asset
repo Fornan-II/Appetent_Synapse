@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Brawler
   m_EditorClassIdentifier: 
   root: {fileID: 11400000, guid: 1c0646b21e234d648ae4f321dc38b19b, type: 2}
+  currentAI: {fileID: 0}

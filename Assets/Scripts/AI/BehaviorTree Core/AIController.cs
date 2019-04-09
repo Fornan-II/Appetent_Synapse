@@ -33,6 +33,7 @@ namespace AI
         #endregion
 
         public AI.BehaviorTree myTree;
+        public AIPawn aiPawn;
         public AI.Blackboard localBlackboard;// = new AI.Blackboard();
         public int treeUpdateInterval = 64;
 
@@ -40,15 +41,22 @@ namespace AI
 
         public string debugOutput;
 
-        private void Start()
+        protected virtual void Start()
         {
             localBlackboard = new AI.Blackboard();
-            localBlackboard.SetProperty("IsAggrod", false);
+            if(aiPawn)
+            {
+                aiPawn.Init(this);
+            }
+            else
+            {
+                Debug.LogWarning(name + " does not have an aiPawn assigned? This will cause errors.");
+            }
         }
 
         protected virtual void FixedUpdate()
         {
-            if(ActiveNode) { debugOutput = ActiveNode.ToString(); }
+            if(behaviorInstance) { debugOutput = behaviorInstance.ToString() + " | " + behaviorInstance.CurrentPhase; }
             else { debugOutput = "null"; }
 
             if (myTree && (localBlackboard != null))
@@ -66,11 +74,12 @@ namespace AI
         {
             Node currentNode = ActiveNode;
             NodesToProcess.Clear();
+            instanceSequencePositions.Clear();
 
             if(currentNode is Leaf)
             {
                 NodesToProcess.Push(currentNode);
-                (currentNode as Leaf).ForceBehaviorToEnd();
+                (currentNode as Leaf).ForceBehaviorToEnd(this);
             }
         }
     }

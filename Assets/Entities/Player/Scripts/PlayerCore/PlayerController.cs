@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    [SerializeField] protected Pawn _controlledPawn;
-    public Pawn ControlledPawn
+    [SerializeField] protected PlayerPawn _controlledPawn;
+    public PlayerPawn ControlledPawn
     {
         get { return _controlledPawn; }
         set

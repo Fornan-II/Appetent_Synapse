@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pawn : MonoBehaviour
+public class PlayerPawn : Pawn
 {
     public MoveScript MyMoveScript;
     public LookScript MyLookScript;

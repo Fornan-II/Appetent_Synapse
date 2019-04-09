@@ -28,7 +28,8 @@ public class ItemSocket : MonoBehaviour
         return false;
     }
 
-    public virtual void Equip(InventoryHoldableItem item)
+    //Returns the gameobject of the item equipped
+    public virtual EquippedHoldableItem Equip(InventoryHoldableItem item)
     {
         if(EquippedItem)
         {
@@ -44,5 +45,7 @@ public class ItemSocket : MonoBehaviour
                 EquippedItem = spawnedItem.GetComponent<EquippedHoldableItem>();
             }
         }
+
+        return EquippedItem;
     }
 }

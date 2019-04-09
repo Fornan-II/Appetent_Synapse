@@ -96,12 +96,11 @@ namespace AI
             return false;
         }
 
-        //This is going to have to change.
-        public virtual void ForceBehaviorToEnd()
+        public virtual void ForceBehaviorToEnd(AIController ai)
         {
-            if(_nodeBehavior != null)
+            if(ai.behaviorInstance != null)
             {
-                _nodeBehavior.ForceEndState();
+                ai.behaviorInstance.ForceEndState();
             }
         }
     }

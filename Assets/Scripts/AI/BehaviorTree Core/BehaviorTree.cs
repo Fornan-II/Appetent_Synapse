@@ -40,7 +40,7 @@ namespace AI
         {
             if(currentAI == null)
             {
-                Debug.LogWarning("Could not QueueNode at this time - no AIController");
+                //Debug.LogWarning("Could not QueueNode at this time - no AIController");
                 return;
             }
 

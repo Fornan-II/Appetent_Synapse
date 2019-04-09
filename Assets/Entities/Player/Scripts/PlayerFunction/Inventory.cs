@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public Pawn myPawn;
+
     public List<InventoryHoldableItem> holdableItems;
     public int selectedHeldItem = 0;
     public ItemSocket heldSocket;
@@ -45,7 +47,11 @@ public class Inventory : MonoBehaviour
                 selectedHeldItem = 0;
             }
 
-            heldSocket.Equip(holdableItems[selectedHeldItem]);
+            EquippedHoldableItem newItem = heldSocket.Equip(holdableItems[selectedHeldItem]);
+            if(newItem is Weapon && myPawn)
+            {
+                myPawn.equippedWeapon = newItem as Weapon;
+            }
         }
 
         _previousValue = value;
