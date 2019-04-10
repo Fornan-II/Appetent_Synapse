@@ -45,7 +45,8 @@ namespace AI
             Quaternion rightRayRotation = Quaternion.AngleAxis(halfFOV, Vector3.up);
             Vector3 leftRayDirection = leftRayRotation * transform.forward;
             Vector3 rightRayDirection = rightRayRotation * transform.forward;
-            
+
+            Gizmos.color = Color.red;
             Gizmos.DrawRay(transform.position, leftRayDirection * rayRange);
             Gizmos.DrawRay(transform.position, transform.forward * rayRange);
             Gizmos.DrawRay(transform.position, rightRayDirection * rayRange);
