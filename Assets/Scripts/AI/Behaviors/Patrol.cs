@@ -11,15 +11,16 @@ public class Patrol : AI.Behavior
     protected bool newPathReady = false;
 
     protected float howLongToWait;
-    protected bool doWander = true;
+    protected bool doWander = false;
 
     public override void OnEnter(AIController ai)
     {
         if (ai.aiPawn.moveScript)
         {
             movement = ai.aiPawn.moveScript;
-            movement.pathToDestination = new List<Vector3>(AI.Util.CalculatePath(ai.transform, AI.Util.GetRandomNearbyPoint(ai.transform.position, 15)));
-            movement.DoMovement = true;
+            //movement.pathToDestination = new List<Vector3>(AI.Util.CalculatePath(ai.transform, AI.Util.GetRandomNearbyPoint(ai.transform.position, 15)));
+            //movement.DoMovement = true;
+            howLongToWait = Random.Range(5.0f, 10.0f);
             movement.OnPathComplete += GoGetPath;
             movement.OnGiveUpPathing += GoGetPath;
             _currentPhase = StatePhase.ACTIVE;

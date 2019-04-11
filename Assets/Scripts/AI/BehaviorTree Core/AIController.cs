@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AI
 {
-    public class AIController : MonoBehaviour
+    public class AIController : AIGroupMember
     {
         #region Stuff used for instance management of Behavior Tree & Behaviors
         //NodesToProcess used by BehaviorTree
@@ -34,7 +34,6 @@ namespace AI
 
         public AI.BehaviorTree myTree;
         public AIPawn aiPawn;
-        public AI.Blackboard localBlackboard;// = new AI.Blackboard();
         public int treeUpdateInterval = 64;
 
         private int _treeTicks = 0;

@@ -13,35 +13,11 @@ MonoBehaviour:
   m_Name: BrawlerGraph
   m_EditorClassIdentifier: 
   nodes:
-  - {fileID: 11400000, guid: 819c1439f8c25fa44965ba3c38920845, type: 2}
-  - {fileID: 11400000, guid: cc34af768cc56dc44b9536bd4c3185c8, type: 2}
-  - {fileID: 11400000, guid: 63da702cd1639154eb8d7e2db23e9429, type: 2}
   - {fileID: 11400000, guid: 63de1c3ce1894864c9bcd875ea2905f5, type: 2}
   - {fileID: 11400000, guid: aefe511d5ea749246ab39640de2d59b2, type: 2}
   - {fileID: 11400000, guid: a7fc2277517f2904283f7b3a11dfbfe1, type: 2}
-  - {fileID: 11400000, guid: f515853e5bf354f40989c4fd8b270513, type: 2}
   - {fileID: 11400000, guid: b39a409d56c7f8444b1658f74f01b01f, type: 2}
   edges:
-  - m_FromNode: {fileID: 11400000, guid: f515853e5bf354f40989c4fd8b270513, type: 2}
-    m_ToNode: {fileID: 11400000, guid: 63da702cd1639154eb8d7e2db23e9429, type: 2}
-    m_FromSlotName: 'true:'
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: 63da702cd1639154eb8d7e2db23e9429, type: 2}
-    m_ToNode: {fileID: 11400000, guid: 819c1439f8c25fa44965ba3c38920845, type: 2}
-    m_FromSlotName: out:0
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: 63da702cd1639154eb8d7e2db23e9429, type: 2}
-    m_ToNode: {fileID: 11400000, guid: cc34af768cc56dc44b9536bd4c3185c8, type: 2}
-    m_FromSlotName: out:1
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 11400000, guid: f515853e5bf354f40989c4fd8b270513, type: 2}
-    m_ToNode: {fileID: 11400000, guid: b39a409d56c7f8444b1658f74f01b01f, type: 2}
-    m_FromSlotName: 'false:'
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
   - m_FromNode: {fileID: 11400000, guid: a7fc2277517f2904283f7b3a11dfbfe1, type: 2}
     m_ToNode: {fileID: 11400000, guid: aefe511d5ea749246ab39640de2d59b2, type: 2}
     m_FromSlotName: out
@@ -53,7 +29,7 @@ MonoBehaviour:
     m_ToSlotName: in
     color: {r: 1, g: 1, b: 1, a: 1}
   - m_FromNode: {fileID: 11400000, guid: aefe511d5ea749246ab39640de2d59b2, type: 2}
-    m_ToNode: {fileID: 11400000, guid: f515853e5bf354f40989c4fd8b270513, type: 2}
+    m_ToNode: {fileID: 11400000, guid: b39a409d56c7f8444b1658f74f01b01f, type: 2}
     m_FromSlotName: 'true:'
     m_ToSlotName: in
     color: {r: 1, g: 1, b: 1, a: 1}

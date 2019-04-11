@@ -11,6 +11,19 @@ public class BrawlerPawn : AIPawn
     public override void Init(AIController controller)
     {
         base.Init(controller);
-        _controller.localBlackboard.SetProperty(PROPERTY_ALERT, true);
+    }
+
+    public virtual void AlertGroupMembers(Pawn instigator)
+    {
+        if (_controller.MyGroup)
+        {
+            foreach (AIGroupMember groupMember in _controller.MyGroup.Members)
+            {
+                if (groupMember != _controller && groupMember is AIController)
+                {
+                    (groupMember as AIController).aiPawn.GiveAggro(instigator);
+                }
+            }
+        }
     }
 }
