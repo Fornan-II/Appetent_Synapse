@@ -8776,7 +8776,7 @@ MonoBehaviour:
   damage:
     HitPoints: 2
     Knockback: 10
-  reach: 2
+  reach: 1.5
 --- !u!114 &576635744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11699,7 +11699,7 @@ MonoBehaviour:
   damage:
     HitPoints: 2
     Knockback: 10
-  reach: 2
+  reach: 1.5
 --- !u!114 &758513669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23806,7 +23806,7 @@ MonoBehaviour:
   damage:
     HitPoints: 2
     Knockback: 10
-  reach: 2
+  reach: 1.5
 --- !u!114 &1164390967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29949,7 +29949,7 @@ MonoBehaviour:
   damage:
     HitPoints: 2
     Knockback: 10
-  reach: 2
+  reach: 1.5
 --- !u!114 &1620701920
 MonoBehaviour:
   m_ObjectHideFlags: 0
