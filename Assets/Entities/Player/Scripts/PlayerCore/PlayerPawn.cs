@@ -63,7 +63,6 @@ public class PlayerPawn : Pawn
             Debug.LogWarning(name + " is trying to be passed input when it has no Inventory component assigned!");
             return;
         }
-
         MyInventory.UseEquippedSecondary(value >= 0.5f, this);
     }
 

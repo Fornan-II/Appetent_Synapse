@@ -82,10 +82,12 @@ public class Inventory : MonoBehaviour
 
         if (!heldSocket)
         {
+            Debug.Log("no socket");
             finalVal = false;
         }
         else if (value && !prevSecondary)
         {
+            Debug.Log("fire...");
             finalVal = heldSocket.UseSecondary(user);
         }
 

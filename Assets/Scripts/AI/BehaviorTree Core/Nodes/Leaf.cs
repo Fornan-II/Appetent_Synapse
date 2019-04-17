@@ -16,6 +16,7 @@ namespace AI
             }
             set
             {
+#if UNITY_EDITOR
                 if(UnityEditor.AssetDatabase.Contains(this))
                 {
                     if (_nodeBehavior)
@@ -26,6 +27,7 @@ namespace AI
                     UnityEditor.AssetDatabase.AddObjectToAsset(_nodeBehavior, this);
                 }
                 else
+#endif
                 {
                     _nodeBehavior = value;
                 }

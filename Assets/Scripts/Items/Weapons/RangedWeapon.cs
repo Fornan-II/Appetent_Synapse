@@ -22,6 +22,14 @@ public class RangedWeapon : Weapon
         {
             _anim.SetTrigger("attack");
         }
-        //Physics.Raycast()
+
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position, transform.forward, out hit, maxRange, hittable, QueryTriggerInteraction.Ignore))
+        {
+            DamageReciever.DealDamageToTarget(hit.transform.gameObject, damage, user);
+            return true;
+        }
+        
+        return false;
     }
 }
