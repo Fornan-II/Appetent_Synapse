@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class MeleeWeapon : Weapon
 {
-    public DamagePacket damage = new DamagePacket(10, 10.0f);
     public float reach = 2.0f;
 
     protected Animator _anim;
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
         _anim = gameObject.GetComponent<Animator>();
     }
 
@@ -24,10 +24,12 @@ public class MeleeWeapon : Weapon
         {
             if((target.transform.position - user.transform.position).sqrMagnitude <= reach * reach)
             {
-                DamageReciever.DealDamageToTarget(target, damage, user);
+                DamageReciever.DealDamageToTarget(target, ScaleDamageByCharge(Damage), user);
+                ResetAttackCharge();
                 return true;
             }
         }
+        ResetAttackCharge();
         //If no target found to take damage, return false.
         return false;
     }

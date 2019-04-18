@@ -50,4 +50,6 @@ public class DEBUG_DrawCapsule : MonoBehaviour
         Gizmos.DrawWireSphere(point1, capsule.radius);
         Gizmos.DrawWireSphere(point2, capsule.radius);
     }
+
+
 }

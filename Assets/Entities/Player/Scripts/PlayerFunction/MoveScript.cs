@@ -18,6 +18,7 @@ public class MoveScript : MonoBehaviour
     public float maxSpeed = 10.0f;
     public AnimationCurve groundedAccelCurve;
     public AnimationCurve airborneAccelCurve;
+    public bool UseFriction = true;
     [Range(0, 1)] public float groundedFriction;
     [Range(0, 1)] public float airborneFriction;
     public float sprintMultiplier = 2.0f;
@@ -217,20 +218,22 @@ public class MoveScript : MonoBehaviour
 
         //_rb.velocity -= (_rb.velocity.normalized * moveForce + velocityInInputDirection);
         planarVelocity -= velocityInInputDirection;
-        if(_isGrounded)
+        if (UseFriction)
         {
-            planarVelocity = Vector3.Lerp(Vector3.zero, planarVelocity, groundedFriction);
-        }
-        else
-        {
-            planarVelocity = Vector3.Lerp(Vector3.zero, planarVelocity, airborneFriction);
+            if (_isGrounded)
+            {
+                planarVelocity = Vector3.Lerp(Vector3.zero, planarVelocity, groundedFriction);
+            }
+            else
+            {
+                planarVelocity = Vector3.Lerp(Vector3.zero, planarVelocity, airborneFriction);
+            }
         }
         planarVelocity += velocityInInputDirection + (inputDirection * moveForce * accelMultiplier);
 
         if (_isGrounded)
         {
             _rb.velocity = Vector3.ProjectOnPlane(new Vector3(planarVelocity.x, yForce, planarVelocity.z), _groundContactNormal);
-            
         }
         else
         {
@@ -339,6 +342,23 @@ public class MoveScript : MonoBehaviour
         }
         _remainingCoyoteTime = 0.0f;
         _isGrounded = _shouldBeGrounded;
+    }
+
+    protected Coroutine DisableFrictionRoutine;
+    public virtual void ReactToKnockback(Pawn kbDealer)
+    {
+        if(DisableFrictionRoutine != null)
+        {
+            StopCoroutine(DisableFrictionRoutine);
+        }
+        DisableFrictionRoutine = StartCoroutine(DisableFrictionTemporarily());
+    }
+
+    protected virtual IEnumerator DisableFrictionTemporarily()
+    {
+        UseFriction = false;
+        yield return new WaitForSeconds(1.0f);
+        UseFriction = true;
     }
     #endregion
 

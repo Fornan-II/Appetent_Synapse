@@ -15,8 +15,6 @@ public class ProjectileWeapon : RangedWeapon
 
     public override bool DoAttack(GameObject target, Pawn user)
     {
-        Debug.Log("pew");
-
         if (!ProjectilePrefab)
         {
             Debug.LogWarning("No ProjectilePrefab assigned for " + name);
@@ -42,13 +40,15 @@ public class ProjectileWeapon : RangedWeapon
         if(proj)
         {
             Rigidbody pawnRB = user.GetComponent<Rigidbody>();
-            Vector3 initVelocity = forward * projectileInitSpeed;
+            Vector3 initVelocity = forward * projectileInitSpeed * _attackCharge;
             if (pawnRB)
             {
                 initVelocity += pawnRB.velocity;
             }
-            proj.Initialize(initVelocity, damage, hittable, user, maxRange);
+            proj.Initialize(initVelocity, ScaleDamageByCharge(Damage), hittable, user, maxRange);
         }
+
+        ResetAttackCharge();
 
         return true;
     }

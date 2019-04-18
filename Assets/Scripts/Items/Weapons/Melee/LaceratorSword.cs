@@ -16,8 +16,7 @@ public class LaceratorSword : MeleeWeapon
         PlayerPawn playerUser = user as PlayerPawn;
 
         GameObject target = playerUser.MyInteracter.GetInteractableObject(reach, sensitivity);
-
-        return DoAttack(target, user);
         
+        return DoAttack(target, user);
     }
 }

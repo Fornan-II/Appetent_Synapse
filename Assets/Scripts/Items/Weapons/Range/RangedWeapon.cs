@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class RangedWeapon : Weapon
 {
-    public DamagePacket damage = new DamagePacket(7, 5.0f);
     public float maxRange = 64.0f;
     public LayerMask hittable;
 
     protected Animator _anim;
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
         _anim = gameObject.GetComponent<Animator>();
     }
 
@@ -26,7 +26,7 @@ public class RangedWeapon : Weapon
         RaycastHit hit;
         if(Physics.Raycast(transform.position, transform.forward, out hit, maxRange, hittable, QueryTriggerInteraction.Ignore))
         {
-            DamageReciever.DealDamageToTarget(hit.transform.gameObject, damage, user);
+            DamageReciever.DealDamageToTarget(hit.transform.gameObject, ScaleDamageByCharge(Damage), user);
             return true;
         }
         

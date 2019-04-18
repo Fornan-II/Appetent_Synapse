@@ -59,9 +59,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3083bc9506ec740aee183a88001a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage:
+  Damage:
     HitPoints: 7
     Knockback: 5
+  AttackSpeed: 1
   maxRange: 64
   hittable:
     serializedVersion: 2
