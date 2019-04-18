@@ -6,7 +6,9 @@ public class Projectile : MonoBehaviour
 {
     public const float DefaultMaxTravelDistance = 128.0f;
 
+    public float AfterCollisionLifeTime = -1.0f;
     public bool UseGravity = false;
+    public bool FreezePosition = false;
  
     protected Vector3 _velocity;
     protected DamagePacket _damage;
@@ -32,6 +34,11 @@ public class Projectile : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+        if(FreezePosition)
+        {
+            return;
+        }
+
         if(_distanceTravelled > _maxTravelDistance)
         {
             Destroy(gameObject);
@@ -132,6 +139,11 @@ public class Projectile : MonoBehaviour
     protected virtual void CollideWith(RaycastHit hitInfo)
     {
         DamageReciever.DealDamageToTarget(hitInfo.transform.gameObject, _damage, _source);
-        Destroy(gameObject);
+        if(AfterCollisionLifeTime >= 0)
+        {
+            Destroy(gameObject, AfterCollisionLifeTime);
+        }
+        FreezePosition = true;
+        transform.parent = hitInfo.transform;
     }
 }

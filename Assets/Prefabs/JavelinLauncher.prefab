@@ -63,7 +63,7 @@ MonoBehaviour:
     HitPoints: 7
     Knockback: 5
   AttackSpeed: 1
-  maxRange: 64
+  maxRange: 512
   hittable:
     serializedVersion: 2
     m_Bits: 1843

@@ -5205,7 +5205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage:
     HitPoints: 3
-    Knockback: 5
+    Knockback: 10
   AttackSpeed: 0.6
   reach: 1.5
 --- !u!114 &303107911
@@ -21422,7 +21422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage:
     HitPoints: 3
-    Knockback: 5
+    Knockback: 10
   AttackSpeed: 0.6
   reach: 1.5
 --- !u!114 &1060019689
@@ -24345,7 +24345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage:
     HitPoints: 3
-    Knockback: 5
+    Knockback: 10
   AttackSpeed: 0.6
   reach: 1.5
 --- !u!114 &1164390967
@@ -37175,7 +37175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage:
     HitPoints: 3
-    Knockback: 5
+    Knockback: 10
   AttackSpeed: 0.6
   reach: 1.5
 --- !u!114 &2069211253
