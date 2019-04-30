@@ -25,8 +25,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0
-    height: 0
+    width: 30
+    height: 41
   showEmptySlots: 1
   Label: Root
-  sourceNode: {fileID: 0}
+  sourceNode: {fileID: 11400000, guid: dd89727c87a5c304fb1fb5b99b06a6c0, type: 2}

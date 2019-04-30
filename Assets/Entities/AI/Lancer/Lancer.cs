@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AI;
 using UnityEngine;
 
 public class Lancer : AIPawn
 {
     protected Rigidbody _rb;
+    public float ShootComfortableRange = 15.0f;
     public float ShootMaxRange = 25.0f;
 
     public const string PROPERTY_INRANGE = "InRange";
@@ -12,6 +14,12 @@ public class Lancer : AIPawn
     protected virtual void Start()
     {
         _rb = GetComponent<Rigidbody>();
+    }
+
+    public override void Init(AIController controller)
+    {
+        base.Init(controller);
+        controller.localBlackboard.SetProperty(MoveToTarget.PROPERTY_DESIREDTARGETDISTANCE, ShootComfortableRange);
     }
 
     public virtual void AimAt(Transform target)
@@ -63,10 +71,10 @@ public class Lancer : AIPawn
 
     protected virtual void Update()
     {
-        if(_controller)
+        if (_controller)
         {
             Pawn target = _controller.localBlackboard.GetProperty<Pawn>("target");
-            if(target)
+            if (target)
             {
                 float sqrDistance = (transform.position - target.transform.position).magnitude;
                 bool value = ShootMaxRange * ShootMaxRange > sqrDistance;
@@ -74,4 +82,14 @@ public class Lancer : AIPawn
             }
         }
     }
+
+#if UNITY_EDITOR
+    protected virtual void OnValidate()
+    {
+        if(_controller)
+        {
+            _controller.localBlackboard.SetProperty(MoveToTarget.PROPERTY_DESIREDTARGETDISTANCE, ShootComfortableRange);
+        }
+    }
+#endif
 }

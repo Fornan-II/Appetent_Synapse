@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a3eee2eda2f0a6409b3b8aecf444500, type: 3}
-  m_Name: Leaf 2
+  m_Name: Leaf 3
   m_EditorClassIdentifier: 
   m_Slots:
   - type: 0
@@ -23,10 +23,10 @@ MonoBehaviour:
   style: node
   position:
     serializedVersion: 2
-    x: 300
-    y: 50
+    x: 408
+    y: -24
     width: 22
     height: 41
   showEmptySlots: 1
-  Label: Patrol
-  sourceNode: {fileID: 11400000, guid: c7d844b12cebdda4f9d87e3d5f8931f3, type: 2}
+  Label: Get In Range
+  sourceNode: {fileID: 11400000, guid: bf24bfe66eee6c34282882a060d51fa2, type: 2}

@@ -11,6 +11,7 @@ public class MoveToTarget : Behavior
     public Vector3 pathEndPoint;
 
     protected const float recalculatePathDistance = 5.0f;
+    public const string PROPERTY_DESIREDTARGETDISTANCE = "DesiredDistanceToTarget";
 
     public override void OnEnter(AIController ai)
     {
@@ -31,7 +32,15 @@ public class MoveToTarget : Behavior
     public override void ActiveBehavior(AIController ai)
     {
         bool doPathCalculation = false;
-        if ((ai.transform.position - target.transform.position).sqrMagnitude > recalculatePathDistance * recalculatePathDistance)
+
+        float sqrDistance = (ai.transform.position - target.transform.position).sqrMagnitude;
+
+        if (sqrDistance < ai.localBlackboard.GetProperty<float>(PROPERTY_DESIREDTARGETDISTANCE))
+        {
+            _currentPhase = StatePhase.EXITING;
+            return;
+        }
+        else if (sqrDistance > recalculatePathDistance * recalculatePathDistance)
         {
             doPathCalculation = true;
         }

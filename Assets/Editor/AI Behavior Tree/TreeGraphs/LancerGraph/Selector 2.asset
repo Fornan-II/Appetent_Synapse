@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7420f82977882304695b329d73d1f422, type: 3}
-  m_Name: Selector 1
+  m_Name: Selector 2
   m_EditorClassIdentifier: 
   m_Slots:
   - type: 0
@@ -31,14 +31,14 @@ MonoBehaviour:
   style: node
   position:
     serializedVersion: 2
-    x: 150
-    y: 0
+    x: 264
+    y: -72
     width: 42
     height: 65
   showEmptySlots: 1
-  Label: Aggrod?
-  sourceNode: {fileID: 11400000, guid: 5ce68aa806670ed4ca72cf5ff7ae1dc8, type: 2}
-  PropertyOneToEvaluate: IsAggrod
+  Label: In Range?
+  sourceNode: {fileID: 11400000, guid: 1730a81ded57ca049887d57d527216fa, type: 2}
+  PropertyOneToEvaluate: InRange
   PropertyTwoToEvaluate: true
   PropertyTwoType: 0
   Mode: 4
