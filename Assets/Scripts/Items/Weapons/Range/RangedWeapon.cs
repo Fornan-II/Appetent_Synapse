@@ -6,6 +6,7 @@ public class RangedWeapon : Weapon
 {
     public float maxRange = 64.0f;
     public LayerMask hittable;
+    public Transform barrel;
 
     protected Animator _anim;
 

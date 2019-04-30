@@ -5,7 +5,6 @@ using UnityEngine;
 public class ProjectileWeapon : RangedWeapon
 {
     public GameObject ProjectilePrefab;
-    public Transform barrel;
     public float projectileInitSpeed;
 
     public override bool UseSecondary(Pawn source)
@@ -39,11 +38,14 @@ public class ProjectileWeapon : RangedWeapon
         Projectile proj = spawnedProj.GetComponent<Projectile>();
         if(proj)
         {
-            Rigidbody pawnRB = user.GetComponent<Rigidbody>();
             Vector3 initVelocity = forward * projectileInitSpeed * _attackCharge;
-            if (pawnRB)
+            if (user)
             {
-                initVelocity += pawnRB.velocity;
+                Rigidbody pawnRB = user.GetComponent<Rigidbody>();
+                if (pawnRB)
+                {
+                    initVelocity += pawnRB.velocity;
+                }
             }
             proj.Initialize(initVelocity, ScaleDamageByCharge(Damage), hittable, user, maxRange);
         }
