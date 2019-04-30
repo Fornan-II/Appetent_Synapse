@@ -13,27 +13,14 @@ MonoBehaviour:
   m_Name: LancerGraph
   m_EditorClassIdentifier: 
   nodes:
-  - {fileID: 11400000, guid: e5ab3a0a429c8c1449c5af6b40d91745, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: b097e7f866f45b64a8bb5108051ed714, type: 2}
   edges:
-  - m_FromNode: {fileID: 11400000, guid: e5ab3a0a429c8c1449c5af6b40d91745, type: 2}
-    m_ToNode: {fileID: 0}
-    m_FromSlotName: out
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 0}
-    m_ToNode: {fileID: 0}
+  - m_FromNode: {fileID: 11400000, guid: 92a8436dd8d43204289e5ef0060beadb, type: 2}
+    m_ToNode: {fileID: 11400000, guid: b097e7f866f45b64a8bb5108051ed714, type: 2}
     m_FromSlotName: 'true:'
-    m_ToSlotName: in
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - m_FromNode: {fileID: 0}
-    m_ToNode: {fileID: 0}
-    m_FromSlotName: 'false:'
     m_ToSlotName: in
     color: {r: 1, g: 1, b: 1, a: 1}
   m_InvalidEdges: []
   Tree: {fileID: 11400000, guid: bfa751c1c0b9eab4ea4d8cd24be96f40, type: 2}
-  _rootNode: {fileID: 11400000, guid: e5ab3a0a429c8c1449c5af6b40d91745, type: 2}
+  _rootNode: {fileID: 0}
   graphNodeFolderPath: Assets/Editor/AI Behavior Tree/TreeGraphs/LancerGraph

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lancer : MonoBehaviour
+public class Lancer : AIPawn
 {
-    public ProjectileWeapon weapon;
     protected Rigidbody _rb;
+    public float ShootMaxRange = 25.0f;
+
+    public const string PROPERTY_INRANGE = "InRange";
 
     protected virtual void Start()
     {
@@ -14,69 +16,62 @@ public class Lancer : MonoBehaviour
 
     public virtual void AimAt(Transform target)
     {
+        ProjectileWeapon weapon = null;
+        if (equippedWeapon is ProjectileWeapon)
+        {
+            weapon = equippedWeapon as ProjectileWeapon;
+        }
+
         Vector3 bodyVector = target.position;
         bodyVector.y = transform.position.y;
 
-        DrawPoint(target.position);
         Vector3 targetPos = target.position;
 
-        //Account for gravity
-        Vector3 aimVector = targetPos - weapon.barrel.position;
-        aimVector -= Vector3.Project(aimVector, Physics.gravity);
-        float travelTime = aimVector.magnitude / weapon.projectileInitSpeed;
-
-        //Account for my velocity;
-        if(_rb)
+        if (weapon)
         {
-            targetPos += _rb.velocity * travelTime;
+            //Figure out how long the projectile will be in the air
+            Vector3 aimVector = targetPos;
+            aimVector -= weapon.barrel.position;
+            aimVector -= Vector3.Project(aimVector, Physics.gravity);
+            float travelTime = aimVector.magnitude / weapon.projectileInitSpeed;
+
+            //Account for my velocity
+            if (_rb)
+            {
+                targetPos += _rb.velocity * travelTime;
+            }
+
+            //Account for target velocity
+            Rigidbody targetRB = target.GetComponent<Rigidbody>();
+            if (targetRB)
+            {
+                targetPos += _rb.velocity * travelTime;
+            }
+
+            //Account for gravity
+            targetPos -= Physics.gravity * (travelTime * travelTime);
         }
-
-        //Account for target velocity
-        Rigidbody targetRB = target.GetComponent<Rigidbody>();
-        if(targetRB)
-        {
-            targetPos += _rb.velocity * travelTime;
-        }
-
-        targetPos -= Physics.gravity * (travelTime * travelTime);
-
-        DrawPoint(targetPos, Color.blue);
-        Debug.DrawLine(target.position, targetPos);
 
         //Aim things correctly
         transform.LookAt(bodyVector);
-        weapon.transform.LookAt(targetPos);
-        weapon.barrel.LookAt(targetPos);
+        equippedWeapon.transform.LookAt(targetPos);
+        if (weapon)
+        {
+            weapon.barrel.LookAt(targetPos);
+        }
     }
 
-
-    //EVERYTHING BELOW HERE IS FOR DEBUG PORPOISES
-    //
-    public bool doTheShoots = false;
-    public Transform t;
     protected virtual void Update()
     {
-        if(t)
+        if(_controller)
         {
-            AimAt(t);
+            Pawn target = _controller.localBlackboard.GetProperty<Pawn>("target");
+            if(target)
+            {
+                float sqrDistance = (transform.position - target.transform.position).magnitude;
+                bool value = ShootMaxRange * ShootMaxRange > sqrDistance;
+                _controller.localBlackboard.SetProperty(PROPERTY_INRANGE, value);
+            }
         }
-
-        if(doTheShoots)
-        {
-            doTheShoots = false;
-            weapon.DoAttack(null, null);
-        }
-    }
-
-    void DrawPoint(Vector3 position)
-    {
-        DrawPoint(position, Color.white);
-    }
-
-    void DrawPoint(Vector3 position, Color c)
-    {
-        Debug.DrawRay(position - Vector3.up * 0.25f, Vector3.up * 0.5f, c);
-        Debug.DrawRay(position - Vector3.right * 0.25f, Vector3.right * 0.5f, c);
-        Debug.DrawRay(position - Vector3.forward * 0.25f, Vector3.forward * 0.5f, c);
     }
 }

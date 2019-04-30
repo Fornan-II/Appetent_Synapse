@@ -6,18 +6,42 @@ using AI;
 
 public class RangedAttack : AI.Behavior
 {
+    protected Pawn target;
+    protected Lancer lancerPawn;
+
+    protected const float recalculatePathDistance = 5.0f;
+
     public override void OnEnter(AIController ai)
     {
-        throw new System.NotImplementedException();
+        target = ai.localBlackboard.GetProperty<Pawn>("target");
+        if (target && ai.aiPawn is Lancer && ai.aiPawn.equippedWeapon)
+        {
+            lancerPawn = ai.aiPawn as Lancer;
+
+            _currentPhase = StatePhase.ACTIVE;
+        }
+        else
+        {
+            _currentPhase = StatePhase.INACTIVE;
+        }
     }
 
     public override void ActiveBehavior(AIController ai)
     {
-        throw new System.NotImplementedException();
+        
+        if(!(ai.localBlackboard.GetProperty<bool>(Lancer.PROPERTY_INRANGE) && ai.localBlackboard.GetProperty<bool>(AIPawn.PROPERTY_AGGRO)))
+        {
+            _currentPhase = StatePhase.INACTIVE;
+        }
+        else if(lancerPawn.equippedWeapon.AttackCharge >= 1.0f)
+        {
+            lancerPawn.AimAt(target.transform);
+            lancerPawn.equippedWeapon.DoAttack(target.gameObject, lancerPawn);
+        }
     }
 
     public override void OnExit(AIController ai)
     {
-        throw new System.NotImplementedException();
+        _currentPhase = StatePhase.INACTIVE;
     }
 }

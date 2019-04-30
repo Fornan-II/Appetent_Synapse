@@ -24,6 +24,19 @@ namespace AI
             return null;
         }
 
+        public virtual T GetProperty<T>(string propertyName)
+        {
+            object propValue = GetProperty(propertyName);
+            if (propValue is T)
+            {
+                return (T)propValue;
+            }
+            else
+            {
+                return default(T);
+            }
+        }
+
         public virtual void SetProperty(string propertyName, object value = null)
         {
             if (Properties.ContainsKey(propertyName))
