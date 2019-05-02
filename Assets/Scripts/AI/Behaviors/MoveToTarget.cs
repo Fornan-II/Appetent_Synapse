@@ -16,7 +16,7 @@ public class MoveToTarget : Behavior
     public override void OnEnter(AIController ai)
     {
         Pawn targetPawn = ai.localBlackboard.GetProperty<Pawn>("target");
-        if(target && ai.aiPawn.moveScript)
+        if(targetPawn && ai.aiPawn.moveScript)
         {
             target = targetPawn.transform;
             movement = ai.aiPawn.moveScript;
@@ -34,8 +34,10 @@ public class MoveToTarget : Behavior
         bool doPathCalculation = false;
 
         float sqrDistance = (ai.transform.position - target.transform.position).sqrMagnitude;
+        float desiredTargetDistance = ai.localBlackboard.GetProperty<float>(PROPERTY_DESIREDTARGETDISTANCE);
+        Debug.Log(sqrDistance + " vs " + desiredTargetDistance);
 
-        if (sqrDistance < ai.localBlackboard.GetProperty<float>(PROPERTY_DESIREDTARGETDISTANCE))
+        if (sqrDistance < desiredTargetDistance * desiredTargetDistance)
         {
             _currentPhase = StatePhase.EXITING;
             return;
@@ -62,6 +64,8 @@ public class MoveToTarget : Behavior
         {
             movement.DoMovement = false;
         }
+
+        _currentPhase = StatePhase.INACTIVE;
     }
 
     protected virtual bool SetPathingToTarget()

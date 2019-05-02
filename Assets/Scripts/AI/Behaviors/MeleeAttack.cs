@@ -78,7 +78,7 @@ public class MeleeAttack : Behavior
         {
             return false;
         }
-        Debug.Log("Calculating path to target...");
+        //Debug.Log("Calculating path to target...");
         if (AI.Util.GetPointOnNavMesh(target.transform.position, out pathEndPoint))
         {
             movement.pathToDestination = new List<Vector3>(AI.Util.CalculatePath(movement.transform, pathEndPoint));

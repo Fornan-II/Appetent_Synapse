@@ -76,7 +76,7 @@ public class Lancer : AIPawn
             Pawn target = _controller.localBlackboard.GetProperty<Pawn>("target");
             if (target)
             {
-                float sqrDistance = (transform.position - target.transform.position).magnitude;
+                float sqrDistance = (transform.position - target.transform.position).sqrMagnitude;
                 bool value = ShootMaxRange * ShootMaxRange > sqrDistance;
                 _controller.localBlackboard.SetProperty(PROPERTY_INRANGE, value);
             }
