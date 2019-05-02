@@ -69,8 +69,10 @@ public class Lancer : AIPawn
         }
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {
+        base.Update();
+
         if (_controller)
         {
             Pawn target = _controller.localBlackboard.GetProperty<Pawn>("target");

@@ -12,6 +12,38 @@ public class AIPawn : Pawn
 
     public AIMoveScript moveScript;
 
+    public float AggroTime = 60.0f;
+    [SerializeField]protected float _remainingAggroTime = 0.0f;
+
+    protected virtual void Update()
+    {
+        if (_controller)
+        {
+            bool removeAggro = false;
+
+            if (_remainingAggroTime > 0.0f)
+            {
+                _remainingAggroTime -= Time.deltaTime;
+
+                if (_remainingAggroTime <= 0.0f)
+                {
+                    removeAggro = true;
+                }
+            }
+            if (!_controller.localBlackboard.GetProperty<Pawn>("target") && _controller.localBlackboard.GetProperty<bool>(PROPERTY_AGGRO))
+            {
+                removeAggro = true;
+            }
+
+            if (removeAggro)
+            {
+                _controller.localBlackboard.SetProperty(PROPERTY_AGGRO, false);
+                _controller.localBlackboard.RemoveProperty("target");
+                _controller.InterruptBehavior();
+            }
+        }
+    }
+
     public virtual void Init(AIController controller)
     {
         _controller = controller;
@@ -26,15 +58,14 @@ public class AIPawn : Pawn
             return;
         }
 
-        object currentAggroObj = _controller.localBlackboard.GetProperty(PROPERTY_AGGRO);
-        if (currentAggroObj is bool)
+        _remainingAggroTime = AggroTime;
+
+        bool currentAggro = _controller.localBlackboard.GetProperty<bool>(PROPERTY_AGGRO);
+        if (!currentAggro)
         {
-            if (!(bool)currentAggroObj)
-            {
-                _controller.localBlackboard.SetProperty(PROPERTY_AGGRO, true);
-                _controller.InterruptBehavior();
-                _controller.localBlackboard.SetProperty("target", instigator);
-            }
+            _controller.localBlackboard.SetProperty(PROPERTY_AGGRO, true);
+            _controller.InterruptBehavior();
+            _controller.localBlackboard.SetProperty("target", instigator);
         }
     }
 

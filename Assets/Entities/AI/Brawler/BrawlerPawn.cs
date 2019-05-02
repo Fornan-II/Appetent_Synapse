@@ -15,7 +15,7 @@ public class BrawlerPawn : AIPawn
 
     public virtual void AlertGroupMembers(Pawn instigator)
     {
-        if (_controller.MyGroup)
+        if (_controller.MyGroup && instigator.MyFaction != MyFaction)
         {
             foreach (AIGroupMember groupMember in _controller.MyGroup.Members)
             {

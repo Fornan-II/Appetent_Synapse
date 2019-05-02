@@ -70,6 +70,8 @@ public class MeleeAttack : Behavior
         {
             movement.DoMovement = false;
         }
+
+        _currentPhase = StatePhase.INACTIVE;
     }
 
     protected virtual bool SetPathingToTarget()

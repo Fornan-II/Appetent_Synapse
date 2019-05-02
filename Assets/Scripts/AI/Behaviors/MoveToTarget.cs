@@ -35,7 +35,6 @@ public class MoveToTarget : Behavior
 
         float sqrDistance = (ai.transform.position - target.transform.position).sqrMagnitude;
         float desiredTargetDistance = ai.localBlackboard.GetProperty<float>(PROPERTY_DESIREDTARGETDISTANCE);
-        Debug.Log(sqrDistance + " vs " + desiredTargetDistance);
 
         if (sqrDistance < desiredTargetDistance * desiredTargetDistance)
         {
@@ -74,7 +73,7 @@ public class MoveToTarget : Behavior
         {
             return false;
         }
-        Debug.Log("Calculating path to target...");
+
         if (AI.Util.GetPointOnNavMesh(target.transform.position, out pathEndPoint))
         {
             movement.pathToDestination = new List<Vector3>(AI.Util.CalculatePath(movement.transform, pathEndPoint));
