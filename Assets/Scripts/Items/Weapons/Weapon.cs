@@ -6,7 +6,7 @@ public abstract class Weapon : EquippedHoldableItem
 {
     public DamagePacket Damage;
     public float AttackSpeed = 0.6f;
-    protected float _attackCharge = 0.0f;
+    [SerializeField]protected float _attackCharge = 0.0f;
     public float AttackCharge { get { return _attackCharge; } }
     protected Coroutine _activeAttackChargeRoutine;
 
@@ -25,11 +25,19 @@ public abstract class Weapon : EquippedHoldableItem
 
     protected virtual void ResetAttackCharge()
     {
-        if (_activeAttackChargeRoutine != null)
+        if (AttackSpeed > 0)
         {
-            StopCoroutine(_activeAttackChargeRoutine);
+            if (_activeAttackChargeRoutine != null)
+            {
+                StopCoroutine(_activeAttackChargeRoutine);
+            }
+
+            _activeAttackChargeRoutine = StartCoroutine(RunAttackCharge());
         }
-        _activeAttackChargeRoutine = StartCoroutine(RunAttackCharge());
+        else
+        {
+            _attackCharge = 1.0f;
+        }
     }
 
     protected virtual IEnumerator RunAttackCharge()

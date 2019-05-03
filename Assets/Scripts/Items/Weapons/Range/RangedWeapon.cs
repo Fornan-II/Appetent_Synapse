@@ -27,7 +27,7 @@ public class RangedWeapon : Weapon
         RaycastHit hit;
         if(Physics.Raycast(transform.position, transform.forward, out hit, maxRange, hittable, QueryTriggerInteraction.Ignore))
         {
-            DamageReciever.DealDamageToTarget(hit.transform.gameObject, ScaleDamageByCharge(Damage), user);
+            DamageReciever.DealDamageToTarget(hit.transform.gameObject, ScaleDamageByCharge(Damage), user, hit);
             return true;
         }
         

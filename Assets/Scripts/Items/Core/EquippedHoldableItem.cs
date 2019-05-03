@@ -9,7 +9,7 @@ public class EquippedHoldableItem : MonoBehaviour
         return true;
     }
 
-    public virtual bool UseSecondary(Pawn source)
+    public virtual bool UseSecondary(Pawn source, bool value = true)
     {
         return true;
     }

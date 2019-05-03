@@ -9,11 +9,13 @@ public class Projectile : MonoBehaviour
     public float AfterCollisionLifeTime = -1.0f;
     public bool UseGravity = false;
     public bool FreezePosition = false;
- 
+
+    protected Collider _col;
+    protected TrailRenderer _trail;
+
     protected Vector3 _velocity;
     protected DamagePacket _damage;
     protected LayerMask _hittable;
-    protected Collider _col;
     protected Pawn _source;
     protected float _maxTravelDistance = DefaultMaxTravelDistance;
     protected float _distanceTravelled = 0.0f;
@@ -21,6 +23,7 @@ public class Projectile : MonoBehaviour
     protected virtual void Start()
     {
         _col = GetComponent<Collider>();
+        _trail = GetComponent<TrailRenderer>();
     }
 
     public virtual void Initialize(Vector3 initVelocity, DamagePacket dmg, LayerMask hittable, Pawn source, float maxDistance = DefaultMaxTravelDistance)
@@ -138,12 +141,13 @@ public class Projectile : MonoBehaviour
 
     protected virtual void CollideWith(RaycastHit hitInfo)
     {
-        DamageReciever.DealDamageToTarget(hitInfo.transform.gameObject, _damage, _source);
+        DamageReciever.DealDamageToTarget(hitInfo.transform.gameObject, _damage, _source, hitInfo);
         if(AfterCollisionLifeTime >= 0)
         {
             Destroy(gameObject, AfterCollisionLifeTime);
         }
         FreezePosition = true;
         transform.parent = hitInfo.transform;
+        _trail.enabled = false;
     }
 }

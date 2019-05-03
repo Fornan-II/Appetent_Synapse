@@ -72,6 +72,29 @@ public class AIPawn : Pawn
     public virtual void DeathBehavior(Pawn killer)
     {
         Debug.Log("Ye killed me, " + killer.name);
-        Destroy(gameObject);
+
+        _controller.ProcessTree = false;
+
+        if (moveScript)
+        {
+            moveScript.enabled = false;
+        }
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if(rb)
+        {
+            rb.freezeRotation = false;
+        }
+        DamageReciever dr = GetComponent<DamageReciever>();
+        if(dr)
+        {
+            dr.DamageResistance = 1.0f;
+        }
+        LookAtTarget ls = GetComponent<LookAtTarget>();
+        if(ls)
+        {
+            ls.enabled = false;
+        }
+
+        Destroy(gameObject, 3.0f);
     }
 }

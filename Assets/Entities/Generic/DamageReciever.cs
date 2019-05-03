@@ -49,7 +49,7 @@ public class DamageReciever : MonoBehaviour
         OnKilled.Invoke(killer);
     }
 
-    public static void DealDamageToTarget(GameObject target, DamagePacket dmg, Pawn source)
+    public static void DealDamageToTarget(GameObject target, DamagePacket dmg, Pawn source, RaycastHit? hitInfo = null)
     {
         DamageReciever targetDR = target.GetComponent<DamageReciever>();
         float kbRes = 0.0f;
@@ -65,7 +65,14 @@ public class DamageReciever : MonoBehaviour
             float finalKnockback = Mathf.Max(0.0f, dmg.Knockback * (1.0f - kbRes));
             Vector3 knockbackVector = (targetRB.transform.position - source.transform.position).normalized * finalKnockback;
             knockbackVector.y = finalKnockback * 0.7f;
-            targetRB.AddForce(knockbackVector, ForceMode.Impulse);
+            if (hitInfo.HasValue)
+            {
+                targetRB.AddForceAtPosition(knockbackVector, hitInfo.Value.point, ForceMode.Impulse);
+            }
+            else
+            {
+                targetRB.AddForce(knockbackVector, ForceMode.Impulse);
+            }
         }
     }
 }

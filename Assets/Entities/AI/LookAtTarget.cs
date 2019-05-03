@@ -10,7 +10,7 @@ public class LookAtTarget : MonoBehaviour
     {
         if(moveScript)
         {
-            if(moveScript.pathToDestination.Count > 0)
+            if(moveScript.pathToDestination.Count > 0 && moveScript.DoMovement)
             {
                 Vector3 lookAtTarget = moveScript.pathToDestination[0];
                 lookAtTarget.y = transform.position.y;

@@ -7,9 +7,36 @@ public class ProjectileWeapon : RangedWeapon
     public GameObject ProjectilePrefab;
     public float projectileInitSpeed;
 
-    public override bool UseSecondary(Pawn source)
+    protected bool _previousUseSecondary = false;
+
+    protected override void Start()
     {
-        return DoAttack(null, source);
+        //base.Start();
+    }
+
+    public override bool UseSecondary(Pawn source, bool value)
+    {
+        if(value)
+        {
+            if(_activeAttackChargeRoutine == null && AttackCharge < 1.0f)
+            {
+                ResetAttackCharge();
+            }
+        }
+        else if(_previousUseSecondary)
+        {
+            if(_activeAttackChargeRoutine != null)
+            {
+                StopCoroutine(_activeAttackChargeRoutine);
+                _activeAttackChargeRoutine = null;
+            }
+
+            _previousUseSecondary = value;
+            return DoAttack(null, source);
+        }
+
+        _previousUseSecondary = value;
+        return false;
     }
 
     public override bool DoAttack(GameObject target, Pawn user)
@@ -19,8 +46,6 @@ public class ProjectileWeapon : RangedWeapon
             Debug.LogWarning("No ProjectilePrefab assigned for " + name);
             return false;
         }
-
-        base.DoAttack(target, user);
 
         GameObject spawnedProj;
         Vector3 forward;
@@ -39,18 +64,18 @@ public class ProjectileWeapon : RangedWeapon
         if(proj)
         {
             Vector3 initVelocity = forward * projectileInitSpeed * _attackCharge;
-            if (user)
-            {
-                Rigidbody pawnRB = user.GetComponent<Rigidbody>();
-                if (pawnRB)
-                {
-                    initVelocity += pawnRB.velocity;
-                }
-            }
+            //if (user)
+            //{
+            //    Rigidbody pawnRB = user.GetComponent<Rigidbody>();
+            //    if (pawnRB)
+            //    {
+            //        initVelocity += pawnRB.velocity;
+            //    }
+            //}
             proj.Initialize(initVelocity, ScaleDamageByCharge(Damage), hittable, user, maxRange);
         }
 
-        ResetAttackCharge();
+        _attackCharge = 0.0f;
 
         return true;
     }

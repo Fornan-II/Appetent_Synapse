@@ -8,6 +8,9 @@ public class BrawlerPawn : AIPawn
 {
     public const string PROPERTY_ALERT = "DoAlert";
 
+    public float AlertRadius = 32.0f;
+    public LayerMask FriendlyAlertLayerMask = Physics.AllLayers;
+
     public override void Init(AIController controller)
     {
         base.Init(controller);
@@ -15,13 +18,15 @@ public class BrawlerPawn : AIPawn
 
     public virtual void AlertGroupMembers(Pawn instigator)
     {
-        if (_controller.MyGroup && instigator.MyFaction != MyFaction)
+        if (instigator.MyFaction != MyFaction)
         {
-            foreach (AIGroupMember groupMember in _controller.MyGroup.Members)
+            Collider[] foundColliders = Physics.OverlapSphere(transform.position, AlertRadius, FriendlyAlertLayerMask);
+            foreach(Collider c in foundColliders)
             {
-                if (groupMember != _controller && groupMember is AIController)
+                BrawlerPawn brawler = c.GetComponent<BrawlerPawn>();
+                if (brawler)
                 {
-                    (groupMember as AIController).aiPawn.GiveAggro(instigator);
+                    brawler.GiveAggro(instigator);
                 }
             }
         }

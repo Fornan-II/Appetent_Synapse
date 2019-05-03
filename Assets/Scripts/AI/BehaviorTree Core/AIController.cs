@@ -35,6 +35,7 @@ namespace AI
         public AI.BehaviorTree myTree;
         public AIPawn aiPawn;
         public int treeUpdateInterval = 64;
+        public bool ProcessTree = true;
 
         private int _treeTicks = 0;
 
@@ -58,7 +59,7 @@ namespace AI
             if(behaviorInstance) { debugOutput = behaviorInstance.ToString() + " | " + behaviorInstance.CurrentPhase; }
             else { debugOutput = "null"; }
 
-            if (myTree && (localBlackboard != null))
+            if (myTree && (localBlackboard != null) && ProcessTree)
             {
                 if (_treeTicks <= 0)
                 {

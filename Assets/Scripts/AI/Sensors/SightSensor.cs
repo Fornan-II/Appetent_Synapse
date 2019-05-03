@@ -9,7 +9,6 @@ namespace AI
         public float fieldOfView = 90;
         public float visionDistance = 15.0f;
         public LayerMask layersToCheck = Physics.AllLayers;
-        public Pawn.Faction alertWorthyFaction = Pawn.Faction.PLAYER;
 
         protected virtual void FixedUpdate()
         {
@@ -24,10 +23,7 @@ namespace AI
                     if(Vector3.Angle(transform.forward, vecToTarget) <= fieldOfView * 0.5f)
                     {
                         //If we have gotten this far, then the target is within the sight sensor
-                        if (target.associatedPawn.MyFaction == alertWorthyFaction)
-                        {
-                            Alert(target.associatedPawn);
-                        }
+                        Alert(target.associatedPawn);
                     }
                 }
             }

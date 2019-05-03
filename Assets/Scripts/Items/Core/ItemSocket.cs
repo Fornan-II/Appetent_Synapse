@@ -19,11 +19,11 @@ public class ItemSocket : MonoBehaviour
         return false;
     }
 
-    public virtual bool UseSecondary(Pawn user)
+    public virtual bool UseSecondary(Pawn user, bool value)
     {
         if (EquippedItem)
         {
-            return EquippedItem.UseSecondary(user);
+            return EquippedItem.UseSecondary(user, value);
         }
         return false;
     }

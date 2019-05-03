@@ -74,22 +74,14 @@ public class Inventory : MonoBehaviour
         prevPrimary = value;
         return finalVal;
     }
-
-    bool prevSecondary = false;
+    
     public virtual bool UseEquippedSecondary(bool value, Pawn user)
     {
-        bool finalVal = false;
-
         if (!heldSocket)
         {
-            finalVal = false;
-        }
-        else if (value && !prevSecondary)
-        {
-            finalVal = heldSocket.UseSecondary(user);
+            return false;
         }
 
-        prevSecondary = value;
-        return finalVal;
+        return heldSocket.UseSecondary(user, value);
     }
 }

@@ -63,14 +63,15 @@ MonoBehaviour:
     HitPoints: 7
     Knockback: 5
   AttackSpeed: 1
+  _attackCharge: 0
   maxRange: 512
   hittable:
     serializedVersion: 2
     m_Bits: 1843
+  barrel: {fileID: 1963065425509453471}
   ProjectilePrefab: {fileID: 4221082840121302161, guid: 741c02b64e5055a4bac9ecadf748a7d8,
     type: 3}
-  barrel: {fileID: 1963065425509453471}
-  projectileInitSpeed: 50
+  projectileInitSpeed: 64
 --- !u!1 &1674202861920898535
 GameObject:
   m_ObjectHideFlags: 0
