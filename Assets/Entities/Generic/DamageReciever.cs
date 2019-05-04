@@ -27,25 +27,27 @@ public class DamageReciever : MonoBehaviour
     public PawnEvent OnDamageTaken;
     public PawnEvent OnKilled;
 
-    private void Start()
-    {
-
-    }
-
     public virtual void TakeDamage(float hitPoints, Pawn source)
     {
         //Damage
         int finalHitPoints = Mathf.Max(0, (int)(hitPoints * (1.0f - DamageResistance)));
         OnDamageTaken.Invoke(source);
-        Health -= finalHitPoints;
+        AddHealth(-finalHitPoints);
         if(Health <= 0)
         {
             Die(source);
         }
     }
 
+    public virtual void AddHealth(int value)
+    {
+        Health += value;
+        Health = Mathf.Clamp(Health, 0, MaxHealth);
+    }
+
     public virtual void Die(Pawn killer)
     {
+        killer.OnKill(this);
         OnKilled.Invoke(killer);
     }
 
@@ -74,5 +76,10 @@ public class DamageReciever : MonoBehaviour
                 targetRB.AddForce(knockbackVector, ForceMode.Impulse);
             }
         }
+    }
+
+    public virtual void Reset()
+    {
+        Health = MaxHealth;
     }
 }

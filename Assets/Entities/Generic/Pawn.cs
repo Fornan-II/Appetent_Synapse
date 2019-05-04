@@ -12,4 +12,6 @@ public class Pawn : MonoBehaviour
     public Faction MyFaction;
 
     public Weapon equippedWeapon;
+
+    public virtual void OnKill(DamageReciever victim) { }
 }

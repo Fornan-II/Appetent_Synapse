@@ -8,19 +8,19 @@ namespace AI
     {
         protected virtual void OnCollisionStay(Collision collision)
         {
-            Pawn foundPawn = collision.transform.GetComponent<Pawn>();
-            if(foundPawn)
+            SensorTarget foundTarget = collision.transform.GetComponent<SensorTarget>();
+            if (foundTarget)
             {
-                Alert(foundPawn);
+                Alert(foundTarget.associatedPawn);
             }
         }
 
         protected virtual void OnTriggerStay(Collider other)
         {
-            Pawn foundPawn = other.GetComponent<Pawn>();
-            if (foundPawn)
+            SensorTarget foundTarget = other.GetComponent<SensorTarget>();
+            if (foundTarget)
             {
-                Alert(foundPawn);
+                Alert(foundTarget.associatedPawn);
             }
         }
     }

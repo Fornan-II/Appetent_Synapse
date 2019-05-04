@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.Events;
+
 public class PlayerPawn : Pawn
 {
     public MoveScript MyMoveScript;
@@ -9,7 +11,11 @@ public class PlayerPawn : Pawn
     public Camera MyCamera;
     public Inventory MyInventory;
     public Interacter MyInteracter;
-    
+    public EnergyManager MyEnergyManager;
+    public int OnKillEnergyIncrease = 2;
+
+    public UnityEvent ResetActions;
+
     [HideInInspector]
     public PlayerController MyController;
 
@@ -125,4 +131,19 @@ public class PlayerPawn : Pawn
         MyMoveScript.Crouch(value);
     }
     #endregion
+
+    public override void OnKill(DamageReciever victim)
+    {
+        MyEnergyManager.AddEnergy(OnKillEnergyIncrease);
+    }
+
+    public virtual void OnDeath(Pawn killer)
+    {
+        Reset();
+    }
+
+    public virtual void Reset()
+    {
+        ResetActions.Invoke();
+    }
 }

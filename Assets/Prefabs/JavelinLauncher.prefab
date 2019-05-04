@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage:
-    HitPoints: 7
+    HitPoints: 9
     Knockback: 5
   AttackSpeed: 1
   _attackCharge: 0
@@ -71,7 +71,7 @@ MonoBehaviour:
   barrel: {fileID: 1963065425509453471}
   ProjectilePrefab: {fileID: 4221082840121302161, guid: 741c02b64e5055a4bac9ecadf748a7d8,
     type: 3}
-  projectileInitSpeed: 64
+  projectileInitSpeed: 53
 --- !u!1 &1674202861920898535
 GameObject:
   m_ObjectHideFlags: 0

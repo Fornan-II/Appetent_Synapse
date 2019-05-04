@@ -38,7 +38,6 @@ public class RangedAttack : AI.Behavior
             lancerPawn.AimAt(target.transform);
             //lancerPawn.equippedWeapon.DoAttack(target.gameObject, lancerPawn);
             bool notReadyToFire = lancerPawn.equippedWeapon.AttackCharge < 1.0f;
-            Debug.Log("notReady: " + notReadyToFire);
             lancerPawn.equippedWeapon.UseSecondary(lancerPawn, notReadyToFire);
         }
     }

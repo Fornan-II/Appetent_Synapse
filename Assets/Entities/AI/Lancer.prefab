@@ -284,6 +284,7 @@ MonoBehaviour:
   myTree: {fileID: 11400000, guid: bfa751c1c0b9eab4ea4d8cd24be96f40, type: 2}
   aiPawn: {fileID: 1288368078941635744}
   treeUpdateInterval: 4
+  ProcessTree: 1
   debugOutput: 
 --- !u!114 &1288368078941635745
 MonoBehaviour:
@@ -521,6 +522,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: Damage.HitPoints
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b248f37c112b3e459dc9ccd16aa2e83, type: 3}
