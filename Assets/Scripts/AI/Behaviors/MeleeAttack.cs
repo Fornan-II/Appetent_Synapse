@@ -36,7 +36,7 @@ public class MeleeAttack : Behavior
         //DEBUG LINE DRAWING
         AI.Util.DrawPath(ai.transform.position, movement.pathToDestination, ai.treeUpdateInterval * Time.fixedDeltaTime);
 
-        if(!ai.localBlackboard.GetProperty<bool>(AIPawn.PROPERTY_AGGRO))
+        if (!ai.localBlackboard.GetProperty<bool>(AIPawn.PROPERTY_AGGRO) || target == null)
         {
             _currentPhase = StatePhase.EXITING;
             return;

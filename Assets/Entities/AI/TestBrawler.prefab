@@ -109,7 +109,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: PawnEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   fieldOfView: 90
-  visionDistance: 7
+  visionDistance: 40
   layersToCheck:
     serializedVersion: 2
     m_Bits: 512
@@ -336,7 +336,7 @@ MonoBehaviour:
   moveScript: {fileID: 6485865698544032113}
   AggroTime: 60
   _remainingAggroTime: 0
-  AlertRadius: 32
+  AlertRadius: 62
   FriendlyAlertLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -663,7 +663,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1149591631259316597
 MonoBehaviour:

@@ -142,10 +142,15 @@ public class Projectile : MonoBehaviour
     protected virtual void CollideWith(RaycastHit hitInfo)
     {
         DamageReciever.DealDamageToTarget(hitInfo.transform.gameObject, _damage, _source, hitInfo);
-        if(AfterCollisionLifeTime >= 0)
+        if(AfterCollisionLifeTime > 0 && !hitInfo.transform.GetComponent<ProjectileNonStick>())
         {
             Destroy(gameObject, AfterCollisionLifeTime);
         }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         FreezePosition = true;
         transform.parent = hitInfo.transform;
         _trail.enabled = false;

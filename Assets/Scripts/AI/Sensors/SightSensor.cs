@@ -12,18 +12,24 @@ namespace AI
 
         protected virtual void FixedUpdate()
         {
-            Collider[] foundFiles = Physics.OverlapSphere(transform.position, visionDistance, layersToCheck);
+            Collider[] foundCols = Physics.OverlapSphere(transform.position, visionDistance, layersToCheck);
 
-            foreach(Collider c in foundFiles)
+            foreach(Collider c in foundCols)
             {
                 SensorTarget target = c.GetComponent<SensorTarget>();
+                
                 if(target)
                 {
                     Vector3 vecToTarget = c.transform.position - transform.position;
                     if(Vector3.Angle(transform.forward, vecToTarget) <= fieldOfView * 0.5f)
                     {
-                        //If we have gotten this far, then the target is within the sight sensor
-                        Alert(target.associatedPawn);
+                        int obstacleCount = Physics.RaycastAll(transform.position, vecToTarget, visionDistance, layersToCheck, QueryTriggerInteraction.Ignore).Length;
+                        //Debug.Log("Obstacles to possible target " + target.name + ": " + obstacleCount);
+                        if (obstacleCount <= 1)
+                        {
+                            //If we have gotten this far, then the target is within the sight sensor
+                            Alert(target.associatedPawn);
+                        }
                     }
                 }
             }

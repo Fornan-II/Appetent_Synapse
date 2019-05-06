@@ -71,7 +71,10 @@ public class AIPawn : Pawn
 
     public virtual void DeathBehavior(Pawn killer)
     {
-        Debug.Log("Ye killed me, " + killer.name);
+        if(killer)
+        {
+            Debug.Log("Ye killed me, " + killer.name);
+        }
 
         _controller.ProcessTree = false;
 

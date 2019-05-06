@@ -360,12 +360,6 @@ public class MoveScript : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         UseFriction = true;
     }
-
-    public virtual void Reset()
-    {
-        _rb.velocity = Vector3.zero;
-        _rb.angularVelocity = Vector3.zero;
-    }
     #endregion
 
     #region Audio

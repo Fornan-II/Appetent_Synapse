@@ -14,10 +14,21 @@ public class PlayerPawn : Pawn
     public EnergyManager MyEnergyManager;
     public int OnKillEnergyIncrease = 2;
 
-    public UnityEvent ResetActions;
+    public PlayerController Controller
+    {
+        get;
+        protected set;
+    }
 
-    [HideInInspector]
-    public PlayerController MyController;
+    public virtual void OnStartControlled(PlayerController controller)
+    {
+        Controller = controller;
+    }
+
+    public virtual void OnStopControlled(PlayerController controller)
+    {
+        Controller = null;
+    }
 
     #region Input
     public virtual void PassLockScreen(bool value)
@@ -139,11 +150,22 @@ public class PlayerPawn : Pawn
 
     public virtual void OnDeath(Pawn killer)
     {
-        Reset();
-    }
+        MyMoveScript.enabled = false;
+        MyLookScript.enabled = false;
 
-    public virtual void Reset()
-    {
-        ResetActions.Invoke();
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if(rb)
+        {
+            rb.freezeRotation = false;
+            rb.useGravity = true;
+        }
+
+        Collider col = GetComponent<Collider>();
+        if(col)
+        {
+            col.material = null;
+        }
+        Destroy(gameObject, 7.0f);
+        CheckpointManager.Instance.RespawnPlayer(Controller, 5.0f);
     }
 }

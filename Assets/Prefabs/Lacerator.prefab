@@ -62,7 +62,8 @@ MonoBehaviour:
     HitPoints: 10
     Knockback: 10
   AttackSpeed: 0.6
-  reach: 2
+  _attackCharge: 0
+  reach: 3
   sensitivity: 0.1
 --- !u!1001 &1559659466084246564
 PrefabInstance:

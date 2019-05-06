@@ -33,12 +33,16 @@ public class RangedAttack : AI.Behavior
         {
             _currentPhase = StatePhase.INACTIVE;
         }
-        else
+        else if(target)
         {
             lancerPawn.AimAt(target.transform);
             //lancerPawn.equippedWeapon.DoAttack(target.gameObject, lancerPawn);
             bool notReadyToFire = lancerPawn.equippedWeapon.AttackCharge < 1.0f;
             lancerPawn.equippedWeapon.UseSecondary(lancerPawn, notReadyToFire);
+        }
+        else
+        {
+            _currentPhase = StatePhase.INACTIVE;
         }
     }
 

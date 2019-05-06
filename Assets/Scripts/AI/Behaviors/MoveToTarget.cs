@@ -31,6 +31,12 @@ public class MoveToTarget : Behavior
 
     public override void ActiveBehavior(AIController ai)
     {
+        if(target == null)
+        {
+            _currentPhase = StatePhase.EXITING;
+            return;
+        }
+
         bool doPathCalculation = false;
 
         float sqrDistance = (ai.transform.position - target.transform.position).sqrMagnitude;

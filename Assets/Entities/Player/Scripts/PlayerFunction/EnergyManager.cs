@@ -74,10 +74,4 @@ public class EnergyManager : MonoBehaviour
         _energy += value;
         _energy = Mathf.Clamp(_energy, 0.0f, MaxEnergy + MaxExcessEnergy);
     }
-
-    public virtual void Reset()
-    {
-        _energy = MaxEnergy;
-        _energyTicks = EnergyUpdateInterval;
-    }
 }

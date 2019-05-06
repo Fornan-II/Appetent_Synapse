@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!_controlledPawn) { return; }
 
+        _controlledPawn.OnStartControlled(this);
         _controlledPawn.PassLockScreen(true);
     }
 
@@ -67,6 +68,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!_controlledPawn) { return; }
 
+        ControlledPawn.OnStopControlled(this);
         ControlledPawn.PassLockScreen(false);
     }
     #endregion
