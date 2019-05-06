@@ -160,6 +160,13 @@ public class PlayerPawn : Pawn
             rb.useGravity = true;
         }
 
+        EnergizedDamageReciever edr = GetComponent<EnergizedDamageReciever>();
+        if(edr)
+        {
+            edr.LetHeal = false;
+            edr.enabled = false;
+        }
+
         Collider col = GetComponent<Collider>();
         if(col)
         {

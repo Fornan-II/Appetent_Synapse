@@ -36,6 +36,11 @@ public class CheckpointManager : MonoBehaviour
 
     public virtual void RespawnPlayer(PlayerController player)
     {
+        if(!player)
+        {
+            return;
+        }
+
         if(_lastVisitedCheckPoints.ContainsKey(player))
         {
             _lastVisitedCheckPoints[player].SpawnPlayer(player);

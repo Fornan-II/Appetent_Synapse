@@ -16,7 +16,7 @@ public struct DamagePacket
 
 public class DamageReciever : MonoBehaviour
 {
-    public int Health = 20;
+    [SerializeField]protected int _health = 20;
     public int MaxHealth = 20;
     [Range(0.0f, 1.0f)]
     public float DamageResistance = 0.0f;
@@ -26,10 +26,11 @@ public class DamageReciever : MonoBehaviour
 
     public PawnEvent OnDamageTaken;
     public PawnEvent OnKilled;
+    public IntEvent OnHealthValueChanged;
 
     public virtual void TakeDamage(float hitPoints, Pawn source)
     {
-        if(Health <= 0)
+        if(_health <= 0)
         {
             return;
         }
@@ -38,7 +39,7 @@ public class DamageReciever : MonoBehaviour
         int finalHitPoints = Mathf.Max(0, (int)(hitPoints * (1.0f - DamageResistance)));
         OnDamageTaken.Invoke(source);
         AddHealth(-finalHitPoints);
-        if(Health <= 0)
+        if(_health <= 0)
         {
             Die(source);
         }
@@ -46,8 +47,13 @@ public class DamageReciever : MonoBehaviour
 
     public virtual void AddHealth(int value)
     {
-        Health += value;
-        Health = Mathf.Clamp(Health, 0, MaxHealth);
+        if(value != 0)
+        {
+            _health += value;
+            _health = Mathf.Clamp(_health, 0, MaxHealth);
+
+            OnHealthValueChanged.Invoke(_health);
+        }
     }
 
     public virtual void Die(Pawn killer)

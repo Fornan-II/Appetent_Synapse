@@ -93,21 +93,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 6485865698544032114}
   alertWorthyFaction: 2
-  OnSenseEnemyPawn:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6485865698544032106}
-        m_MethodName: GiveAggro
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: PawnEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   fieldOfView: 90
   visionDistance: 40
   layersToCheck:
@@ -387,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f4059cdbd6aff47bb143082787ae26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 20
+  _health: 20
   MaxHealth: 20
   DamageResistance: 0
   KnockbackResistance: 0.5
@@ -406,7 +391,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 6485865698544032106}
-        m_MethodName: GiveAggro
+        m_MethodName: OnTakeDamage
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -443,6 +428,10 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: PawnEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  OnHealthValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: IntEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &6485865698544032115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,18 +668,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 6485865698544032114}
   alertWorthyFaction: 2
-  OnSenseEnemyPawn:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6485865698544032106}
-        m_MethodName: GiveAggro
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: PawnEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null

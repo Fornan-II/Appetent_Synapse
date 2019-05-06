@@ -8,3 +8,6 @@ public class PawnEvent : UnityEvent<Pawn> { }
 
 [System.Serializable]
 public class EnergyEvent : UnityEvent<EnergyManager> { }
+
+[System.Serializable]
+public class IntEvent : UnityEvent<int> { }

@@ -6,12 +6,13 @@ public class EnergizedDamageReciever : DamageReciever
 {
     protected Coroutine _overHealRoutine;
 
+    public bool LetHeal = true;
     public float ExcessEnergyHealRate = 0.5f;
     public int ExcessEnergyHealCost = 3;
 
     public virtual void OnProcessEnergyEffect(EnergyManager source)
     {
-        if(Health < MaxHealth)
+        if(_health < MaxHealth && LetHeal)
         {
             AddHealth(1);
             source.DrainModifiers.Enqueue(1.0f);
@@ -20,7 +21,7 @@ public class EnergizedDamageReciever : DamageReciever
 
     public virtual void OnProcessExcessEnergy(EnergyManager source)
     {
-        if (_overHealRoutine == null)
+        if (_overHealRoutine == null && LetHeal)
         {
             _overHealRoutine = StartCoroutine(HealFromExcessEnergy(source));
         }
@@ -30,7 +31,7 @@ public class EnergizedDamageReciever : DamageReciever
     {
         int energyTakenWithoutHealing = 0;
         AddHealth(1);
-        while(source.ExcessEnergy > 0.0f && Health < MaxHealth)
+        while(source.ExcessEnergy > 0.0f && _health < MaxHealth && LetHeal)
         {
             if (energyTakenWithoutHealing >= ExcessEnergyHealCost)
             {

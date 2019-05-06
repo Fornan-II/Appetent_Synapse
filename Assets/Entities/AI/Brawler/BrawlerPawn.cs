@@ -26,7 +26,7 @@ public class BrawlerPawn : AIPawn
                 BrawlerPawn brawler = c.GetComponent<BrawlerPawn>();
                 if (brawler)
                 {
-                    brawler.GiveAggro(instigator);
+                    brawler.GiveAggro(instigator, 1);
                 }
             }
         }

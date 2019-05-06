@@ -34,6 +34,7 @@ public class EnergyManager : MonoBehaviour
 
     public EnergyEvent OnProcessEnergyEffect;
     public EnergyEvent OnProcessExcessEnergy;
+    public IntEvent OnEnergyValueChange;
 
     protected virtual void FixedUpdate()
     {
@@ -71,7 +72,12 @@ public class EnergyManager : MonoBehaviour
 
     public virtual void AddEnergy(float value)
     {
-        _energy += value;
-        _energy = Mathf.Clamp(_energy, 0.0f, MaxEnergy + MaxExcessEnergy);
+        if (value != 0)
+        {
+            _energy += value;
+            _energy = Mathf.Clamp(_energy, 0.0f, MaxEnergy + MaxExcessEnergy);
+
+            OnEnergyValueChange.Invoke(Mathf.CeilToInt(_energy));
+        }
     }
 }

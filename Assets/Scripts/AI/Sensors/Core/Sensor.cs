@@ -10,13 +10,11 @@ namespace AI
         public AIController controller;
         public Pawn.Faction alertWorthyFaction = Pawn.Faction.PLAYER;
 
-        public PawnEvent OnSenseEnemyPawn;
-
         public virtual void Alert(Pawn foundPawn)
         {
-            if (foundPawn.MyFaction == alertWorthyFaction)
+            if (foundPawn.MyFaction == alertWorthyFaction && controller.aiPawn)
             {
-                OnSenseEnemyPawn.Invoke(foundPawn);
+                controller.aiPawn.GiveAggro(foundPawn, 1);
             }
         }
     }

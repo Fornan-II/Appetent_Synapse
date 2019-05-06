@@ -7,6 +7,7 @@ using AI;
 public class AIPawn : Pawn
 {
     public const string PROPERTY_AGGRO = "IsAggrod";
+    public const string PROPERTY_AGGROSTRENGTH = "AggroStrength";
 
     protected AIController _controller;
 
@@ -50,7 +51,12 @@ public class AIPawn : Pawn
         _controller.localBlackboard.SetProperty(PROPERTY_AGGRO, false);
     }
 
-    public virtual void GiveAggro(Pawn instigator)
+    public virtual void OnTakeDamage(Pawn instigator)
+    {
+        GiveAggro(instigator, 2);
+    }
+
+    public virtual void GiveAggro(Pawn instigator, int aggroStrength)
     {
         if (!(instigator || _controller))
         {
@@ -61,9 +67,11 @@ public class AIPawn : Pawn
         _remainingAggroTime = AggroTime;
 
         bool currentAggro = _controller.localBlackboard.GetProperty<bool>(PROPERTY_AGGRO);
-        if (!currentAggro)
+        int currentStrength = _controller.localBlackboard.GetProperty<int>(PROPERTY_AGGROSTRENGTH);
+        if (!currentAggro || aggroStrength > currentStrength)
         {
             _controller.localBlackboard.SetProperty(PROPERTY_AGGRO, true);
+            _controller.localBlackboard.SetProperty(PROPERTY_AGGROSTRENGTH, aggroStrength);
             _controller.InterruptBehavior();
             _controller.localBlackboard.SetProperty("target", instigator);
         }

@@ -12,9 +12,11 @@ public class Spawner : MonoBehaviour
     public float maxSpawnTime;
     public int maxNearbySpawn;
 
+    [SerializeField] protected float _delay;
+    protected bool runSpawnTimer = false;
     protected Coroutine SpawnCoroutine;
 
-    public virtual void Spawn(GameObject objToSpawn)
+    public virtual void SpawnEntity(GameObject objToSpawn)
     {
         Vector2 spawnPlanarPosition = Random.insideUnitCircle * (maxSpawnDistance - minSpawnDistance);
         spawnPlanarPosition += spawnPlanarPosition.normalized * minSpawnDistance;
@@ -35,21 +37,33 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    protected virtual void FixedUpdate()
+    protected void LateUpdate()
     {
-        if(SpawnCoroutine == null)
+        if(runSpawnTimer)
         {
-            SpawnCoroutine = StartCoroutine(SpawnAfterDelay());
+            if(_delay <= 0.0f && SpawnCoroutine == null)
+            {
+                SpawnCoroutine = StartCoroutine(TrySpawning());
+                _delay = Random.Range(minSpawnTime, maxSpawnTime);
+            }
+
+            _delay -= Time.deltaTime;
+        }
+
+        runSpawnTimer = false;
+    }
+    
+    protected virtual void OnTriggerStay(Collider other)
+    {
+        if(other.GetComponent<PlayerPawn>())
+        {
+            runSpawnTimer = true;
         }
     }
 
-    protected virtual IEnumerator SpawnAfterDelay()
+    protected virtual IEnumerator TrySpawning()
     {
         GameObject objToSpawn = SpawnPool[Random.Range(0, SpawnPool.Length)];
-        float delay = Random.Range(minSpawnTime, maxSpawnTime);
-
-        Debug.Log("Spawning in " + delay + " seconds");
-        yield return new WaitForSeconds(delay);
 
         AIPawn pawn = objToSpawn.GetComponent<AIPawn>();
         int nearbyOfSameTypeFound = 0;
@@ -90,7 +104,7 @@ public class Spawner : MonoBehaviour
         Debug.Log("Spawning " + numberToSpawn + " " + objToSpawn.name);
         for(int count = 0; count < numberToSpawn; count++)
         {
-            Spawn(objToSpawn);
+            SpawnEntity(objToSpawn);
         }
 
         SpawnCoroutine = null;
