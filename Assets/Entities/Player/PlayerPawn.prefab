@@ -2600,8 +2600,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 20
   MaxHealth: 20
-  DamageResistance: 0
-  KnockbackResistance: 0.5
+  Resistances:
+    GenericResistance: 0
+    ProjectileResistance: 0
+    KnockbackResistance: 0.5
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls:
@@ -2647,6 +2649,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: IntEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  LetHeal: 1
   ExcessEnergyHealRate: 0.5
   ExcessEnergyHealCost: 3
 --- !u!114 &6202548515736239342
@@ -3533,7 +3536,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05, y: 0.5}
   m_AnchorMax: {x: 0.1, y: 0.5}
-  m_AnchoredPosition: {x: -0.45000458, y: 0}
+  m_AnchoredPosition: {x: -0.4500122, y: 0}
   m_SizeDelta: {x: -1, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &546377862819206567

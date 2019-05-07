@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1559659465461946353}
   - component: {fileID: 1559659465461946354}
   - component: {fileID: 1559659465461946355}
+  - component: {fileID: 1632947136011480892}
   m_Layer: 0
   m_Name: Lacerator
   m_TagString: Untagged
@@ -61,10 +62,30 @@ MonoBehaviour:
   Damage:
     HitPoints: 10
     Knockback: 10
+    Type: 0
   AttackSpeed: 0.6
   _attackCharge: 0
   reach: 3
   sensitivity: 0.1
+--- !u!95 &1632947136011480892
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559659465461946356}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c1599a8161029a24496e1a26aa8b2ffc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1559659466084246564
 PrefabInstance:
   m_ObjectHideFlags: 0

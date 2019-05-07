@@ -5845,10 +5845,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f4059cdbd6aff47bb143082787ae26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 20
+  _health: 20
   MaxHealth: 20
-  DamageResistance: 0
-  KnockbackResistance: 0
+  Resistances:
+    GenericResistance: 0
+    ProjectileResistance: 1
+    KnockbackResistance: 0
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -5868,6 +5870,10 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: PawnEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  OnHealthValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: IntEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &7119963311250932312
 MonoBehaviour:
   m_ObjectHideFlags: 0

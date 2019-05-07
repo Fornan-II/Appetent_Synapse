@@ -98,7 +98,7 @@ public class AIPawn : Pawn
         DamageReciever dr = GetComponent<DamageReciever>();
         if(dr)
         {
-            dr.DamageResistance = 1.0f;
+            dr.enabled = false;
         }
         LookAtTarget ls = GetComponent<LookAtTarget>();
         if(ls)

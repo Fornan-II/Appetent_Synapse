@@ -11,11 +11,13 @@ public class ProjectileWeapon : RangedWeapon
 
     protected override void Start()
     {
-        //base.Start();
+        _anim = GetComponent<Animator>();
     }
 
     public override bool UseSecondary(Pawn source, bool value)
     {
+        _anim.SetBool("Charge", value);
+
         if(value)
         {
             if(_activeAttackChargeRoutine == null && AttackCharge < 1.0f)
