@@ -5845,7 +5845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f4059cdbd6aff47bb143082787ae26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 20
+  _health: 40
   MaxHealth: 20
   Resistances:
     GenericResistance: 0
@@ -5888,7 +5888,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpawnPool:
   - {fileID: 6485865698544032104, guid: 2a99891e33908594a8ecfb0b4c638b23, type: 3}
-  minSpawnDistance: 1
+  minSpawnDistance: 1.5
   maxSpawnDistance: 8
   maxGroupSize: 4
   minSpawnTime: 10

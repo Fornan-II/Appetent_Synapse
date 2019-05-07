@@ -93,7 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 6485865698544032114}
   alertWorthyFaction: 2
-  fieldOfView: 90
+  fieldOfView: 120
   visionDistance: 40
   layersToCheck:
     serializedVersion: 2
@@ -374,8 +374,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 20
   MaxHealth: 20
-  DamageResistance: 0
-  KnockbackResistance: 0.5
+  Resistances:
+    GenericResistance: 0
+    ProjectileResistance: 0
+    KnockbackResistance: 0
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls:
@@ -447,6 +449,7 @@ MonoBehaviour:
   Damage:
     HitPoints: 3
     Knockback: 10
+    Type: 0
   AttackSpeed: 0.6
   _attackCharge: 0
   reach: 1.5

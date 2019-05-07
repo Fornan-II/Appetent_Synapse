@@ -106,7 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1288368078941635750}
   alertWorthyFaction: 2
-  fieldOfView: 90
+  fieldOfView: 200
   visionDistance: 16
   layersToCheck:
     serializedVersion: 2
