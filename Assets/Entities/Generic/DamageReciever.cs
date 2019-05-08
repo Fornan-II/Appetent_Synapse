@@ -46,6 +46,7 @@ public class DamageReciever : MonoBehaviour
 {
     [SerializeField]protected int _health = 20;
     public int MaxHealth = 20;
+    public bool IgnoreDamage = false;
 
     public Resistance Resistances = new Resistance(0, 0, 0);
 
@@ -53,9 +54,10 @@ public class DamageReciever : MonoBehaviour
     public PawnEvent OnKilled;
     public IntEvent OnHealthValueChanged;
 
+
     public virtual void TakeDamage(int hitPoints, Pawn source)
     {
-        if(_health <= 0)
+        if(IgnoreDamage)
         {
             return;
         }
@@ -102,11 +104,17 @@ public class DamageReciever : MonoBehaviour
 
     public virtual void Die(Pawn killer)
     {
+        if(IgnoreDamage)
+        {
+            return;
+        }
+
         if(killer)
         {
             killer.OnKill(this);
         }
         OnKilled.Invoke(killer);
+        IgnoreDamage = true;
     }
 
     public static void DealDamageToTarget(GameObject target, DamagePacket dmg, Pawn source, RaycastHit? hitInfo = null)

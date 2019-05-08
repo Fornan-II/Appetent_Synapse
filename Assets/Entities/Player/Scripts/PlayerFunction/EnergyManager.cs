@@ -40,6 +40,11 @@ public class EnergyManager : MonoBehaviour
     {
         if(ProcessEnergy)
         {
+            if (_energy > MaxEnergy)
+            {
+                OnProcessExcessEnergy.Invoke(this);
+            }
+
             if (_energyTicks <= 0)
             {
                 Process();
@@ -53,11 +58,7 @@ public class EnergyManager : MonoBehaviour
     {
         _energy = Mathf.Clamp(_energy, 0.0f, MaxEnergy + MaxExcessEnergy);
 
-        if(_energy > MaxEnergy)
-        {
-            OnProcessExcessEnergy.Invoke(this);
-        }
-        else if(_energy > EnergyEffectThreshold)
+        if(_energy > EnergyEffectThreshold)
         {
             OnProcessEnergyEffect.Invoke(this);
         }

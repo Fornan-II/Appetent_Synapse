@@ -70,6 +70,7 @@ public class Spawner : MonoBehaviour
         bool invalidSpawnConditions = true;
         while(invalidSpawnConditions)
         {
+            nearbyOfSameTypeFound = 0;
             Collider[] foundColliders = Physics.OverlapSphere(transform.position, maxSpawnDistance * 2);
             foreach(Collider col in foundColliders)
             {
@@ -82,6 +83,7 @@ public class Spawner : MonoBehaviour
                     }
                 }
             }
+            //Debug.Log("Found " + nearbyOfSameTypeFound + " nearby " + pawn.GetType());
 
             if(nearbyOfSameTypeFound < maxNearbySpawn || maxNearbySpawn <= 0)
             {
@@ -93,7 +95,7 @@ public class Spawner : MonoBehaviour
                 yield return null;
             }
 
-            Debug.Log("invalidSpawnConditions: " + invalidSpawnConditions);
+            //Debug.Log("invalidSpawnConditions: " + invalidSpawnConditions);
         }
 
         int numberToSpawn = Random.Range(1, maxGroupSize);
@@ -101,7 +103,7 @@ public class Spawner : MonoBehaviour
         {
             numberToSpawn = maxNearbySpawn - nearbyOfSameTypeFound;
         }
-        Debug.Log("Spawning " + numberToSpawn + " " + objToSpawn.name);
+        //Debug.Log("Spawning " + numberToSpawn + " " + objToSpawn.name);
         for(int count = 0; count < numberToSpawn; count++)
         {
             SpawnEntity(objToSpawn);
