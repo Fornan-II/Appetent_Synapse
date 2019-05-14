@@ -233,11 +233,15 @@ public class MoveScript : MonoBehaviour
 
         if (_isGrounded)
         {
-            _rb.velocity = Vector3.ProjectOnPlane(new Vector3(planarVelocity.x, yForce, planarVelocity.z), _groundContactNormal);
+            //_rb.velocity = Vector3.ProjectOnPlane(new Vector3(planarVelocity.x, yForce, planarVelocity.z), _groundContactNormal);
+            Vector3 finalVelocity = Vector3.ProjectOnPlane(new Vector3(planarVelocity.x, yForce, planarVelocity.z), _groundContactNormal) - _rb.velocity;
+            _rb.AddForce(finalVelocity, ForceMode.VelocityChange);
         }
         else
         {
-            _rb.velocity = new Vector3(planarVelocity.x, yForce, planarVelocity.z);
+            //_rb.velocity = new Vector3(planarVelocity.x, yForce, planarVelocity.z);
+            Vector3 finalVelocity = new Vector3(planarVelocity.x, yForce, planarVelocity.z) - _rb.velocity;
+            _rb.AddForce(finalVelocity, ForceMode.VelocityChange);
         }
     }
 

@@ -231,6 +231,7 @@ MonoBehaviour:
   _remainingAggroTime: 0
   ShootComfortableRange: 15
   ShootMaxRange: 25
+  Innacuracy: 1.2
 --- !u!54 &1288368078941635751
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -306,6 +307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 20
   MaxHealth: 20
+  IgnoreDamage: 0
   Resistances:
     GenericResistance: 0
     ProjectileResistance: 0

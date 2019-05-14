@@ -70,7 +70,9 @@ public class AIMoveScript : MonoBehaviour
             newVelocity = newVelocity.normalized * maxMoveSpeed;
             newVelocity.y = _rb.velocity.y;
         }
-        _rb.velocity = newVelocity;
+        //_rb.velocity = newVelocity;
+        newVelocity -= _rb.velocity;
+        _rb.AddForce(newVelocity, ForceMode.VelocityChange);
 
         if(_remainingGiveUpTime <= 0.0f)
         {

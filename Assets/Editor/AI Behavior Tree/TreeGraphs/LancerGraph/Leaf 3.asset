@@ -23,10 +23,10 @@ MonoBehaviour:
   style: node
   position:
     serializedVersion: 2
-    x: 408
-    y: -24
+    x: 450
+    y: 0
     width: 22
     height: 41
   showEmptySlots: 1
-  Label: Get In Range
+  Label: Move to target
   sourceNode: {fileID: 11400000, guid: bf24bfe66eee6c34282882a060d51fa2, type: 2}

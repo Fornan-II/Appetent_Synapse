@@ -34,7 +34,10 @@ namespace AI
 
         public virtual void ForceEndState()
         {
-            _currentPhase = StatePhase.EXITING;
+            if (!(CurrentPhase == StatePhase.EXITING || CurrentPhase == StatePhase.INACTIVE))
+            {
+                _currentPhase = StatePhase.EXITING;
+            }
         }
     }
 }

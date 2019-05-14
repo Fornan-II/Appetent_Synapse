@@ -8,6 +8,7 @@ public class Lancer : AIPawn
     protected Rigidbody _rb;
     public float ShootComfortableRange = 15.0f;
     public float ShootMaxRange = 25.0f;
+    public float Innacuracy = 1.0f;
 
     public const string PROPERTY_INRANGE = "InRange";
 
@@ -65,7 +66,7 @@ public class Lancer : AIPawn
         equippedWeapon.transform.LookAt(targetPos);
         if (weapon)
         {
-            weapon.barrel.LookAt(targetPos);
+            weapon.barrel.LookAt(targetPos + Random.onUnitSphere * Innacuracy);
         }
     }
 

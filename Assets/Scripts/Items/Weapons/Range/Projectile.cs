@@ -33,6 +33,31 @@ public class Projectile : MonoBehaviour
         _hittable = hittable;
         _source = source;
         _maxTravelDistance = maxDistance;
+
+        LineRenderer lr = GetComponent<LineRenderer>();
+        if (lr)
+        {
+            List<Vector3> points = new List<Vector3>();
+            points.Add(transform.position);
+
+            float distTrav = 0.0f;
+            Vector3 startPos = transform.position;
+            Vector3 vel = initVelocity;
+            for (float distance = 0.0f; distance < _maxTravelDistance; distance += distTrav)
+            {
+                vel += Physics.gravity * 0.001f;
+                Vector3 endPos = startPos + vel * 0.001f;
+                distTrav = (endPos - startPos).magnitude;
+
+                //Debug.DrawLine(startPos, endPos, Color.red, 7.0f);
+                points.Add(endPos);
+
+                startPos = endPos;
+            }
+
+            lr.positionCount = points.Count;
+            lr.SetPositions(points.ToArray());
+        }
     }
 
     protected virtual void FixedUpdate()

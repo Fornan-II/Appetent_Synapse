@@ -36,7 +36,7 @@ MonoBehaviour:
     width: 42
     height: 65
   showEmptySlots: 1
-  Label: Aggrod?
+  Label: Am I Angry?
   sourceNode: {fileID: 11400000, guid: 5ce68aa806670ed4ca72cf5ff7ae1dc8, type: 2}
   PropertyOneToEvaluate: IsAggrod
   PropertyTwoToEvaluate: true

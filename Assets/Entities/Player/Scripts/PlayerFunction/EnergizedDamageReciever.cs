@@ -12,7 +12,7 @@ public class EnergizedDamageReciever : DamageReciever
 
     public virtual void OnProcessEnergyEffect(EnergyManager source)
     {
-        Debug.Log("Energy effect");
+        //Debug.Log("Energy effect");
         if(_health < MaxHealth && LetHeal)
         {
             AddHealth(1);
@@ -22,7 +22,7 @@ public class EnergizedDamageReciever : DamageReciever
 
     public virtual void OnProcessExcessEnergy(EnergyManager source)
     {
-        Debug.Log("Process extra...");
+        //Debug.Log("Process extra...");
         if (_overHealRoutine == null && LetHeal)
         {
             _overHealRoutine = StartCoroutine(HealFromExcessEnergy(source));
@@ -31,23 +31,23 @@ public class EnergizedDamageReciever : DamageReciever
 
     IEnumerator HealFromExcessEnergy(EnergyManager source)
     {
-        Debug.Log("heal routine start");
+        //Debug.Log("heal routine start");
         float healInterval = ExcessEnergyHealRate / ExcessEnergyHealCost;
-        Debug.Log("Heal interval: " + healInterval);
-        Debug.Log("Excess: " + source.ExcessEnergy + " | Health: " + _health);
+        //Debug.Log("Heal interval: " + healInterval);
+        //Debug.Log("Excess: " + source.ExcessEnergy + " | Health: " + _health);
 
         AddHealth(1);
         while(source.ExcessEnergy > 0.0f && _health < MaxHealth && LetHeal)
         {
-            Debug.Log("heal tick");
-            Debug.Log("Speed healing");
+            //Debug.Log("heal tick");
+            //Debug.Log("Speed healing");
             AddHealth(1);
             source.AddEnergy(-1);
 
             yield return new WaitForSeconds(healInterval);
         }
 
-        Debug.Log("end heal routine");
+        //Debug.Log("end heal routine");
         _overHealRoutine = null;
     }
 }

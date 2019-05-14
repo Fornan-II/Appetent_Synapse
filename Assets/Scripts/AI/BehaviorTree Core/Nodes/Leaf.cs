@@ -34,8 +34,6 @@ namespace AI
             }
         }
 
-        protected Behavior.StatePhase _previousPhase = Behavior.StatePhase.INACTIVE;
-
         public override bool Process(BehaviorTree tree)
         {
             if(_nodeBehavior == null)
@@ -49,7 +47,7 @@ namespace AI
             {
                 tree.QueueNode(this);
                 tree.currentAI.behaviorInstance = ScriptableObject.CreateInstance(_nodeBehavior.GetType()) as Behavior;
-                _previousPhase = Behavior.StatePhase.INACTIVE;
+                tree.currentAI.previousPhase = Behavior.StatePhase.INACTIVE;
             }
 
             Behavior.StatePhase stateOnProcessing = tree.currentAI.behaviorInstance.CurrentPhase;
@@ -59,7 +57,7 @@ namespace AI
             {
                 case Behavior.StatePhase.ENTERING:
                     {
-                        if (_previousPhase != tree.currentAI.behaviorInstance.CurrentPhase)
+                        if (tree.currentAI.previousPhase != tree.currentAI.behaviorInstance.CurrentPhase)
                         {
                             tree.currentAI.behaviorInstance.OnEnter(tree.currentAI);
                         }
@@ -76,7 +74,7 @@ namespace AI
                     }
                 case Behavior.StatePhase.EXITING:
                     {
-                        if (_previousPhase != tree.currentAI.behaviorInstance.CurrentPhase)
+                        if (tree.currentAI.previousPhase != tree.currentAI.behaviorInstance.CurrentPhase)
                         {
                             tree.currentAI.behaviorInstance.OnExit(tree.currentAI);
                         }
@@ -89,12 +87,12 @@ namespace AI
                 case Behavior.StatePhase.INACTIVE:
                     {
                         Destroy(tree.currentAI.behaviorInstance);
-                        _previousPhase = Behavior.StatePhase.INACTIVE;
+                        tree.currentAI.previousPhase = Behavior.StatePhase.INACTIVE;
                         return true;
                     }
             }
 
-            _previousPhase = stateOnProcessing;
+            tree.currentAI.previousPhase = stateOnProcessing;
             return false;
         }
 

@@ -29,6 +29,7 @@ namespace AI
         }
 
         [HideInInspector] public Behavior behaviorInstance;
+        /*[HideInInspector]*/ public Behavior.StatePhase previousPhase = Behavior.StatePhase.INACTIVE;
         [HideInInspector] public Dictionary<Sequence, int> instanceSequencePositions = new Dictionary<Sequence, int>();
         #endregion
 
@@ -56,13 +57,16 @@ namespace AI
 
         protected virtual void FixedUpdate()
         {
-            if(behaviorInstance) { debugOutput = behaviorInstance.ToString() + " | " + behaviorInstance.CurrentPhase; }
-            else { debugOutput = "null"; }
-
             if (myTree && (localBlackboard != null) && ProcessTree)
             {
                 if (_treeTicks <= 0)
                 {
+                    if (behaviorInstance)
+                    {
+                        debugOutput = behaviorInstance.ToString() + " | " + behaviorInstance.CurrentPhase + " |  prev: " + previousPhase + " | curr: " + behaviorInstance.CurrentPhase;
+                    }
+                    else { debugOutput = "null"; }
+
                     myTree.ProcessTree(this);
                     _treeTicks = treeUpdateInterval;
                 }
