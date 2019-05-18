@@ -267,6 +267,7 @@ MonoBehaviour:
       serializedValues: []
   _myGroup: {fileID: 0}
   behaviorInstance: {fileID: 0}
+  previousPhase: 3
   myTree: {fileID: 11400000, guid: bfa751c1c0b9eab4ea4d8cd24be96f40, type: 2}
   aiPawn: {fileID: 1288368078941635744}
   treeUpdateInterval: 4
@@ -535,6 +536,16 @@ PrefabInstance:
     - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
         type: 3}
       propertyPath: Damage.HitPoints
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: Damage.HitPoints._baseValue
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: Damage.HitPoints._value
       value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []

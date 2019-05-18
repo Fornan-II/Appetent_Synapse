@@ -49,7 +49,7 @@ public abstract class Weapon : EquippedHoldableItem
     protected virtual DamagePacket ScaleDamageByCharge(DamagePacket dmg)
     {
         dmg.HitPoints = Mathf.FloorToInt(dmg.HitPoints * (0.2f + _attackCharge * _attackCharge * 0.8f));
-        dmg.Knockback = dmg.HitPoints * _attackCharge;
+        dmg.Knockback = dmg.Knockback * _attackCharge;
 
         return dmg;
     }
@@ -57,7 +57,7 @@ public abstract class Weapon : EquippedHoldableItem
     protected virtual DamagePacket ScaleDamageByCharge(ModifierDamagePacket dmg)
     {
         int hp = Mathf.FloorToInt(dmg.HitPoints.Value * (0.2f + _attackCharge * _attackCharge * 0.8f));
-        float kb = dmg.HitPoints.Value * _attackCharge;
+        float kb = dmg.Knockback.Value * _attackCharge;
 
         return new DamagePacket(hp, kb, dmg.Type);
     }

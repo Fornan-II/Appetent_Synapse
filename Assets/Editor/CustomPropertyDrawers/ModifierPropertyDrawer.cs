@@ -15,11 +15,17 @@ public class ModifierFloatPropertyDrawer : PropertyDrawer
         int indent = EditorGUI.indentLevel;
         EditorGUI.indentLevel = 0;
 
-        Rect baseValueRect = new Rect(position.x, position.y, position.width / 2.0f - 2.5f, position.height);
-        Rect valueRect = new Rect(position.x + baseValueRect.width + 5, position.y, position.width / 2.0f - 2.5f, position.height);
+        float xPos = position.x;
+        float boxWidth = (position.width - 10.0f) / 3.0f;
 
-        SerializedProperty baseValue = property.FindPropertyRelative("_baseValue");
-        EditorGUI.PropertyField(baseValueRect, baseValue, GUIContent.none);
+        Rect baseValueRect = new Rect(xPos, position.y, boxWidth, position.height);
+        xPos += baseValueRect.width + 5;
+        Rect modeRect = new Rect(xPos, position.y, boxWidth, position.height);
+        xPos += modeRect.width + 5;
+        Rect valueRect = new Rect(xPos, position.y, boxWidth, position.height);
+
+        EditorGUI.PropertyField(baseValueRect, property.FindPropertyRelative("_baseValue"), GUIContent.none);
+        EditorGUI.PropertyField(modeRect, property.FindPropertyRelative("ModifyMode"), GUIContent.none);
         GUI.enabled = false;
         EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("_value"), GUIContent.none);
         GUI.enabled = true;

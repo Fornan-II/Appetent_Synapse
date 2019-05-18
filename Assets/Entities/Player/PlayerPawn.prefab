@@ -182,7 +182,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.95, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -0.45001984, y: 0}
+  m_AnchoredPosition: {x: -0.4500122, y: 0}
   m_SizeDelta: {x: -1, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &450562845968557817
@@ -256,7 +256,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05, y: 0.5}
   m_AnchorMax: {x: 0.1, y: 0.5}
-  m_AnchoredPosition: {x: -0.6500168, y: 0}
+  m_AnchoredPosition: {x: -0.6500244, y: 0}
   m_SizeDelta: {x: -1, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6193718393886572927
@@ -2653,6 +2653,8 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: IntEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   LetHeal: 1
+  MinimumEnergyForHeal: 16
+  BaseHealCost: 1
   ExcessEnergyHealRate: 0.5
   ExcessEnergyHealCost: 3
 --- !u!114 &6202548515736239342
@@ -2670,15 +2672,17 @@ MonoBehaviour:
   _energy: 20
   MaxEnergy: 20
   MaxExcessEnergy: 5
-  EnergyEffectThreshold: 16
   EnergyUpdateInterval: 240
-  BaseDrainRate: 0
+  DrainRate:
+    _baseValue: 0
+    _value: 0
+    ModifyMode: 1
   ProcessEnergy: 1
-  OnProcessEnergyEffect:
+  OnProcessEnergy:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6202548515736239336}
-        m_MethodName: OnProcessEnergyEffect
+        m_MethodName: BaseHeal
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4029,7 +4033,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.25, y: 0.5}
   m_AnchorMax: {x: 0.3, y: 0.5}
-  m_AnchoredPosition: {x: -0.45000076, y: 0}
+  m_AnchoredPosition: {x: -0.44999695, y: 0}
   m_SizeDelta: {x: -1, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1855240894459023507

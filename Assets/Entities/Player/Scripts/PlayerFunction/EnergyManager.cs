@@ -22,17 +22,15 @@ public class EnergyManager : MonoBehaviour
 
     public int MaxEnergy = 20;
     public int MaxExcessEnergy = 5;
-    public int EnergyEffectThreshold = 16;
     public int EnergyUpdateInterval = 240;
 
-    public float BaseDrainRate = 0.0f;
-    public Queue<float> DrainModifiers = new Queue<float>();
+    public Modifier DrainRate = new Modifier(0.0f, Modifier.CalculateMode.ADD);
 
     public bool ProcessEnergy = true;
 
     protected int _energyTicks = 0;
 
-    public EnergyEvent OnProcessEnergyEffect;
+    public EnergyEvent OnProcessEnergy;
     public EnergyEvent OnProcessExcessEnergy;
     public IntEvent OnEnergyValueChange;
 
@@ -57,18 +55,10 @@ public class EnergyManager : MonoBehaviour
     protected virtual void Process()
     {
         _energy = Mathf.Clamp(_energy, 0.0f, MaxEnergy + MaxExcessEnergy);
+        
+        OnProcessEnergy.Invoke(this);
 
-        if(_energy > EnergyEffectThreshold)
-        {
-            OnProcessEnergyEffect.Invoke(this);
-        }
-
-        float drainAmount = BaseDrainRate;
-        while(DrainModifiers.Count > 0)
-        {
-            drainAmount += DrainModifiers.Dequeue();
-        }
-        AddEnergy(-drainAmount);
+        AddEnergy(-DrainRate.Value);
     }
 
     public virtual void AddEnergy(float value)

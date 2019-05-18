@@ -63,10 +63,12 @@ MonoBehaviour:
   Damage:
     HitPoints:
       _baseValue: 9
-      _value: 0
+      _value: 9
+      ModifyMode: 0
     Knockback:
       _baseValue: 5
-      _value: 0
+      _value: 5
+      ModifyMode: 0
     Type: 1
   AttackSpeed: 1
   _attackCharge: 0

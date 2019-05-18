@@ -7,16 +7,22 @@ public class EnergizedDamageReciever : DamageReciever
     protected Coroutine _overHealRoutine;
 
     public bool LetHeal = true;
+    public int MinimumEnergyForHeal = 16;
+    public float BaseHealCost = 1.0f;
     public float ExcessEnergyHealRate = 0.5f;
     public int ExcessEnergyHealCost = 3;
 
-    public virtual void OnProcessEnergyEffect(EnergyManager source)
+    public virtual void BaseHeal(EnergyManager source)
     {
         //Debug.Log("Energy effect");
-        if(_health < MaxHealth && LetHeal)
+        if(_health < MaxHealth && LetHeal && source.Energy >= MinimumEnergyForHeal)
         {
             AddHealth(1);
-            source.DrainModifiers.Enqueue(1.0f);
+            source.DrainRate.SetModifier("baseHealCost", BaseHealCost);
+        }
+        else
+        {
+            source.DrainRate.RemoveModifier("baseHealCost");
         }
     }
 

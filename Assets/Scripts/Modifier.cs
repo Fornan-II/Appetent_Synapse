@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class Modifier : ISerializationCallbackReceiver
 {
-    [SerializeField]protected float _baseValue;
+    [SerializeField] protected float _baseValue;
     public float BaseValue
     {
         get
@@ -18,7 +18,7 @@ public class Modifier : ISerializationCallbackReceiver
         }
     }
 
-    [SerializeField]protected float _value;
+    [SerializeField] protected float _value;
     public float Value
     {
         get
@@ -29,14 +29,22 @@ public class Modifier : ISerializationCallbackReceiver
 
     protected Dictionary<string, float> _modifiers;
 
-    public Modifier(float baseValue)
+    public enum CalculateMode
+    {
+        MULTIPLY,
+        ADD,
+        AVERAGE
+    }
+    public CalculateMode ModifyMode = CalculateMode.MULTIPLY;
+
+    public Modifier(float baseValue, CalculateMode mode = CalculateMode.MULTIPLY)
     {
         _baseValue = baseValue;
         _modifiers = new Dictionary<string, float>();
         RefreshCachedValue();
     }
 
-    public Modifier(float baseValue, Dictionary<string, float> modifiers)
+    public Modifier(float baseValue, Dictionary<string, float> modifiers, CalculateMode mode = CalculateMode.MULTIPLY)
     {
         _baseValue = baseValue;
         _modifiers = modifiers;
@@ -105,15 +113,59 @@ public class Modifier : ISerializationCallbackReceiver
 
     protected virtual void RefreshCachedValue()
     {
-        _value = _baseValue;
-
-        if (_modifiers != null)
+        if (_modifiers == null)
         {
-            foreach (float modifier in _modifiers.Values)
-            {
-                _value *= modifier;
-            }
+            _modifiers = new Dictionary<string, float>();
         }
+
+        switch (ModifyMode)
+        {
+            case CalculateMode.MULTIPLY:
+                {
+                    _value = GetModifiedValueMultiply();
+                    break;
+                }
+            case CalculateMode.ADD:
+                {
+                    _value = GetModifiedValueAdd();
+                    break;
+                }
+            case CalculateMode.AVERAGE:
+                {
+                    _value = GetModifiedValueAverage();
+                    break;
+                }
+            default:
+                {
+                    _value = _baseValue;
+                    break;
+                }
+        }
+    }
+
+    protected virtual float GetModifiedValueMultiply()
+    {
+        float modValue = _baseValue;
+        foreach(float modifier in _modifiers.Values)
+        {
+            modValue *= modifier;
+        }
+        return modValue;
+    }
+
+    protected virtual float GetModifiedValueAdd()
+    {
+        float modValue = _baseValue;
+        foreach (float modifier in _modifiers.Values)
+        {
+            modValue += modifier;
+        }
+        return modValue;
+    }
+
+    protected virtual float GetModifiedValueAverage()
+    {
+        return GetModifiedValueMultiply() / (_modifiers.Count + 1);
     }
 
     #region Serialization
