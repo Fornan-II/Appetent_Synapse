@@ -2390,6 +2390,7 @@ GameObject:
   - component: {fileID: 6202548515736239342}
   - component: {fileID: 6202548515736239343}
   - component: {fileID: 4044289483741582923}
+  - component: {fileID: 9063644861456086522}
   m_Layer: 9
   m_Name: PlayerPawn
   m_TagString: Untagged
@@ -2463,6 +2464,7 @@ MonoBehaviour:
   MyCamera: {fileID: 6202548516247919371}
   MyInventory: {fileID: 6202548515736239315}
   MyInteracter: {fileID: 6202548515736239340}
+  Raycaster: {fileID: 9063644861456086522}
   MyEnergyManager: {fileID: 6202548515736239342}
   OnKillEnergyIncrease: 2
 --- !u!114 &6202548515736239318
@@ -2742,6 +2744,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a53a621a3c78a6a4f9da8084b3c9206d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9063644861456086522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202548515736239317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5190958bb84ef9488a7aa171d758e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sensitivity: 0.003
+  mask:
+    serializedVersion: 2
+    m_Bits: 1041
+  interactBarrel: {fileID: 6202548516247919365}
+  MaxDistance: 100
+  DoRaycast: 1
 --- !u!1 &6202548516233288671
 GameObject:
   m_ObjectHideFlags: 0

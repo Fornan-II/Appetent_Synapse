@@ -22,12 +22,9 @@ public class MeleeWeapon : Weapon
         }
         if (target)
         {
-            if((target.transform.position - user.transform.position).sqrMagnitude <= reach * reach)
-            {
-                DamageReciever.DealDamageToTarget(target, ScaleDamageByCharge(Damage), user);
-                ResetAttackCharge();
-                return true;
-            }
+            DamageReciever.DealDamageToTarget(target, ScaleDamageByCharge(Damage), user);
+            ResetAttackCharge();
+            return true;
         }
         ResetAttackCharge();
         //If no target found to take damage, return false.

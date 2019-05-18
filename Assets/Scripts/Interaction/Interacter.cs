@@ -9,6 +9,7 @@ public class Interacter : MonoBehaviour
     public float InteractionRange;
     public Transform interactBarrel;
 
+    #region Redundant extra raycasting methods - for backup only
     public virtual GameObject GetInteractableObject()
     {
         RaycastHit hitInfo;
@@ -38,10 +39,31 @@ public class Interacter : MonoBehaviour
         }
         return null;
     }
+    #endregion
 
     public virtual void TryToInteract(Pawn source)
     {
-        GameObject foundObject = GetInteractableObject();
+        bool doOwnRaycast = true;
+        GameObject foundObject = null;
+        
+        if(source is PlayerPawn)
+        {
+            PlayerPawn player = source as PlayerPawn;
+            if(player.Raycaster)
+            {
+                if(player.Raycaster.RaycastInfo.DidHit)
+                {
+                    doOwnRaycast = false;
+                    foundObject = player.Raycaster.RaycastInfo.GetHitGameObjectAtRange(InteractionRange);
+                }
+            }
+        }
+
+        if(doOwnRaycast)
+        {
+            foundObject = GetInteractableObject();
+        }
+        
         if(foundObject)
         {
             Interactable foundInteractable = foundObject.GetComponent<Interactable>();

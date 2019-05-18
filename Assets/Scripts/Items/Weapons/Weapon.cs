@@ -19,7 +19,13 @@ public abstract class Weapon : EquippedHoldableItem
 
     protected virtual DamagePacket ScaleDamageByCharge(DamagePacket dmg)
     {
-        dmg.HitPoints = (int)(dmg.HitPoints * _attackCharge);
+        int originalDamage = dmg.HitPoints;
+        //dmg.HitPoints = (int)(dmg.HitPoints * _attackCharge);
+        dmg.HitPoints = Mathf.FloorToInt(dmg.HitPoints * (0.2f + _attackCharge * _attackCharge * 0.8f));
+        dmg.Knockback = dmg.HitPoints * _attackCharge;
+
+        Debug.Log("Scaled " + originalDamage + " to " + dmg.HitPoints);
+
         return dmg;
     }
 

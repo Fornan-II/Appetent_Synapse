@@ -11,6 +11,7 @@ public class PlayerPawn : Pawn
     public Camera MyCamera;
     public Inventory MyInventory;
     public Interacter MyInteracter;
+    public InteractRaycastManager Raycaster;
     public EnergyManager MyEnergyManager;
     public int OnKillEnergyIncrease = 2;
 
