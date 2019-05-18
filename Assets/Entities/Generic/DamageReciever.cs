@@ -64,7 +64,7 @@ public class DamageReciever : MonoBehaviour
     public IntEvent OnHealthValueChanged;
 
     protected Coroutine _IFrameRoutine = null;
-    protected int _dmgToTakeAtIFrameEnd = 0;
+    protected int _dmgTakenForIFrames = 0;
 
     public virtual void TakeDamage(int hitPoints, Pawn source)
     {
@@ -87,12 +87,14 @@ public class DamageReciever : MonoBehaviour
         }
         else if(_IFrameRoutine == null)
         {
-            _dmgToTakeAtIFrameEnd = hitPoints;
+            _dmgTakenForIFrames = hitPoints;
+            AddHealth(-hitPoints);
             _IFrameRoutine = StartCoroutine(RunIFrames());
         }
-        else if(_dmgToTakeAtIFrameEnd < hitPoints)
+        else if(_dmgTakenForIFrames < hitPoints)
         {
-            _dmgToTakeAtIFrameEnd = hitPoints;
+            AddHealth(_dmgTakenForIFrames - hitPoints);
+            _dmgTakenForIFrames = hitPoints;
         }
     }
 
@@ -146,8 +148,7 @@ public class DamageReciever : MonoBehaviour
     protected IEnumerator RunIFrames()
     {
         yield return new WaitForSeconds(IFrameDuration);
-        AddHealth(-_dmgToTakeAtIFrameEnd);
-        _dmgToTakeAtIFrameEnd = 0;
+        _dmgTakenForIFrames = 0;
         _IFrameRoutine = null;
     }
 
