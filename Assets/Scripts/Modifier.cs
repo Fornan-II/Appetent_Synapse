@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class Modifier
+public class Modifier : ISerializationCallbackReceiver
 {
     [SerializeField]protected float _baseValue;
     public float BaseValue
@@ -45,22 +45,18 @@ public class Modifier
 
     public virtual void SetModifier(string key, float value)
     {
-        if (_modifiers == null)
-        {
-            _modifiers = new Dictionary<string, float>();
-        }
+        SetModifierInternal(key, value);
+        RefreshCachedValue();
+    }
 
-        if (_modifiers.ContainsKey(key))
+    public virtual void SetModifiers(Dictionary<string, float> newModifiers)
+    {
+        if (newModifiers.Count > 0)
         {
-            if(_modifiers[key] != value)
+            foreach (KeyValuePair<string, float> pair in newModifiers)
             {
-                _modifiers[key] = value;
-                RefreshCachedValue();
+                SetModifierInternal(pair.Key, pair.Value);
             }
-        }
-        else
-        {
-            _modifiers.Add(key, value);
             RefreshCachedValue();
         }
     }
@@ -87,6 +83,26 @@ public class Modifier
         }
     }
 
+    protected virtual void SetModifierInternal(string key, float value)
+    {
+        if (_modifiers == null)
+        {
+            _modifiers = new Dictionary<string, float>();
+        }
+
+        if (_modifiers.ContainsKey(key))
+        {
+            if (_modifiers[key] != value)
+            {
+                _modifiers[key] = value;
+            }
+        }
+        else
+        {
+            _modifiers.Add(key, value);
+        }
+    }
+
     protected virtual void RefreshCachedValue()
     {
         _value = _baseValue;
@@ -99,4 +115,16 @@ public class Modifier
             }
         }
     }
+
+    #region Serialization
+    public void OnBeforeSerialize()
+    {
+        RefreshCachedValue();
+    }
+
+    public void OnAfterDeserialize()
+    {
+        RefreshCachedValue();
+    }
+    #endregion
 }

@@ -21,6 +21,13 @@ public struct DamagePacket
         Knockback = kb;
         Type = type;
     }
+
+    public DamagePacket(ModifierDamagePacket packet)
+    {
+        HitPoints = Mathf.FloorToInt(packet.HitPoints.Value);
+        Knockback = packet.HitPoints.Value;
+        Type = packet.Type;
+    }
 }
 
 [System.Serializable]

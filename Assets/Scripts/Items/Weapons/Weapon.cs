@@ -2,9 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct ModifierDamagePacket
+{
+    public Modifier HitPoints;
+    public Modifier Knockback;
+    public DamagePacket.DamageType Type;
+
+    public ModifierDamagePacket(Modifier hp, Modifier kb, DamagePacket.DamageType type)
+    {
+        HitPoints = hp;
+        Knockback = kb;
+        Type = type;
+    }
+
+    public ModifierDamagePacket(int hp, float kb, DamagePacket.DamageType type)
+    {
+        HitPoints = new Modifier(hp);
+        Knockback = new Modifier(kb);
+        Type = type;
+    }
+
+    public ModifierDamagePacket(DamagePacket packet)
+    {
+        HitPoints = new Modifier(packet.HitPoints);
+        Knockback = new Modifier(packet.Knockback);
+        Type = packet.Type;
+    }
+}
+
 public abstract class Weapon : EquippedHoldableItem
 {
-    public DamagePacket Damage;
+    public ModifierDamagePacket Damage;
     public float AttackSpeed = 0.6f;
     [SerializeField]protected float _attackCharge = 0.0f;
     public float AttackCharge { get { return _attackCharge; } }
@@ -19,14 +48,18 @@ public abstract class Weapon : EquippedHoldableItem
 
     protected virtual DamagePacket ScaleDamageByCharge(DamagePacket dmg)
     {
-        int originalDamage = dmg.HitPoints;
-        //dmg.HitPoints = (int)(dmg.HitPoints * _attackCharge);
         dmg.HitPoints = Mathf.FloorToInt(dmg.HitPoints * (0.2f + _attackCharge * _attackCharge * 0.8f));
         dmg.Knockback = dmg.HitPoints * _attackCharge;
 
-        Debug.Log("Scaled " + originalDamage + " to " + dmg.HitPoints);
-
         return dmg;
+    }
+
+    protected virtual DamagePacket ScaleDamageByCharge(ModifierDamagePacket dmg)
+    {
+        int hp = Mathf.FloorToInt(dmg.HitPoints.Value * (0.2f + _attackCharge * _attackCharge * 0.8f));
+        float kb = dmg.HitPoints.Value * _attackCharge;
+
+        return new DamagePacket(hp, kb, dmg.Type);
     }
 
     protected virtual void ResetAttackCharge()

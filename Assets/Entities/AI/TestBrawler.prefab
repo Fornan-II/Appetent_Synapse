@@ -299,6 +299,7 @@ MonoBehaviour:
       serializedValues: []
   _myGroup: {fileID: 0}
   behaviorInstance: {fileID: 0}
+  previousPhase: 3
   myTree: {fileID: 11400000, guid: 1bba3eb81d3ef0145b5b0e137b1f7d2a, type: 2}
   aiPawn: {fileID: 6485865698544032106}
   treeUpdateInterval: 4
@@ -374,6 +375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 20
   MaxHealth: 20
+  IgnoreDamage: 0
   Resistances:
     GenericResistance: 0
     ProjectileResistance: 0
@@ -447,8 +449,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage:
-    HitPoints: 3
-    Knockback: 10
+    HitPoints:
+      _baseValue: 3
+      _value: 3
+    Knockback:
+      _baseValue: 10
+      _value: 10
     Type: 0
   AttackSpeed: 0.6
   _attackCharge: 0

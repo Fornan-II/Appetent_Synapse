@@ -60,13 +60,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage:
-    HitPoints: 10
-    Knockback: 10
+    HitPoints:
+      _baseValue: 10
+      _value: 0
+    Knockback:
+      _baseValue: 10
+      _value: 0
     Type: 0
   AttackSpeed: 0.6
   _attackCharge: 0
   reach: 3
-  sensitivity: 0.1
+  SweepAttackRadius: 1
+  SweepAttackDamage:
+    HitPoints: 1
+    Knockback: 3
+    Type: 0
 --- !u!95 &1632947136011480892
 Animator:
   serializedVersion: 3
