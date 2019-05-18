@@ -26,7 +26,6 @@ public struct DamagePacket
 [System.Serializable]
 public struct Resistance
 {
-
     [Range(0.0f, 1.0f)]
     public float GenericResistance;
     [Range(0.0f, 1.0f)]
@@ -44,6 +43,9 @@ public struct Resistance
 
 public class DamageReciever : MonoBehaviour
 {
+    protected const float verticalKnockbackScalar = 0.7f;
+    protected const float IFrameDuration = 0.5f;
+
     [SerializeField]protected int _health = 20;
     public int MaxHealth = 20;
     public bool IgnoreDamage = false;
@@ -54,6 +56,8 @@ public class DamageReciever : MonoBehaviour
     public PawnEvent OnKilled;
     public IntEvent OnHealthValueChanged;
 
+    protected Coroutine _IFrameRoutine = null;
+    protected int _dmgToTakeAtIFrameEnd = 0;
 
     public virtual void TakeDamage(int hitPoints, Pawn source)
     {
@@ -63,10 +67,25 @@ public class DamageReciever : MonoBehaviour
         }
 
         OnDamageTaken.Invoke(source);
-        AddHealth(-hitPoints);
-        if(_health <= 0)
+        if(_health - hitPoints <= 0)
         {
+            AddHealth(-hitPoints);
+            if (_IFrameRoutine != null)
+            {
+                StopCoroutine(_IFrameRoutine);
+            }
+            _IFrameRoutine = null;
+
             Die(source);
+        }
+        else if(_IFrameRoutine == null)
+        {
+            _dmgToTakeAtIFrameEnd = hitPoints;
+            _IFrameRoutine = StartCoroutine(RunIFrames());
+        }
+        else if(_dmgToTakeAtIFrameEnd < hitPoints)
+        {
+            _dmgToTakeAtIFrameEnd = hitPoints;
         }
     }
 
@@ -117,6 +136,14 @@ public class DamageReciever : MonoBehaviour
         IgnoreDamage = true;
     }
 
+    protected IEnumerator RunIFrames()
+    {
+        yield return new WaitForSeconds(IFrameDuration);
+        AddHealth(-_dmgToTakeAtIFrameEnd);
+        _dmgToTakeAtIFrameEnd = 0;
+        _IFrameRoutine = null;
+    }
+
     public static void DealDamageToTarget(GameObject target, DamagePacket dmg, Pawn source, RaycastHit? hitInfo = null)
     {
         DamageReciever targetDR = target.GetComponent<DamageReciever>();
@@ -132,7 +159,7 @@ public class DamageReciever : MonoBehaviour
         {
             float finalKnockback = Mathf.Max(0.0f, dmg.Knockback * (1.0f - kbRes));
             Vector3 knockbackVector = (targetRB.transform.position - source.transform.position).normalized * finalKnockback;
-            knockbackVector.y = finalKnockback * 0.7f;
+            knockbackVector.y = finalKnockback * verticalKnockbackScalar;
             if (hitInfo.HasValue)
             {
                 targetRB.AddForceAtPosition(knockbackVector, hitInfo.Value.point, ForceMode.Impulse);
