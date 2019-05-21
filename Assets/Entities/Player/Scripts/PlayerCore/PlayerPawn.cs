@@ -84,7 +84,7 @@ public class PlayerPawn : Pawn
         MyInventory.UseEquippedSecondary(value >= 0.5f, this);
     }
 
-    public virtual void PassDPadInput(Vector2 value)
+    public virtual void PassScrollInput(float value)
     {
         if(!MyInventory)
         {
@@ -92,7 +92,7 @@ public class PlayerPawn : Pawn
             return;
         }
         
-        MyInventory.ScrollThroughItems(value.x);
+        MyInventory.ScrollThroughItems(value);
     }
     
     public virtual void PassInteractInput(bool value)

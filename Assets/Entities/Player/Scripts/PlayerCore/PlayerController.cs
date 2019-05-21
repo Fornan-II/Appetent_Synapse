@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
         PassLookInput(playerInput.GetLookVector());
         PassPrimaryActionInput(playerInput.GetPrimaryAction());
         PassSecondaryActionInput(playerInput.GetSecondaryAction());
-        PassDPadInput(playerInput.GetDPadInput());
+        PassScrollInput(playerInput.GetScrollInput());
         PassInteractInput(playerInput.GetInteractInput());
         PassJumpInput(playerInput.GetJumpInput());
         PassSprintInput(playerInput.GetSprintInput());
@@ -119,11 +119,11 @@ public class PlayerController : MonoBehaviour
         ControlledPawn.PassSecondaryActionInput(value);
     }
 
-    protected virtual void PassDPadInput(Vector2 value)
+    protected virtual void PassScrollInput(float value)
     {
         if (!ControlledPawn) { return; }
 
-        ControlledPawn.PassDPadInput(value);
+        ControlledPawn.PassScrollInput(value);
     }
 
     protected virtual void PassInteractInput(bool value)

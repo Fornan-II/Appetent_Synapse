@@ -13,9 +13,9 @@ public class InputObject : ScriptableObject
     public string LookVerticalAxis = "Mouse Y";
     public string PrimaryActionAxis;
     public string SecondaryActionAxis;
-    public string DPadHorizontalAxis;
-    public string DPadVerticalAxis;
+    public string Scroll;
     public string InteractButton;
+    public string InventoryButton;
     public string JumpButton = "Jump";
     public string SprintButton;
     public string CrouchButton;
@@ -60,23 +60,27 @@ public class InputObject : ScriptableObject
         return Input.GetAxis(SecondaryActionAxis);
     }
 
-    public Vector2 GetDPadInput()
+    public float GetScrollInput()
     {
-        Vector2 dPadInput = Vector2.zero;
-        if (DPadHorizontalAxis != "")
+        if(Scroll == "")
         {
-            dPadInput.x = Input.GetAxis(DPadHorizontalAxis);
+            return 0.0f;
         }
-        if (DPadVerticalAxis != "")
-        {
-            dPadInput.y = Input.GetAxis(DPadVerticalAxis);
-        }
-        return dPadInput;
+        return Input.GetAxis(Scroll);
     }
 
     public bool GetInteractInput()
     {
         return Input.GetButtonDown(InteractButton);
+    }
+
+    public bool GetInventoryInput()
+    {
+        if(InventoryButton == "")
+        {
+            return false;
+        }
+        return Input.GetButton(InventoryButton);
     }
 
     public bool GetJumpInput()

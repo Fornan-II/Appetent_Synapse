@@ -19,9 +19,9 @@ MonoBehaviour:
   LookVerticalAxis: Mouse Y
   PrimaryActionAxis: ActionPrimary
   SecondaryActionAxis: ActionSecondary
-  DPadHorizontalAxis: Mouse ScrollWheel
-  DPadVerticalAxis: 
+  Scroll: Mouse ScrollWheel
   InteractButton: Interact
+  InventoryButton: Inventory
   JumpButton: Jump
   SprintButton: Sprint
   CrouchButton: Crouch
