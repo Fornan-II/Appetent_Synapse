@@ -163,7 +163,7 @@ public class MoveScript : MonoBehaviour
     #endregion
 
     #region Movement Related Methods
-    protected virtual void UpdateMoveVelocity()
+    protected virtual void UpdateMoveVelocity_OLD()
     {
         Vector2 inputVector = Vector2.zero;
         if (Input.GetKey(KeyCode.W))
@@ -242,6 +242,75 @@ public class MoveScript : MonoBehaviour
             //_rb.velocity = new Vector3(planarVelocity.x, yForce, planarVelocity.z);
             Vector3 finalVelocity = new Vector3(planarVelocity.x, yForce, planarVelocity.z) - _rb.velocity;
             _rb.AddForce(finalVelocity, ForceMode.VelocityChange);
+        }
+    }
+
+    protected virtual void UpdateMoveVelocity()
+    {
+        //Initialize moveVelocity to zero. 
+        Vector3 desiredVelocity = Vector3.zero;
+
+        //Modify input data to remove issue of faster movement on non-axes
+        Vector2 inputVector = Util.VectorInCircleSpace(new Vector2(_forwardVelocity, _strafeVelocity));
+
+        //Apply sprint effects if trying to sprint forwards.
+        if (_isSprinting && _forwardVelocity > 0.0f)
+        {
+            inputVector.x *= sprintMultiplier;
+        }
+
+        //Combine the vectors of transform.forward and tranform.right to find the desired move vector.
+        //Use modified input data stored in _forwardVelocity and _strafeVelocity as the scalars for these vectors, respectively.
+        if (movementRelativeTransform)
+        {
+            Vector3 correctForward = movementRelativeTransform.forward;
+            correctForward.y = 0.0f;
+            correctForward.Normalize();
+            Vector3 correctRight = movementRelativeTransform.right;
+            correctRight.y = 0.0f;
+            correctRight.Normalize();
+
+            desiredVelocity = correctForward * inputVector.x + correctRight * inputVector.y;
+        }
+        else
+        {
+            desiredVelocity = transform.forward * inputVector.x + transform.right * inputVector.y;
+        }
+        desiredVelocity.y = 0.0f;
+
+        //Scale velocity by moveSpeed
+        desiredVelocity *= acceleration;
+
+        //Scale velocity by crouch multiplier if the player is crouching
+        if (_isCrouching)
+        {
+            desiredVelocity *= crouchMultiplier;
+        }
+
+        if (_shouldBeGrounded && !_isJumping)
+        {
+            desiredVelocity.y = _rb.velocity.y;
+            desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, _groundContactNormal);
+            Vector3 newVelocity = Vector3.Lerp(desiredVelocity, _rb.velocity, groundedFriction);
+            _rb.velocity = newVelocity;
+        }
+        else
+        {
+            if (inputVector.sqrMagnitude > float.Epsilon)
+            {
+                desiredVelocity.y = _rb.velocity.y;
+                _rb.velocity = Vector3.Lerp(desiredVelocity, _rb.velocity, airborneFriction);
+            }
+            if (_isJumping)
+            {
+                _rb.velocity = new Vector3(_rb.velocity.x, jumpForce, _rb.velocity.z);
+                _isJumping = false;
+                _isGrounded = false;
+            }
+            else
+            {
+                _rb.velocity += Vector3.down * gravity * Time.fixedDeltaTime;
+            }
         }
     }
 
