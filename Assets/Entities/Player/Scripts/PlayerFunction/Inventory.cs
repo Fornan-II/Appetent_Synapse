@@ -18,7 +18,7 @@ public class Inventory : MonoBehaviour
     {
         if(heldSocket && holdableItems.Count > 0)
         {
-            heldSocket.Equip(holdableItems[selectedHeldItem]);
+            heldSocket.Equip(holdableItems[selectedHeldItem], myPawn);
         }
     }
 
@@ -47,7 +47,7 @@ public class Inventory : MonoBehaviour
                 selectedHeldItem = 0;
             }
 
-            EquippedHoldableItem newItem = heldSocket.Equip(holdableItems[selectedHeldItem]);
+            EquippedHoldableItem newItem = heldSocket.Equip(holdableItems[selectedHeldItem], myPawn);
             if(newItem is Weapon && myPawn)
             {
                 myPawn.equippedWeapon = newItem as Weapon;

@@ -29,11 +29,12 @@ public class ItemSocket : MonoBehaviour
     }
 
     //Returns the gameobject of the item equipped
-    public virtual EquippedHoldableItem Equip(InventoryHoldableItem item)
+    public virtual EquippedHoldableItem Equip(InventoryHoldableItem item, Pawn equipper)
     {
         if(EquippedItem)
         {
             //Maybe just toggle gameObject on and off, instead of instantiating and destroying
+            EquippedItem.OnUnequip(equipper);
             Destroy(EquippedItem.gameObject);
         }
 
@@ -43,6 +44,10 @@ public class ItemSocket : MonoBehaviour
             {
                 GameObject spawnedItem = Instantiate(item.EquippedPrefab, transform);
                 EquippedItem = spawnedItem.GetComponent<EquippedHoldableItem>();
+                if(EquippedItem)
+                {
+                    EquippedItem.OnEquip(equipper);
+                }
             }
         }
 

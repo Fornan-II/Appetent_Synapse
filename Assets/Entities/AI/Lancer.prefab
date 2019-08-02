@@ -226,6 +226,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyFaction: 4
   equippedWeapon: {fileID: 4736098187314550074}
+  defaultBarrel: {fileID: 0}
+  overrideBarrel: 0
   moveScript: {fileID: 1288368078941635745}
   AggroTime: 60
   _remainingAggroTime: 0

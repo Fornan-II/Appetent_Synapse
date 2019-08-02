@@ -13,5 +13,8 @@ public class Pawn : MonoBehaviour
 
     public Weapon equippedWeapon;
 
+    public Transform defaultBarrel;
+    public bool overrideBarrel;
+
     public virtual void OnKill(DamageReciever victim) { }
 }

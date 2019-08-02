@@ -33,4 +33,12 @@ public class RangedWeapon : Weapon
         
         return false;
     }
+
+    public override void OnEquip(Pawn source)
+    {
+        if((source.defaultBarrel && !barrel) || source.overrideBarrel)
+        {
+            barrel = source.defaultBarrel;
+        }
+    }
 }

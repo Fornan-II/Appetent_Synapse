@@ -13,4 +13,7 @@ public class EquippedHoldableItem : MonoBehaviour
     {
         return true;
     }
+
+    public virtual void OnEquip(Pawn source) { }
+    public virtual void OnUnequip(Pawn source) { }
 }
