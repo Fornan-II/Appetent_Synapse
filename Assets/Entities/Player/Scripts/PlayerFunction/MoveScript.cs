@@ -15,10 +15,7 @@ public class MoveScript : MonoBehaviour
     public bool allowJumping = true;
     public bool allowCrouching = true;
     public float acceleration = 1.0f;
-    public float maxSpeed = 10.0f;
-    public AnimationCurve groundedAccelCurve;
-    public AnimationCurve airborneAccelCurve;
-    public bool UseFriction = true;
+    public bool UseFriction = true; //CURRENTLY DOES NOTHING
     [Range(0, 1)] public float groundedFriction;
     [Range(0, 1)] public float airborneFriction;
     public float sprintMultiplier = 2.0f;
@@ -26,19 +23,11 @@ public class MoveScript : MonoBehaviour
     public float crouchRate = 0.2f;
     public float jumpForce = 5.0f;
     public float maxGroundAngle = 45;
+    public float groundStickCheckDistance = 0.5f;
     public float coyoteTimeDuration = 0.1f;
     public float gravity = 20.0f;
     [HideInInspector]
     public bool letBeGrounded = true;
-
-    //Audio sources
-    public AudioSource feetAudio;
-
-    //Audio properties
-    public AudioClip[] footstepSound;
-    public float minFootstepVelocity = 0.01f;
-    public float minFootstepBreak = 0.1f;
-    public float maxFootstepBreak = 2.0f;
     #endregion
 
     #region Pawn Member Variables
@@ -49,6 +38,7 @@ public class MoveScript : MonoBehaviour
     //Internal booleans
     protected bool _isCrouching = false;
     protected bool _isSprinting = false;
+    protected bool _tryingToJump = false;
     protected bool _isJumping = false;
 
     //Grounded-related variables
@@ -58,16 +48,13 @@ public class MoveScript : MonoBehaviour
     protected float _remainingCoyoteTime;
 
     //Movement value storage
-    protected float _forwardVelocity = 1.0f;
-    protected float _strafeVelocity = 1.0f;
+    protected float _forwardVelocity = 0.0f;
+    protected float _strafeVelocity = 0.0f;
 
     //Crouching-related variables
     protected float _playerHeight;
     protected float _playerInitialScale;
     protected float _crouchPercent = 0.0f;
-
-    //Audio related
-    protected bool _footstepAudioCoroutineIsActive = false;
     #endregion
 
     protected virtual void Start()
@@ -89,10 +76,6 @@ public class MoveScript : MonoBehaviour
         //_rb.AddForce(new Vector3(0.0f, -gravity * _rb.mass, 0.0f));
 
         CheckIfGrounded();
-        if (_rb.velocity.sqrMagnitude > minFootstepVelocity && !_footstepAudioCoroutineIsActive && _isGrounded)
-        {
-            StartCoroutine(HandleFootstepAudio());
-        }
         UpdateMoveVelocity();
         HandleCrouching();
     }
@@ -114,7 +97,7 @@ public class MoveScript : MonoBehaviour
     {
         if (value && allowJumping && _isGrounded)
         {
-            _isJumping = true;
+            _tryingToJump = true;
         }
     }
 
@@ -163,88 +146,6 @@ public class MoveScript : MonoBehaviour
     #endregion
 
     #region Movement Related Methods
-    protected virtual void UpdateMoveVelocity_OLD()
-    {
-        Vector2 inputVector = Vector2.zero;
-        if (Input.GetKey(KeyCode.W))
-        {
-            inputVector.y += 1.0f;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            inputVector.y -= 1.0f;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            inputVector.x += -1.0f;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            inputVector.x += 1.0f;
-        }
-        _isJumping = Input.GetKey(KeyCode.Space) && _isGrounded;
-
-        inputVector = Util.VectorInCircleSpace(inputVector);
-        //Vector2 inputVector = Util.VectorInCircleSpace(_strafeVelocity, _forwardVelocity);
-
-        //Initialize base forces
-        float moveForce = Time.fixedDeltaTime * acceleration;
-        Vector3 inputDirection = transform.forward * inputVector.y + transform.right * inputVector.x;
-        Vector3 planarVelocity = _rb.velocity;
-        planarVelocity.y = 0;
-        Vector3 velocityInInputDirection = Vector3.Project(planarVelocity, inputDirection);
-
-        float yForce = GetYForce();
-
-        // T FACTOR
-        //
-        // * Calculate tFactors that will be used
-        float tFactor = Mathf.Clamp01((inputVector.magnitude * velocityInInputDirection.magnitude) / maxSpeed);
-        //
-        //
-
-        //VELOCITY
-        //
-        // * Calculate acceleration using animation curve
-        float accelMultiplier;
-        if (_isGrounded)
-        {
-            accelMultiplier = groundedAccelCurve.Evaluate(tFactor);
-        }
-        else
-        {
-            accelMultiplier = airborneAccelCurve.Evaluate(tFactor);
-        }
-
-        //_rb.velocity -= (_rb.velocity.normalized * moveForce + velocityInInputDirection);
-        planarVelocity -= velocityInInputDirection;
-        if (UseFriction)
-        {
-            if (_isGrounded)
-            {
-                planarVelocity = Vector3.Lerp(Vector3.zero, planarVelocity, groundedFriction);
-            }
-            else
-            {
-                planarVelocity = Vector3.Lerp(Vector3.zero, planarVelocity, airborneFriction);
-            }
-        }
-        planarVelocity += velocityInInputDirection + (inputDirection * moveForce * accelMultiplier);
-
-        if (_isGrounded)
-        {
-            //_rb.velocity = Vector3.ProjectOnPlane(new Vector3(planarVelocity.x, yForce, planarVelocity.z), _groundContactNormal);
-            Vector3 finalVelocity = Vector3.ProjectOnPlane(new Vector3(planarVelocity.x, yForce, planarVelocity.z), _groundContactNormal) - _rb.velocity;
-            _rb.AddForce(finalVelocity, ForceMode.VelocityChange);
-        }
-        else
-        {
-            //_rb.velocity = new Vector3(planarVelocity.x, yForce, planarVelocity.z);
-            Vector3 finalVelocity = new Vector3(planarVelocity.x, yForce, planarVelocity.z) - _rb.velocity;
-            _rb.AddForce(finalVelocity, ForceMode.VelocityChange);
-        }
-    }
-
     protected virtual void UpdateMoveVelocity()
     {
         //Initialize moveVelocity to zero. 
@@ -287,49 +188,55 @@ public class MoveScript : MonoBehaviour
             desiredVelocity *= crouchMultiplier;
         }
 
-        if (_shouldBeGrounded && !_isJumping)
+        //Figure out what velocity the player should be moving at.
+        Vector3 newVelocity;
+        //If the player is grounded and isn't trying to jump, then have them move along the surface they're standing on.
+        //Using _shouldBeGrounded instead of _isGrounded because then the groundContactNormal is accurate.
+        //Else move the player in the air.
+        if (_shouldBeGrounded && !_tryingToJump)
         {
             desiredVelocity.y = _rb.velocity.y;
             desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, _groundContactNormal);
-            Vector3 newVelocity = Vector3.Lerp(desiredVelocity, _rb.velocity, groundedFriction);
-            _rb.velocity = newVelocity;
+            newVelocity = Vector3.Lerp(desiredVelocity, _rb.velocity, groundedFriction);
         }
         else
         {
+            //If the player is trying to move, then move them in the desired direction. Else, keep them going on their current course.
+            //
             if (inputVector.sqrMagnitude > float.Epsilon)
             {
                 desiredVelocity.y = _rb.velocity.y;
-                _rb.velocity = Vector3.Lerp(desiredVelocity, _rb.velocity, airborneFriction);
-            }
-            if (_isJumping)
-            {
-                _rb.velocity = new Vector3(_rb.velocity.x, jumpForce, _rb.velocity.z);
-                _isJumping = false;
-                _isGrounded = false;
+                newVelocity = Vector3.Lerp(desiredVelocity, _rb.velocity, airborneFriction);
             }
             else
             {
-                _rb.velocity += Vector3.down * gravity * Time.fixedDeltaTime;
+                newVelocity = _rb.velocity;
             }
-        }
-    }
+            //
 
-    protected virtual float GetYForce()
-    {
-        if (_isJumping)
-        {
-            _isJumping = false;
-            _isGrounded = false;
-            return jumpForce;
+            //If the player is jumping, then cancel their y velocity and then make them move up at jumpForce. Else, just have gravity effect them.
+            //
+            if (_tryingToJump)
+            {
+                newVelocity.y = jumpForce;
+                _tryingToJump = false;
+                _isGrounded = false;
+                _isJumping = true;
+            }
+            else
+            {
+                newVelocity.y -= gravity * Time.fixedDeltaTime;
+                if (!_isJumping)
+                {
+                    //Going to need something similar to the ground check, but with a different, slightly further, groundCheckDistance
+                    newVelocity = HelpStickToGround(newVelocity);
+                }
+            }
+            //
         }
-        else if (_isGrounded)
-        {
-            return _rb.velocity.y;
-        }
-        else
-        {
-            return _rb.velocity.y + gravity * Time.fixedDeltaTime * -1f;
-        }
+
+        //Apply player's new velocity
+        _rb.AddForce(newVelocity - _rb.velocity, ForceMode.VelocityChange);
     }
 
     //Adjusts player height to reflect crouch state
@@ -347,10 +254,26 @@ public class MoveScript : MonoBehaviour
             _crouchPercent -= Time.fixedDeltaTime * crouchRate;
         }
     }
+
+    protected virtual Vector3 HelpStickToGround(Vector3 moveVector)
+    {
+        Vector3 checkPos = _col.transform.position + _col.center;
+        float checkDist = (_col.height / 2 - _col.radius) * transform.localScale.y + groundStickCheckDistance;
+
+        RaycastHit hitInfo;
+        if(Physics.SphereCast(checkPos, _col.radius, Vector3.down, out hitInfo, checkDist, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+        {
+            if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Stairs") || Vector3.Angle(Vector3.up, _groundContactNormal) <= maxGroundAngle)
+            {
+                moveVector.y = hitInfo.distance * -1;
+            }
+        }
+        
+        return moveVector;
+    }
     #endregion
 
     #region Helper Functions
-
     private void OnDrawGizmos()
     {
         if(!_col) { return; }
@@ -379,6 +302,8 @@ public class MoveScript : MonoBehaviour
         
         if (_shouldBeGrounded)
         {
+            _isJumping = false;
+
             //Debug.DrawRay(hitInfo.point, hitInfo.normal, Color.yellow, 1.0f);
 
             //If ground is too steep (and also not classified as stairs) then the player isn't actually grounded
@@ -429,52 +354,9 @@ public class MoveScript : MonoBehaviour
 
     protected virtual IEnumerator DisableFrictionTemporarily()
     {
-        UseFriction = false;
+        letBeGrounded = false;
         yield return new WaitForSeconds(1.0f);
-        UseFriction = true;
-    }
-    #endregion
-
-    #region Audio
-    //Make the sound play frequently, with a faster velocity meaning a higher frequency. Also the player must be grounded.
-    protected virtual IEnumerator HandleFootstepAudio()
-    {
-        _footstepAudioCoroutineIsActive = true;
-        float activeTimer = minFootstepBreak + 1;
-        float maximumSquareVelocity = maxSpeed * maxSpeed * sprintMultiplier * sprintMultiplier;
-        float timeUntilNextSound;
-
-        if(feetAudio)
-        {
-            do
-            {
-                timeUntilNextSound = Mathf.Lerp(maxFootstepBreak, minFootstepBreak, _rb.velocity.sqrMagnitude / maximumSquareVelocity);
-                if (activeTimer >= timeUntilNextSound)
-                {
-                    if (footstepSound.Length != 0)
-                    {
-                        feetAudio.clip = SelectClipFrom(footstepSound);
-                    }
-                    feetAudio.Play();
-                    activeTimer = 0.0f;
-                }
-                yield return null;
-                activeTimer += Time.deltaTime;
-            } while (_rb.velocity.sqrMagnitude > minFootstepVelocity && _isGrounded);
-        }
-       
-        _footstepAudioCoroutineIsActive = false;
-    }
-
-    AudioClip SelectClipFrom(AudioClip[] arr)
-    {
-        if (arr.Length == 1)
-        {
-            return arr[0];
-        }
-
-        int index = (int)Random.Range(0, arr.Length - 1);
-        return arr[index];
+        letBeGrounded = true;
     }
     #endregion
 }
