@@ -117,7 +117,7 @@ public class PlayerPawn : Pawn
             Debug.LogWarning(name + " is trying to be passed input when it has no MoveScript component assigned!");
             return;
         }
-
+        
         MyMoveScript.Jump(value);
     }
 
@@ -128,7 +128,7 @@ public class PlayerPawn : Pawn
             Debug.LogWarning(name + " is trying to be passed input when it has no MoveScript component assigned!");
             return;
         }
-
+        
         MyMoveScript.Sprint(value);
     }
 

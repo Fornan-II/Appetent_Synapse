@@ -28,6 +28,10 @@ public class MoveScript : MonoBehaviour
     public float gravity = 20.0f;
     [HideInInspector]
     public bool letBeGrounded = true;
+
+    public CameraFX fovManager;
+    public float sprintFOV = 10.0f;
+    public float crouchFOV = 0.0f;
     #endregion
 
     #region Pawn Member Variables
@@ -95,6 +99,7 @@ public class MoveScript : MonoBehaviour
     //Make the player jump
     public virtual void Jump(bool value)
     {
+        Debug.Log("Space: " + value);
         if (value && allowJumping && _isGrounded)
         {
             _tryingToJump = true;
@@ -107,10 +112,18 @@ public class MoveScript : MonoBehaviour
         if (value && allowSprinting && !_isCrouching)
         {
             _isSprinting = true;
+            if(fovManager)
+            {
+                fovManager.FOV.SetModifier("sprinting", sprintFOV);
+            }
         }
         else
         {
             _isSprinting = false;
+            if (fovManager)
+            {
+                fovManager.FOV.RemoveModifier("sprinting");
+            }
         }
     }
 
@@ -141,6 +154,18 @@ public class MoveScript : MonoBehaviour
         else if (value)
         {
             _isCrouching = true;
+        }
+
+        if(fovManager)
+        {
+            if(_isCrouching)
+            {
+                fovManager.FOV.SetModifier("crouching", crouchFOV);
+            }
+            else
+            {
+                fovManager.FOV.RemoveModifier("crouching");
+            }
         }
     }
     #endregion

@@ -37,10 +37,14 @@ public class Modifier : ISerializationCallbackReceiver
     }
     public CalculateMode ModifyMode = CalculateMode.MULTIPLY;
 
+    public delegate void EventHandler();
+    public event EventHandler OnValueChanged;
+
     public Modifier(float baseValue, CalculateMode mode = CalculateMode.MULTIPLY)
     {
         _baseValue = baseValue;
         _modifiers = new Dictionary<string, float>();
+        ModifyMode = mode;
         RefreshCachedValue();
     }
 
@@ -48,6 +52,7 @@ public class Modifier : ISerializationCallbackReceiver
     {
         _baseValue = baseValue;
         _modifiers = modifiers;
+        ModifyMode = mode;
         RefreshCachedValue();
     }
 
@@ -118,6 +123,8 @@ public class Modifier : ISerializationCallbackReceiver
             _modifiers = new Dictionary<string, float>();
         }
 
+        float oldValue = _value;
+
         switch (ModifyMode)
         {
             case CalculateMode.MULTIPLY:
@@ -140,6 +147,11 @@ public class Modifier : ISerializationCallbackReceiver
                     _value = _baseValue;
                     break;
                 }
+        }
+
+        if(_value != oldValue && OnValueChanged != null)
+        {
+            OnValueChanged();
         }
     }
 

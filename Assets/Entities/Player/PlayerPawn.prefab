@@ -2528,6 +2528,9 @@ MonoBehaviour:
   coyoteTimeDuration: 0.1
   gravity: 20
   letBeGrounded: 1
+  fovManager: {fileID: 361469834497365025}
+  sprintFOV: 10
+  crouchFOV: 0
   _isGrounded: 0
 --- !u!114 &6202548515736239315
 MonoBehaviour:
@@ -2836,6 +2839,7 @@ GameObject:
   - component: {fileID: 6202548516247919364}
   - component: {fileID: 6202548516247919366}
   - component: {fileID: 6202548516247919367}
+  - component: {fileID: 361469834497365025}
   m_Layer: 9
   m_Name: Camera
   m_TagString: Untagged
@@ -2990,6 +2994,24 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &361469834497365025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202548516247919370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324254f39a34ab649992f2adbc1f168b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 6202548516247919371}
+  _FOV:
+    _baseValue: 80
+    _value: 80
+    ModifyMode: 1
+  FOVBlendTime: 0.2
 --- !u!1 &6658636769126000576
 GameObject:
   m_ObjectHideFlags: 0
