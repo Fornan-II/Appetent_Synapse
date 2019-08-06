@@ -99,7 +99,6 @@ public class MoveScript : MonoBehaviour
     //Make the player jump
     public virtual void Jump(bool value)
     {
-        Debug.Log("Space: " + value);
         if (value && allowJumping && _isGrounded)
         {
             _tryingToJump = true;
