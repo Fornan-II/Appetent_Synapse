@@ -142,6 +142,17 @@ public class PlayerPawn : Pawn
         
         MyMoveScript.Crouch(value);
     }
+
+    public virtual void PassRadialMenu(bool value)
+    {
+        if(!MyInventory)
+        {
+            Debug.LogWarning(name + " is trying to be passed input when it has no Inventory component assigned!");
+            return;
+        }
+
+        MyInventory.SetRadialMenuVisible(value);
+    }
     #endregion
 
     public override void OnKill(DamageReciever victim)

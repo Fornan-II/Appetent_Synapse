@@ -28,47 +28,42 @@ public class EnergyManager : MonoBehaviour
 
     public bool ProcessEnergy = true;
 
-    protected int _energyTicks = 0;
-
     public EnergyEvent OnProcessEnergy;
-    public EnergyEvent OnProcessExcessEnergy;
     public IntEvent OnEnergyValueChange;
 
     protected virtual void FixedUpdate()
     {
         if(ProcessEnergy)
         {
-            if (_energy > MaxEnergy)
-            {
-                OnProcessExcessEnergy.Invoke(this);
-            }
-
-            if (_energyTicks <= 0)
-            {
-                Process();
-                _energyTicks = EnergyUpdateInterval;
-            }
-            _energyTicks--;
+            Process(Time.fixedDeltaTime);
         }
     }
 
-    protected virtual void Process()
+    protected virtual void Process(float deltaTime)
     {
         _energy = Mathf.Clamp(_energy, 0.0f, MaxEnergy + MaxExcessEnergy);
-        
-        OnProcessEnergy.Invoke(this);
 
-        AddEnergy(-DrainRate.Value);
+        float energyDrained = DrainRate.Value * deltaTime;
+
+        OnProcessEnergy.Invoke(this, energyDrained);
+
+        AddEnergy(-energyDrained);
     }
 
     public virtual void AddEnergy(float value)
     {
         if (value != 0)
         {
+            int oldEnergy = Mathf.CeilToInt(_energy);
+
             _energy += value;
             _energy = Mathf.Clamp(_energy, 0.0f, MaxEnergy + MaxExcessEnergy);
 
-            OnEnergyValueChange.Invoke(Mathf.CeilToInt(_energy));
+            int newEnergy = Mathf.CeilToInt(_energy);
+            if (newEnergy != oldEnergy)
+            {
+                OnEnergyValueChange.Invoke(newEnergy);
+            }
         }
     }
 }

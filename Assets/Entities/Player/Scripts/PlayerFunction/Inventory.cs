@@ -10,7 +10,12 @@ public class Inventory : MonoBehaviour
     public int selectedHeldItem = 0;
     public ItemSocket heldSocket;
 
-    public List<Augment> augments;
+    public RadialMenu augmentMenu;
+    [SerializeField]protected List<Augment> _augments;
+    public List<Augment> Augments
+    {
+        get { return _augments; }
+    }
 
     protected float _previousValue = 0.0f;
 
@@ -84,4 +89,44 @@ public class Inventory : MonoBehaviour
 
         return heldSocket.UseSecondary(user, value);
     }
+
+    public void SetRadialMenuVisible(bool value)
+    {
+        if (myPawn is PlayerPawn)
+        {
+            if (value)
+            {
+                ((PlayerPawn)myPawn).PassLockScreen(false);
+            }
+            else if (augmentMenu.gameObject.activeSelf)
+            {
+                ((PlayerPawn)myPawn).PassLockScreen(true);
+            }
+
+            augmentMenu.gameObject.SetActive(value);
+        }
+    }
+
+    public void AddSwappableAugment(Augment aug)
+    {
+        _augments.Add(aug);
+        augmentMenu.AddItem(aug);
+    }
+    public void RemoveSwappableAugment(Augment aug)
+    {
+        _augments.Remove(aug);
+        augmentMenu.RemoveItem(aug);
+    }
+    public void SetSwappableAugments(Augment[] augs)
+    {
+        _augments = new List<Augment>(augs);
+        augmentMenu.SetItems(_augments.ToArray());
+    }
+
+#if UNITY_EDITOR
+    protected virtual void OnValidate()
+    {
+        augmentMenu.SetItems(_augments.ToArray());
+    }
+#endif
 }

@@ -32,6 +32,10 @@ public class MoveScript : MonoBehaviour
     public CameraFX fovManager;
     public float sprintFOV = 10.0f;
     public float crouchFOV = 0.0f;
+
+    public EnergyManager energySource;
+    public float sprintEnergyCost = 0.0125f;
+    public int minimumSprintEnergy = 7;
     #endregion
 
     #region Pawn Member Variables
@@ -111,18 +115,10 @@ public class MoveScript : MonoBehaviour
         if (value && allowSprinting && !_isCrouching)
         {
             _isSprinting = true;
-            if(fovManager)
-            {
-                fovManager.FOV.SetModifier("sprinting", sprintFOV);
-            }
         }
         else
         {
             _isSprinting = false;
-            if (fovManager)
-            {
-                fovManager.FOV.RemoveModifier("sprinting");
-            }
         }
     }
 
@@ -179,9 +175,33 @@ public class MoveScript : MonoBehaviour
         Vector2 inputVector = Util.VectorInCircleSpace(new Vector2(_forwardVelocity, _strafeVelocity));
 
         //Apply sprint effects if trying to sprint forwards.
+        if(energySource)
+        {
+            _isSprinting = energySource.Energy >= minimumSprintEnergy && _isSprinting;
+        }
         if (_isSprinting && _forwardVelocity > 0.0f)
         {
             inputVector.x *= sprintMultiplier;
+
+            if (fovManager)
+            {
+                fovManager.FOV.SetModifier("sprinting", sprintFOV);
+            }
+            if(energySource)
+            {
+                energySource.DrainRate.SetModifier("sprinting", sprintEnergyCost);
+            }
+        }
+        else
+        {
+            if (fovManager)
+            {
+                fovManager.FOV.RemoveModifier("sprinting");
+            }
+            if(energySource)
+            {
+                energySource.DrainRate.RemoveModifier("sprinting");
+            }
         }
 
         //Combine the vectors of transform.forward and tranform.right to find the desired move vector.

@@ -2,7 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Augment : MonoBehaviour
+[CreateAssetMenu(fileName = "New Augment", menuName = "Augment")]
+public class Augment : ScriptableObject, IRadialSelectable
 {
-    public abstract void ApplyEffect(Pawn user);
+    public bool IsActive = false;
+    [SerializeField] protected Sprite _radialIcon;
+
+    public Sprite GetIcon()
+    {
+        return _radialIcon;
+    }
+
+    public void Select(bool value)
+    {
+        IsActive = value;
+    }
+
+    public void Use(PlayerPawn user)
+    {
+
+    }
 }

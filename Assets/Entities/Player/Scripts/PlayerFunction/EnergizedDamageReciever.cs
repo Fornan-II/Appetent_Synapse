@@ -4,56 +4,39 @@ using UnityEngine;
 
 public class EnergizedDamageReciever : DamageReciever
 {
-    protected Coroutine _overHealRoutine;
-
     public bool LetHeal = true;
     public int MinimumEnergyForHeal = 16;
     public float BaseHealCost = 1.0f;
-    public float ExcessEnergyHealRate = 0.5f;
-    public int ExcessEnergyHealCost = 3;
+    public float ExcessEnergyHealCost = 3.0f;
 
-    public virtual void BaseHeal(EnergyManager source)
-    {
-        //Debug.Log("Energy effect");
+    protected float _energyDrainedSinceLastHeal = 0.0f;
+
+    public virtual void OnEnergyProcess(EnergyManager source, float energyDrained)
+    {   
         if(_health < MaxHealth && LetHeal && source.Energy >= MinimumEnergyForHeal)
         {
-            AddHealth(1);
-            source.DrainRate.SetModifier("baseHealCost", BaseHealCost);
+            _energyDrainedSinceLastHeal += energyDrained;
+
+            if(source.ExcessEnergy > 0.0f)
+            {
+                source.DrainRate.SetModifier("healCost", ExcessEnergyHealCost);
+            }
+            else
+            {
+                source.DrainRate.SetModifier("healCost", BaseHealCost);
+                
+            }
+
+            if (_energyDrainedSinceLastHeal >= 1.0f)
+            {
+                AddHealth(1);
+                _energyDrainedSinceLastHeal = 0.0f;
+            }
         }
         else
         {
-            source.DrainRate.RemoveModifier("baseHealCost");
+            source.DrainRate.RemoveModifier("healCost");
+            _energyDrainedSinceLastHeal = 0.0f;
         }
-    }
-
-    public virtual void OnProcessExcessEnergy(EnergyManager source)
-    {
-        //Debug.Log("Process extra...");
-        if (_overHealRoutine == null && LetHeal)
-        {
-            _overHealRoutine = StartCoroutine(HealFromExcessEnergy(source));
-        }
-    }
-
-    IEnumerator HealFromExcessEnergy(EnergyManager source)
-    {
-        //Debug.Log("heal routine start");
-        float healInterval = ExcessEnergyHealRate / ExcessEnergyHealCost;
-        //Debug.Log("Heal interval: " + healInterval);
-        //Debug.Log("Excess: " + source.ExcessEnergy + " | Health: " + _health);
-
-        AddHealth(1);
-        while(source.ExcessEnergy > 0.0f && _health < MaxHealth && LetHeal)
-        {
-            //Debug.Log("heal tick");
-            //Debug.Log("Speed healing");
-            AddHealth(1);
-            source.AddEnergy(-1);
-
-            yield return new WaitForSeconds(healInterval);
-        }
-
-        //Debug.Log("end heal routine");
-        _overHealRoutine = null;
     }
 }

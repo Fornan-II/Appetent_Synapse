@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class PawnEvent : UnityEvent<Pawn> { }
 
 [System.Serializable]
-public class EnergyEvent : UnityEvent<EnergyManager> { }
+public class EnergyEvent : UnityEvent<EnergyManager, float> { }
 
 [System.Serializable]
 public class IntEvent : UnityEvent<int> { }

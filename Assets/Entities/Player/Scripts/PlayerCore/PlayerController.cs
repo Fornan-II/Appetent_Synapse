@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour
         PassCrouchInput(playerInput.GetCrouchInput());
         PassStart(playerInput.GetStartInput());
         PassSelect(playerInput.GetBackInput());
+        PassInventory(playerInput.GetInventoryInput());
     }
 
     protected virtual void PassMoveInput(Vector2 value)
@@ -173,6 +174,13 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log(name + " SELECT");
         }
+    }
+
+    protected virtual void PassInventory(bool value)
+    {
+        if (!ControlledPawn) { return; }
+
+        ControlledPawn.PassRadialMenu(value);
     }
     #endregion
 }
