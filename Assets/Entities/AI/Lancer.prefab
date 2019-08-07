@@ -270,6 +270,8 @@ MonoBehaviour:
     GenericResistance: 0
     ProjectileResistance: 0
     KnockbackResistance: 0
+  HitParticles: {fileID: 5507007442057912485, guid: 050bbe21f86f466409f0b22c32e91a54,
+    type: 3}
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls:

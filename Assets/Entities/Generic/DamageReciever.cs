@@ -59,6 +59,8 @@ public class DamageReciever : MonoBehaviour
 
     public Resistance Resistances = new Resistance(0, 0, 0);
 
+    public GameObject HitParticles;
+
     public PawnEvent OnDamageTaken;
     public PawnEvent OnKilled;
     public IntEvent OnHealthValueChanged;
@@ -160,6 +162,12 @@ public class DamageReciever : MonoBehaviour
         {
             targetDR.TakeDamage(targetDR.CalculateDamage(dmg), source);
             kbRes = targetDR.Resistances.KnockbackResistance;
+
+            if(targetDR.HitParticles && hitInfo.HasValue)
+            {
+                GameObject spawnedParticles = Instantiate(targetDR.HitParticles, hitInfo.Value.point, Quaternion.identity);
+                spawnedParticles.transform.forward = hitInfo.Value.normal;
+            }
         }
 
         Rigidbody targetRB = target.GetComponent<Rigidbody>();
