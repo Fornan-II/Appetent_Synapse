@@ -8,6 +8,8 @@ public class RangedWeapon : Weapon
     public LayerMask hittable;
     public Transform barrel;
 
+    public int ammo = -1;
+
     protected Animator _anim;
 
     protected override void Start()
@@ -18,6 +20,16 @@ public class RangedWeapon : Weapon
 
     public override bool DoAttack(GameObject target, Pawn user)
     {
+        if(ammo > 0)
+        {
+            ammo--;
+        }
+        else if(ammo == 0)
+        {
+            return false;
+        }
+        //Else if ammo < 0 then player has "infinite" ammo
+
         //Just basic hitscan
         if(_anim)
         {

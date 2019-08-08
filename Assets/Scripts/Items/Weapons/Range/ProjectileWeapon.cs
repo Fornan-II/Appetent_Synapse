@@ -16,6 +16,12 @@ public class ProjectileWeapon : RangedWeapon
 
     public override bool UseSecondary(Pawn source, bool value)
     {
+        if (ammo == 0)
+        {
+            return false;
+        }
+        //Else if ammo < 0 then player has "infinite" ammo
+
         _anim.SetBool("Charge", value);
 
         if(value)
@@ -43,6 +49,11 @@ public class ProjectileWeapon : RangedWeapon
 
     public override bool DoAttack(GameObject target, Pawn user)
     {
+        if (ammo > 0)
+        {
+            ammo--;
+        }
+
         if (!ProjectilePrefab)
         {
             Debug.LogWarning("No ProjectilePrefab assigned for " + name);
@@ -80,5 +91,11 @@ public class ProjectileWeapon : RangedWeapon
         _attackCharge = 0.0f;
 
         return true;
+    }
+
+    public override void OnUnequip(Pawn source)
+    {
+        base.OnUnequip(source);
+        _previousUseSecondary = false;
     }
 }

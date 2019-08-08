@@ -5849,9 +5849,18 @@ MonoBehaviour:
   MaxHealth: 20
   IgnoreDamage: 0
   Resistances:
-    GenericResistance: 0
-    ProjectileResistance: 1
-    KnockbackResistance: 0
+    GenericResistance:
+      _baseValue: 0
+      _value: 0
+      ModifyMode: 0
+    ProjectileResistance:
+      _baseValue: 1
+      _value: 1
+      ModifyMode: 0
+    KnockbackResistance:
+      _baseValue: 1
+      _value: 1
+      ModifyMode: 0
   HitParticles: {fileID: 5507007442057912485, guid: 050bbe21f86f466409f0b22c32e91a54,
     type: 3}
   OnDamageTaken:

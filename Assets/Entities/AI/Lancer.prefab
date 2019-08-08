@@ -188,7 +188,7 @@ MonoBehaviour:
   _remainingAggroTime: 0
   ShootComfortableRange: 15
   ShootMaxRange: 25
-  Innacuracy: 1.2
+  Innacuracy: 0.7
 --- !u!54 &1288368078941635751
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -267,9 +267,18 @@ MonoBehaviour:
   MaxHealth: 20
   IgnoreDamage: 0
   Resistances:
-    GenericResistance: 0
-    ProjectileResistance: 0
-    KnockbackResistance: 0
+    GenericResistance:
+      _baseValue: 0
+      _value: 0
+      ModifyMode: 0
+    ProjectileResistance:
+      _baseValue: 0
+      _value: 0
+      ModifyMode: 0
+    KnockbackResistance:
+      _baseValue: 0
+      _value: 0
+      ModifyMode: 0
   HitParticles: {fileID: 5507007442057912485, guid: 050bbe21f86f466409f0b22c32e91a54,
     type: 3}
   OnDamageTaken:
@@ -600,6 +609,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: JavelinLauncher
       objectReference: {fileID: 0}
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: Damage.HitPoints
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: Damage.HitPoints._baseValue
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: Damage.HitPoints._value
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1559659465461946353, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -659,21 +683,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
-        type: 3}
-      propertyPath: Damage.HitPoints
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
-        type: 3}
-      propertyPath: Damage.HitPoints._baseValue
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
-        type: 3}
-      propertyPath: Damage.HitPoints._value
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b248f37c112b3e459dc9ccd16aa2e83, type: 3}

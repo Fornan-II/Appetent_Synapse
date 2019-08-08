@@ -2,34 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public struct ModifierDamagePacket
-{
-    public Modifier HitPoints;
-    public Modifier Knockback;
-    public DamagePacket.DamageType Type;
 
-    public ModifierDamagePacket(Modifier hp, Modifier kb, DamagePacket.DamageType type)
-    {
-        HitPoints = hp;
-        Knockback = kb;
-        Type = type;
-    }
-
-    public ModifierDamagePacket(int hp, float kb, DamagePacket.DamageType type)
-    {
-        HitPoints = new Modifier(hp);
-        Knockback = new Modifier(kb);
-        Type = type;
-    }
-
-    public ModifierDamagePacket(DamagePacket packet)
-    {
-        HitPoints = new Modifier(packet.HitPoints);
-        Knockback = new Modifier(packet.Knockback);
-        Type = packet.Type;
-    }
-}
 
 public abstract class Weapon : EquippedHoldableItem
 {
@@ -91,5 +64,11 @@ public abstract class Weapon : EquippedHoldableItem
 
         _attackCharge = 1.0f;
         _activeAttackChargeRoutine = null;
+    }
+
+    public override void OnEquip(Pawn source)
+    {
+        base.OnEquip(source);
+        ResetAttackCharge();
     }
 }

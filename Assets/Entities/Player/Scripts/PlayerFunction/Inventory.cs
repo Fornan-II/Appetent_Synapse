@@ -6,7 +6,7 @@ public class Inventory : MonoBehaviour
 {
     public Pawn myPawn;
 
-    public List<InventoryHoldableItem> holdableItems;
+    public List<EquippedHoldableItem> holdableItems;
     public int selectedHeldItem = 0;
     public ItemSocket heldSocket;
 

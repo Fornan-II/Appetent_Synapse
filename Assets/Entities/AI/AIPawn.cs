@@ -81,7 +81,7 @@ public class AIPawn : Pawn
     {
         if(killer)
         {
-            Debug.Log("Ye killed me, " + killer.name);
+            //Debug.Log("Ye killed me, " + killer.name);
         }
 
         _controller.ProcessTree = false;
