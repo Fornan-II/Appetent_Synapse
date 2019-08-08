@@ -52,14 +52,28 @@ public class Inventory : MonoBehaviour
                 selectedHeldItem = 0;
             }
 
-            EquippedHoldableItem newItem = heldSocket.Equip(holdableItems[selectedHeldItem], myPawn);
-            if(newItem is Weapon && myPawn)
-            {
-                myPawn.equippedWeapon = newItem as Weapon;
-            }
+            EquipSelectedHeldItem();
         }
 
         _previousValue = value;
+    }
+
+    public virtual void SetWeapon(int index)
+    {
+        if(0 <= index && index < holdableItems.Count)
+        {
+            selectedHeldItem = index;
+            EquipSelectedHeldItem();
+        }
+    }
+
+    protected void EquipSelectedHeldItem()
+    {
+        EquippedHoldableItem newItem = heldSocket.Equip(holdableItems[selectedHeldItem], myPawn);
+        if (newItem is Weapon && myPawn)
+        {
+            myPawn.equippedWeapon = newItem as Weapon;
+        }
     }
 
     bool prevPrimary = false;

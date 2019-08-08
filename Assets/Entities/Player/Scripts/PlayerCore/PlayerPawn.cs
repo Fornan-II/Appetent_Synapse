@@ -94,6 +94,17 @@ public class PlayerPawn : Pawn
         
         MyInventory.ScrollThroughItems(value);
     }
+
+    public virtual void PassWeaponHotkey(int hotkey)
+    {
+        if (!MyInventory)
+        {
+            Debug.LogWarning(name + " is trying to be passed input when it has no Inventory component assigned!");
+            return;
+        }
+
+        MyInventory.SetWeapon(hotkey);
+    }
     
     public virtual void PassInteractInput(bool value)
     {

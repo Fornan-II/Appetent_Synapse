@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour
         PassPrimaryActionInput(playerInput.GetPrimaryAction());
         PassSecondaryActionInput(playerInput.GetSecondaryAction());
         PassScrollInput(playerInput.GetScrollInput());
+        PassWeaponHotkey(playerInput.GetWeaponHotkey());
         PassInteractInput(playerInput.GetInteractInput());
         PassJumpInput(playerInput.GetJumpInput());
         PassSprintInput(playerInput.GetSprintInput());
@@ -125,6 +126,12 @@ public class PlayerController : MonoBehaviour
         if (!ControlledPawn) { return; }
 
         ControlledPawn.PassScrollInput(value);
+    }
+
+    protected virtual void PassWeaponHotkey(int index)
+    {
+        if(!ControlledPawn) { return; }
+        ControlledPawn.PassWeaponHotkey(index);
     }
 
     protected virtual void PassInteractInput(bool value)

@@ -20,6 +20,9 @@ MonoBehaviour:
   PrimaryActionAxis: ActionPrimary
   SecondaryActionAxis: ActionSecondary
   Scroll: Mouse ScrollWheel
+  WeaponHotkey1: WeaponHotkey1
+  WeaponHotkey2: WeaponHotkey2
+  WeaponHotkey3: WeaponHotkey3
   InteractButton: Interact
   InventoryButton: Inventory
   JumpButton: Jump

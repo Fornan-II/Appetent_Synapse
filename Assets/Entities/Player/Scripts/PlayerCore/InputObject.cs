@@ -14,6 +14,9 @@ public class InputObject : ScriptableObject
     public string PrimaryActionAxis;
     public string SecondaryActionAxis;
     public string Scroll;
+    public string WeaponHotkey1;
+    public string WeaponHotkey2;
+    public string WeaponHotkey3;
     public string InteractButton;
     public string InventoryButton;
     public string JumpButton = "Jump";
@@ -67,6 +70,34 @@ public class InputObject : ScriptableObject
             return 0.0f;
         }
         return Input.GetAxis(Scroll);
+    }
+
+    public int GetWeaponHotkey()
+    {
+        int weaponKey = -1;
+        if(WeaponHotkey3 != "")
+        {
+            if (Input.GetButtonDown(WeaponHotkey3))
+            {
+                weaponKey = 2;
+            }
+        }
+        if (WeaponHotkey2 != "")
+        {
+            if (Input.GetButtonDown(WeaponHotkey2))
+            {
+                weaponKey = 1;
+            }
+        }
+        if (WeaponHotkey1 != "")
+        {
+            if (Input.GetButtonDown(WeaponHotkey1))
+            {
+                weaponKey = 0;
+            }
+        }
+
+        return weaponKey;
     }
 
     public bool GetInteractInput()
