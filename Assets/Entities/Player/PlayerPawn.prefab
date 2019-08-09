@@ -2761,6 +2761,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 620c0e20896bb614589de79075bc1ff9, type: 2}
   - {fileID: 11400000, guid: 8149ad9242264194a85ea3bac62437b1, type: 2}
   - {fileID: 11400000, guid: 5690253c25b4a3b41aab1420c81edeb4, type: 2}
+  - {fileID: 11400000, guid: 6154d23f0a601a54790635ea041ae9b5, type: 2}
+  - {fileID: 11400000, guid: a11e8db4790b93540a3b8e0393999eaf, type: 2}
   SelectedQuickAugment: {fileID: 0}
 --- !u!114 &6202548515736239340
 MonoBehaviour:
@@ -3698,7 +3700,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.05, y: 0.5}
-  m_AnchoredPosition: {x: 2.3001022, y: 0}
+  m_AnchoredPosition: {x: 2.3001099, y: 0}
   m_SizeDelta: {x: -1, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &882567519837753932

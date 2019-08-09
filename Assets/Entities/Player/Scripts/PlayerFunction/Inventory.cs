@@ -156,15 +156,19 @@ public class Inventory : MonoBehaviour
 
     public void SetRadialSlot(IRadialSelectable item)
     {
-        if(item is Augment)
+        Augment augmentItem = item as Augment;
+        if (augmentItem)
         {
-            if(SelectedQuickAugment)
+            if (augmentItem != SelectedQuickAugment)
             {
-                SelectedQuickAugment.OnUnequip(this);
-            }
+                if (SelectedQuickAugment)
+                {
+                    SelectedQuickAugment.OnUnequip(this);
+                }
 
-            SelectedQuickAugment = item as Augment;
-            SelectedQuickAugment.OnEquip(this);
+                SelectedQuickAugment = item as Augment;
+                SelectedQuickAugment.OnEquip(this);
+            }
         }
     }
     #endregion

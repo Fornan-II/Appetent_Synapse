@@ -70,13 +70,17 @@ MonoBehaviour:
       _value: 5
       ModifyMode: 0
     Type: 1
-  AttackSpeed: 1
+  AttackSpeed:
+    _baseValue: 1
+    _value: 1
+    ModifyMode: 0
   _attackCharge: 0
   maxRange: 512
   hittable:
     serializedVersion: 2
     m_Bits: 1843
   barrel: {fileID: 1963065425509453471}
+  ammo: -1
   ProjectilePrefab: {fileID: 4221082840121302161, guid: 741c02b64e5055a4bac9ecadf748a7d8,
     type: 3}
   projectileInitSpeed: 53

@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class Weapon : EquippedHoldableItem
 {
     public ModifierDamagePacket Damage;
-    public float AttackSpeed = 0.6f;
+    public Modifier AttackSpeed = new Modifier(0.6f);
     [SerializeField]protected float _attackCharge = 0.0f;
     public float AttackCharge { get { return _attackCharge; } }
     protected Coroutine _activeAttackChargeRoutine;
@@ -37,7 +37,7 @@ public abstract class Weapon : EquippedHoldableItem
 
     protected virtual void ResetAttackCharge()
     {
-        if (AttackSpeed > 0)
+        if (AttackSpeed.Value > 0)
         {
             if (_activeAttackChargeRoutine != null)
             {
@@ -56,9 +56,9 @@ public abstract class Weapon : EquippedHoldableItem
     {
         _attackCharge = 0.0f;
         
-        for(float timer = 0.0f; timer < AttackSpeed; timer += Time.deltaTime)
+        for(float timer = 0.0f; timer < AttackSpeed.Value; timer += Time.deltaTime)
         {
-            _attackCharge = Mathf.Clamp01(timer / AttackSpeed);
+            _attackCharge = Mathf.Clamp01(timer / AttackSpeed.Value);
             yield return null;
         }
 
