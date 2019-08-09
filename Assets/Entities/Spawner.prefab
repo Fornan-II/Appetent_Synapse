@@ -5845,22 +5845,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f4059cdbd6aff47bb143082787ae26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 40
-  MaxHealth: 20
+  _health: 3
+  MaxHealth: 3
   IgnoreDamage: 0
   Resistances:
     GenericResistance:
-      _baseValue: 0
-      _value: 0
-      ModifyMode: 0
+      _baseValue: 0.9
+      _value: 0.9
+      ModifyMode: 1
     ProjectileResistance:
       _baseValue: 1
       _value: 1
-      ModifyMode: 0
+      ModifyMode: 1
     KnockbackResistance:
       _baseValue: 1
       _value: 1
-      ModifyMode: 0
+      ModifyMode: 1
+    StructuralResistance:
+      _baseValue: 0.75
+      _value: 0.75
+      ModifyMode: 1
   HitParticles: {fileID: 5507007442057912485, guid: 050bbe21f86f466409f0b22c32e91a54,
     type: 3}
   OnDamageTaken:

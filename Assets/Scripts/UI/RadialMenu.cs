@@ -13,6 +13,7 @@ public class RadialMenu : MonoBehaviour
     public float deadzonePercent = 0.2f;
     [SerializeField]protected List<RadialMenuItem> _items;
     protected RadialMenuItem selectedItem;
+    public Inventory inventory;
 
     public GameObject radialMenuItemPrefab;
 
@@ -25,7 +26,7 @@ public class RadialMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isBeingHoveredOver && menuTransform)
+        if(isBeingHoveredOver && menuTransform && _items.Count > 0)
         {
             float distanceFromMouseToCenter = Vector3.Distance(Input.mousePosition, menuTransform.position);
             float radius = (menuTransform.rect.width * 0.5f);
@@ -47,8 +48,25 @@ public class RadialMenu : MonoBehaviour
                 {
                     selectedItem.IsSelected = false;
                 }
+
                 selectedItem = _items[itemIndex];
-                selectedItem.IsSelected = true;
+
+                if(selectedItem)
+                {
+                    selectedItem.IsSelected = true;
+                }
+
+                if (inventory)
+                {
+                    if(selectedItem)
+                    {
+                        inventory.SetRadialSlot(selectedItem.RepresentedItem);
+                    }
+                    else
+                    {
+                        inventory.SetRadialSlot(null);
+                    }
+                }
             }
             else if (indicatorTransform.gameObject.activeSelf)
             {

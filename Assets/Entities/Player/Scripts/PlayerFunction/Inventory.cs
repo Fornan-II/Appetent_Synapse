@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public Pawn myPawn;
+    public PlayerPawn myPawn;
 
     public List<EquippedHoldableItem> holdableItems;
     public int selectedHeldItem = 0;
@@ -16,17 +16,32 @@ public class Inventory : MonoBehaviour
     {
         get { return _augments; }
     }
+    public Augment SelectedQuickAugment;
 
     protected float _previousValue = 0.0f;
 
-    private void Start()
+    protected virtual void Start()
     {
         if(heldSocket && holdableItems.Count > 0)
         {
             heldSocket.Equip(holdableItems[selectedHeldItem], myPawn);
         }
+
+        if(augmentMenu)
+        {
+            augmentMenu.SetItems(_augments.ToArray());
+        }
     }
 
+    protected virtual void Update()
+    {
+        if(SelectedQuickAugment)
+        {
+            SelectedQuickAugment.OnUpdate(myPawn);
+        }
+    }
+
+    #region Held Items
     public virtual void ScrollThroughItems(float value)
     {
         if(value != 0.0f && _previousValue == 0.0f && heldSocket && holdableItems.Count > 0)
@@ -103,7 +118,9 @@ public class Inventory : MonoBehaviour
 
         return heldSocket.UseSecondary(user, value);
     }
+    #endregion
 
+    #region Augments
     public void SetRadialMenuVisible(bool value)
     {
         if (myPawn is PlayerPawn)
@@ -137,10 +154,18 @@ public class Inventory : MonoBehaviour
         augmentMenu.SetItems(_augments.ToArray());
     }
 
-#if UNITY_EDITOR
-    protected virtual void OnValidate()
+    public void SetRadialSlot(IRadialSelectable item)
     {
-        augmentMenu.SetItems(_augments.ToArray());
+        if(item is Augment)
+        {
+            if(SelectedQuickAugment)
+            {
+                SelectedQuickAugment.OnUnequip(this);
+            }
+
+            SelectedQuickAugment = item as Augment;
+            SelectedQuickAugment.OnEquip(this);
+        }
     }
-#endif
+    #endregion
 }

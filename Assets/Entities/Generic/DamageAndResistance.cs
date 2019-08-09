@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 #region Float Packets
 [System.Serializable]
@@ -9,7 +7,8 @@ public struct DamagePacket
     public enum DamageType
     {
         GENERIC,
-        PROJECTILE
+        PROJECTILE,
+        STRUCTURAL
     }
 
     public int HitPoints;
@@ -40,12 +39,15 @@ public struct Resistance
     public float ProjectileResistance;
     [Range(0.0f, 1.0f)]
     public float KnockbackResistance;
+    [Range(0.0f, 1.0f)]
+    public float StructuralResistance;
 
-    public Resistance(float generic, float projectile, float knockback)
+    public Resistance(float generic, float projectile, float knockback, float structural)
     {
         GenericResistance = generic;
         ProjectileResistance = projectile;
         KnockbackResistance = knockback;
+        StructuralResistance = structural;
     }
 }
 #endregion
@@ -86,26 +88,30 @@ public struct ModifierResistance
     public Modifier GenericResistance;
     public Modifier ProjectileResistance;
     public Modifier KnockbackResistance;
+    public Modifier StructuralResistance;
 
-    public ModifierResistance(Modifier generic, Modifier projectile, Modifier knockback)
+    public ModifierResistance(Modifier generic, Modifier projectile, Modifier knockback, Modifier structural)
     {
         GenericResistance = generic;
         ProjectileResistance = projectile;
         KnockbackResistance = knockback;
+        StructuralResistance = structural;
     }
 
-    public ModifierResistance(float generic, float projectile, float knockback)
+    public ModifierResistance(float generic, float projectile, float knockback, float structural)
     {
-        GenericResistance = new Modifier(generic);
-        ProjectileResistance = new Modifier(projectile);
-        KnockbackResistance = new Modifier(knockback);
+        GenericResistance = new Modifier(generic, Modifier.CalculateMode.ADD);
+        ProjectileResistance = new Modifier(projectile, Modifier.CalculateMode.ADD);
+        KnockbackResistance = new Modifier(knockback, Modifier.CalculateMode.ADD);
+        StructuralResistance = new Modifier(structural, Modifier.CalculateMode.ADD);
     }
 
     public ModifierResistance(Resistance resistance)
     {
-        GenericResistance = new Modifier(resistance.GenericResistance);
-        ProjectileResistance = new Modifier(resistance.ProjectileResistance);
-        KnockbackResistance = new Modifier(resistance.KnockbackResistance);
+        GenericResistance = new Modifier(resistance.GenericResistance, Modifier.CalculateMode.ADD);
+        ProjectileResistance = new Modifier(resistance.ProjectileResistance, Modifier.CalculateMode.ADD);
+        KnockbackResistance = new Modifier(resistance.KnockbackResistance, Modifier.CalculateMode.ADD);
+        StructuralResistance = new Modifier(resistance.StructuralResistance, Modifier.CalculateMode.ADD);
     }
 }
 

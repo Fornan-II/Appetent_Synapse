@@ -124,8 +124,8 @@ GameObject:
   - component: {fileID: 1288368078941635744}
   - component: {fileID: 1288368078941635751}
   - component: {fileID: 1288368078941635750}
+  - component: {fileID: 5245044134120902655}
   - component: {fileID: 1288368078941635745}
-  - component: {fileID: 1288368078941635748}
   - component: {fileID: 8369560594370318091}
   m_Layer: 0
   m_Name: Lancer
@@ -230,28 +230,7 @@ MonoBehaviour:
   treeUpdateInterval: 4
   ProcessTree: 1
   debugOutput: 
---- !u!114 &1288368078941635745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1288368078941635759}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d030518c090414f8fc1e8817952f03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxMoveSpeed: 5
-  acceleration: 3
-  friction: 0.628
-  DoMovement: 0
-  DoFriction: 1
-  footPositionOffset: {x: 0, y: -1, z: 0}
-  popPathPointDistance: 0.5
-  PathingGiveUpTime: 7
-  pathToDestination: []
---- !u!114 &1288368078941635748
+--- !u!114 &5245044134120902655
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -270,15 +249,15 @@ MonoBehaviour:
     GenericResistance:
       _baseValue: 0
       _value: 0
-      ModifyMode: 0
+      ModifyMode: 1
     ProjectileResistance:
       _baseValue: 0
       _value: 0
-      ModifyMode: 0
+      ModifyMode: 1
     KnockbackResistance:
       _baseValue: 0
       _value: 0
-      ModifyMode: 0
+      ModifyMode: 1
   HitParticles: {fileID: 5507007442057912485, guid: 050bbe21f86f466409f0b22c32e91a54,
     type: 3}
   OnDamageTaken:
@@ -326,6 +305,27 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: IntEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &1288368078941635745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288368078941635759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d030518c090414f8fc1e8817952f03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMoveSpeed: 5
+  acceleration: 3
+  friction: 0.628
+  DoMovement: 0
+  DoFriction: 1
+  footPositionOffset: {x: 0, y: -1, z: 0}
+  popPathPointDistance: 0.5
+  PathingGiveUpTime: 7
+  pathToDestination: []
 --- !u!114 &8369560594370318091
 MonoBehaviour:
   m_ObjectHideFlags: 0

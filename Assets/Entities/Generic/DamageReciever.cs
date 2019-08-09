@@ -11,7 +11,7 @@ public class DamageReciever : MonoBehaviour
     public int MaxHealth = 20;
     public bool IgnoreDamage = false;
 
-    public ModifierResistance Resistances = new ModifierResistance(0, 0, 0);
+    public ModifierResistance Resistances = new ModifierResistance(0, 0, 0, 0);
 
     public GameObject HitParticles;
 
@@ -79,6 +79,11 @@ public class DamageReciever : MonoBehaviour
             case DamagePacket.DamageType.PROJECTILE:
                 {
                     finalDamage = finalDamage * (1.0f - Mathf.Clamp01(Resistances.ProjectileResistance.Value));
+                    break;
+                }
+            case DamagePacket.DamageType.STRUCTURAL:
+                {
+                    finalDamage = finalDamage * (1.0f - Mathf.Clamp01(Resistances.StructuralResistance.Value));
                     break;
                 }
         }

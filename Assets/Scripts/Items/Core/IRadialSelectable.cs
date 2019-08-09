@@ -5,5 +5,4 @@ using UnityEngine;
 public interface IRadialSelectable
 {
     Sprite GetIcon();
-    void Select(bool value);
 }

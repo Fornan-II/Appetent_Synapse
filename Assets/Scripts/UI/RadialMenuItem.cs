@@ -20,7 +20,6 @@ public class RadialMenuItem : MonoBehaviour
             if(_representedItem != null)
             {
                 SetIcon(_representedItem.GetIcon());
-                _representedItem.Select(_isSelected);
             }
         }
     }
@@ -35,10 +34,6 @@ public class RadialMenuItem : MonoBehaviour
             if(anim)
             {
                 anim.SetBool("IsSelected", value);
-            }
-            if(_representedItem != null)
-            {
-                _representedItem.Select(value);
             }
         }
     }
