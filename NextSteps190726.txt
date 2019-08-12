@@ -1,7 +1,0 @@
-Appetent Synapse Next Steps:
-----------------------------
-Refine movement by:
-Adding a ground sticking helper
-Knockback support
-
-Animated arms

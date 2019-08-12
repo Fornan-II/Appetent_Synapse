@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db928fcf7f93252488d9d7fac1906503, type: 3}
   m_Name: Industrial Lacerator Augment
   m_EditorClassIdentifier: 
-  _radialIcon: {fileID: 0}
-  _canUseFixedSlot: 0
+  _radialIcon: {fileID: 21300000, guid: 9e68cc6a2bdeeae40962a1ca4439b6a3, type: 3}
+  _canUseFixedSlot: 1

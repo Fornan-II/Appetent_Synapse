@@ -1,0 +1,20 @@
+[New Colony]
+Where the families of the people on base lived. Effectively a city. Heavily stripped down.
+
+[Old Colony]
+Old, shut down rotating habitat. Long abandoned, and not even all that stripped down; not as useful resources. Rotation not really needed after improvements to gene modification. Everythings is slanted inwards because of this. In the center is an abandoned crop garden around on old ship. One of the ships that originally brought humans here, left as a monument. Ship is not tied to the main computer network, so can be used to escape the planet.
+
+[Intelligence's Housing]
+Clean and very secure place where Intelligence is kept. Introductory area for player, as Intelligence created them and is guiding them. Surrounded by abandoned board rooms meant for strategizing and managing intel.
+
+[Construction District]
+District where Construction core is kept. The industrial centerpoint of the base. Not the physical center, but the place where all pipes meet. Barely designed for humans at all, it is a maze of industrial things. Factories, water drainage, life support, drone ports, and all sorts of things make up this area. Really a lot of the base is like that, but this is the beating heart.
+
+[Starport]
+Part of the base used for launching and recieving space vessels. These vessels are too much under the control of War to be used by the player, and there's not really many there that aren't actively in use for anything other than taking supplies from the base. On the surface it consists of several docking ports, a large ivory control tower, and a several AA guns. These AA guns will shoot down any unauthorized approaching (or leaving) ship. The player will need to disable them in order to leave the planet. At the top of the ivory control tower, War has installed a node of itself so that it can control the base more easily. As long as that node is there, War's connection to the AA guns makes them impossible to disable.
+
+[Military Complex]
+Under the starport and stretching out throughout the base is the military component of the base. Barracks, training ranges, testing facilities, weapon/vehicle storage, and all sorts of things. Well, a lot of that used to exist. These parts of the base are the most heavily stripped by War, as they were the first things to be deconstructed. Now mostly husks remain.
+
+[Gardens]
+These are an important feature of the base, and are located below many of the civilian parts of the base. That said, they are still very well reinforced and protected because of their importance to the humans that once lived here and in other colonies on the martian surface. That said, robots don't see any importance in the gardens, and so largely have left them alone. Many of the gardens have died off, but some have grown wildly out of control, growing throughout some of the more neglected civilian sections of the base.

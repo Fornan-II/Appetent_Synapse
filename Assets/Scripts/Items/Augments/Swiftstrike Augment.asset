@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd32e952af9c329409f120486b201f97, type: 3}
   m_Name: Swiftstrike Augment
   m_EditorClassIdentifier: 
-  _radialIcon: {fileID: 0}
+  _radialIcon: {fileID: 21300000, guid: de0fa2d6712a56640a9f5b7ae31a57b1, type: 3}
   _canUseFixedSlot: 0
