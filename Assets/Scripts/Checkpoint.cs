@@ -34,8 +34,11 @@ public class Checkpoint : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        Debug.DrawRay(transform.position - Vector3.right * 0.25f, Vector3.right * 0.5f, Color.green);
-        Debug.DrawRay(transform.position - Vector3.forward * 0.25f, Vector3.forward * 0.5f, Color.green);
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position - transform.right * 0.25f, transform.position + transform.right * 0.25f);
+        Gizmos.DrawLine(transform.position - transform.forward * 0.25f, transform.position);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position + transform.forward * 0.25f, transform.position);
     }
 #endif
 }

@@ -1,0 +1,15 @@
+[[Level set up checklist:]]
+PostProcessing Volume
+CheckPoint Manager
+EventSystem
+
+Skybox
+Directional Light
+
+PlayerController
+Initial Player prefab
+
+Stairs height {
+45 degrees: 2 steps per vertical meter
+shallower: 2 steps per horizontal meter
+}
