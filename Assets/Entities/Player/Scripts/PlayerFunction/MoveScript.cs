@@ -304,12 +304,15 @@ public class MoveScript : MonoBehaviour
         Vector3 checkPos = _col.transform.position + _col.center;
         float checkDist = (_col.height / 2 - _col.radius) * transform.localScale.y + groundStickCheckDistance;
 
+        Debug.DrawRay(checkPos, Vector3.down * checkDist, Color.red, 3.0f);
+
         RaycastHit hitInfo;
         if(Physics.SphereCast(checkPos, _col.radius, Vector3.down, out hitInfo, checkDist, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
-            if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Stairs") || Vector3.Angle(Vector3.up, _groundContactNormal) <= maxGroundAngle)
+            if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Stairs") || Vector3.Angle(Vector3.up, hitInfo.normal) <= maxGroundAngle)
             {
-                moveVector.y = hitInfo.distance * -1;
+                moveVector.y = (hitInfo.distance * -1) / Time.fixedDeltaTime;
+                Debug.Log("StickSpeed: " + moveVector.y);
             }
         }
         

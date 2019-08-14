@@ -22,7 +22,6 @@ public class EnergyManager : MonoBehaviour
 
     public int MaxEnergy = 20;
     public int MaxExcessEnergy = 5;
-    public int EnergyUpdateInterval = 240;
 
     public Modifier DrainRate = new Modifier(0.0f, Modifier.CalculateMode.ADD);
 

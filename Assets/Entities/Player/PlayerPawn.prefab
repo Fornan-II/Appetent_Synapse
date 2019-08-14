@@ -2879,7 +2879,6 @@ MonoBehaviour:
   _energy: 20
   MaxEnergy: 20
   MaxExcessEnergy: 5
-  EnergyUpdateInterval: 240
   DrainRate:
     _baseValue: 0
     _value: 0
