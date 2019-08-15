@@ -311,8 +311,9 @@ public class MoveScript : MonoBehaviour
         {
             if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Stairs") || Vector3.Angle(Vector3.up, hitInfo.normal) <= maxGroundAngle)
             {
-                moveVector.y = (hitInfo.distance * -1) / Time.fixedDeltaTime;
-                Debug.Log("StickSpeed: " + moveVector.y);
+                //moveVector.y = (hitInfo.distance * -1) / Time.fixedDeltaTime;
+                //Debug.Log("StickSpeed: " + moveVector.y);
+                moveVector.y = Mathf.Min(0.0f, moveVector.y);
             }
         }
         
