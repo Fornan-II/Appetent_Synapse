@@ -1,0 +1,23 @@
+[|[Augments with progression blocking potential]|]
+Industrial Lacerator {
+Transparant metal meshes are easy to see through and understand that they're blocking progression. Probably want as an early upgrade.
+}
+
+Quiver {
+Not a lot of potential, but I could see shooting things that are otherwise unreachable in order to trigger some path opening. Probably better used for secrets than in the main progression.
+}
+
+Flashlight {
+Could be used like the lantern in Hollow Knight. *You could* stumble through the pitch black hallway to progress, but that's pretty impractical. Probably something good for early mid-game considering the general lighting I'm going for so far.
+}
+
+Platform Placer {
+If I even add this (because it makes level design an absolute nightmare), it would be good for opening late-game paths.
+}
+
+Wall Running {
+Good mid-game or early late-game ability that opens up a lot of new locations to the player.
+}
+
+Siphon Port {
+Would work well for the late mid-game or early late-game. It's unique, so the player won't really be waiting for it to be given to them, and the special doors that need it's power will leave them unsure of how to open them, or if they can at all (although it might make them think of Metroid too). Kind of a boringly simple in terms of how it opens things though, so maybe don't build it up too much.
