@@ -1,0 +1,11 @@
+Rethink singleton usage and structuring - save states?
+
+Save info {
+	scene ID
+	last spawnpoint used
+	Inventory {
+		augments
+		ammo count
+		weapons
+	}
+}
