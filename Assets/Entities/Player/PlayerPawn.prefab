@@ -4451,6 +4451,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6202548515365728752}
     m_Modifications:
+    - target: {fileID: 1559659465461946356, guid: 7b209311eb724b442bfe6a7fcd1aceef,
+        type: 3}
+      propertyPath: m_Name
+      value: Lacerator
+      objectReference: {fileID: 0}
     - target: {fileID: 1559659465461946353, guid: 7b209311eb724b442bfe6a7fcd1aceef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4506,11 +4511,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1559659465461946356, guid: 7b209311eb724b442bfe6a7fcd1aceef,
-        type: 3}
-      propertyPath: m_Name
-      value: Lacerator
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b209311eb724b442bfe6a7fcd1aceef, type: 3}
 --- !u!4 &2914980501344674705 stripped
@@ -4538,11 +4538,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6202548515365728752}
     m_Modifications:
-    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
-        type: 3}
-      propertyPath: ammo
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1559659465461946356, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
         type: 3}
       propertyPath: m_Name
@@ -4551,6 +4546,11 @@ PrefabInstance:
     - target: {fileID: 1559659465461946356, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: ammo
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1559659465461946353, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
