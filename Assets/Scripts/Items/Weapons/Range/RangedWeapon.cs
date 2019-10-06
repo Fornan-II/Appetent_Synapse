@@ -8,7 +8,21 @@ public class RangedWeapon : Weapon
     public LayerMask hittable;
     public Transform barrel;
 
-    public int ammo = -1;
+    [SerializeField] private int _ammo = -1;
+    public int Ammo
+    {
+        get { return _ammo; }
+        set
+        {
+            if(value != _ammo)
+            {
+                _ammo = value;
+                OnAmmoCountChange?.Invoke(_ammo);
+            }
+        }
+    }
+
+    public IntEvent OnAmmoCountChange;
 
     protected Animator _anim;
 
@@ -20,11 +34,11 @@ public class RangedWeapon : Weapon
 
     public override bool DoAttack(GameObject target, Pawn user)
     {
-        if(ammo > 0)
+        if(Ammo > 0)
         {
-            ammo--;
+            Ammo--;
         }
-        else if(ammo == 0)
+        else if(Ammo == 0)
         {
             return false;
         }
@@ -51,6 +65,11 @@ public class RangedWeapon : Weapon
         if((source.defaultBarrel && !barrel) || source.overrideBarrel)
         {
             barrel = source.defaultBarrel;
+        }
+
+        if (_ammo >= 0)
+        {
+            OnAmmoCountChange?.Invoke(_ammo);
         }
     }
 }

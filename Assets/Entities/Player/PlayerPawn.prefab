@@ -2761,8 +2761,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 620c0e20896bb614589de79075bc1ff9, type: 2}
   - {fileID: 11400000, guid: 8149ad9242264194a85ea3bac62437b1, type: 2}
   - {fileID: 11400000, guid: 5690253c25b4a3b41aab1420c81edeb4, type: 2}
-  - {fileID: 11400000, guid: 6154d23f0a601a54790635ea041ae9b5, type: 2}
-  - {fileID: 11400000, guid: a11e8db4790b93540a3b8e0393999eaf, type: 2}
   SelectedQuickAugment: {fileID: 0}
 --- !u!114 &6202548515736239340
 MonoBehaviour:
@@ -4451,11 +4449,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6202548515365728752}
     m_Modifications:
-    - target: {fileID: 1559659465461946356, guid: 7b209311eb724b442bfe6a7fcd1aceef,
-        type: 3}
-      propertyPath: m_Name
-      value: Lacerator
-      objectReference: {fileID: 0}
     - target: {fileID: 1559659465461946353, guid: 7b209311eb724b442bfe6a7fcd1aceef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4511,6 +4504,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1559659465461946356, guid: 7b209311eb724b442bfe6a7fcd1aceef,
+        type: 3}
+      propertyPath: m_Name
+      value: Lacerator
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b209311eb724b442bfe6a7fcd1aceef, type: 3}
 --- !u!4 &2914980501344674705 stripped
@@ -4538,6 +4536,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6202548515365728752}
     m_Modifications:
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: ammo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: _ammo
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1559659465461946356, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
         type: 3}
       propertyPath: m_Name
@@ -4546,11 +4554,6 @@ PrefabInstance:
     - target: {fileID: 1559659465461946356, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
-        type: 3}
-      propertyPath: ammo
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1559659465461946353, guid: 9b248f37c112b3e459dc9ccd16aa2e83,

@@ -38,9 +38,9 @@ public class QuiverAugment : Augment
 
         if(foundWeapon)
         {
-            if (foundWeapon.ammo < MaximumAmmo)
+            if (foundWeapon.Ammo < MaximumAmmo)
             {
-                foundWeapon.ammo++;
+                foundWeapon.Ammo++;
             }
         }
     }

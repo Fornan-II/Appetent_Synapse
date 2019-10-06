@@ -16,7 +16,7 @@ public class ProjectileWeapon : RangedWeapon
 
     public override bool UseSecondary(Pawn source, bool value)
     {
-        if (ammo == 0)
+        if (Ammo == 0)
         {
             return false;
         }
@@ -49,9 +49,9 @@ public class ProjectileWeapon : RangedWeapon
 
     public override bool DoAttack(GameObject target, Pawn user)
     {
-        if (ammo > 0)
+        if (Ammo > 0)
         {
-            ammo--;
+            Ammo--;
         }
 
         if (!ProjectilePrefab)
