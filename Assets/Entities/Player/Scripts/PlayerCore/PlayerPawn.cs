@@ -174,7 +174,7 @@ public class PlayerPawn : Pawn
     public virtual void OnDeath(Pawn killer)
     {
         MyMoveScript.enabled = false;
-        MyLookScript.enabled = false;
+        //MyLookScript.enabled = false;
 
         Rigidbody rb = GetComponent<Rigidbody>();
         if(rb)
@@ -197,5 +197,6 @@ public class PlayerPawn : Pawn
         }
         Destroy(gameObject, 7.0f);
         CheckpointManager.Instance.RespawnPlayer(Controller, 5.0f);
+        Controller.ControlledPawn = null;
     }
 }
