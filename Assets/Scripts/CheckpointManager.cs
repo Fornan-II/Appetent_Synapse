@@ -61,4 +61,20 @@ public class CheckpointManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         RespawnPlayer(player);
     }
+
+#if UNITY_EDITOR
+    [SerializeField] private PlayerController debugPC;
+    [SerializeField] private Checkpoint debugCheckpoint;
+
+    protected virtual void OnValidate()
+    {
+        if(debugPC && debugCheckpoint && UnityEditor.EditorApplication.isPlaying)
+        {
+            RegisterCheckPoint(debugPC, debugCheckpoint);
+            debugPC = null;
+            debugCheckpoint = null;
+            Debug.Log("Checkpoint set");
+        }
+    }
+#endif
 }
