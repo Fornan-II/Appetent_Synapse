@@ -2779,7 +2779,7 @@ MonoBehaviour:
   InteractionMask:
     serializedVersion: 2
     m_Bits: 1041
-  InteractionRange: 2
+  InteractionRange: 3
   interactBarrel: {fileID: 6202548516247919365}
 --- !u!114 &6202548515736239336
 MonoBehaviour:
