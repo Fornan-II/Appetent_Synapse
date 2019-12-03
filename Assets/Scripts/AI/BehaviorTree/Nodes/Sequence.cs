@@ -5,6 +5,12 @@
         public Node[] sequenceNodes;
         protected int _sequencePosition;
 
+        public Sequence(Node[] nodes)
+        {
+            sequenceNodes = nodes;
+            _sequencePosition = 0;
+        }
+
         public override void Process(BehaviorTree tree)
         {
             _sequencePosition = 0;

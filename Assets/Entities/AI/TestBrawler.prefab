@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca87cf1bc4016f944a72d2f558d69d22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 6485865698544032114}
+  aiPawn: {fileID: 6485865698544032106}
   alertWorthyFaction: 2
   fieldOfView: 120
   visionDistance: 40
@@ -323,16 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a040df8b95a630478ffd2fcbdf61c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localBlackboard:
-    Properties:
-      keys: []
-      valueTypes: 
-      serializedValues: []
-  _myGroup: {fileID: 0}
-  behaviorInstance: {fileID: 0}
-  previousPhase: 3
-  myTree: {fileID: 11400000, guid: 1bba3eb81d3ef0145b5b0e137b1f7d2a, type: 2}
-  aiPawn: {fileID: 6485865698544032106}
+  _aiPawn: {fileID: 6485865698544032106}
   treeUpdateInterval: 4
   ProcessTree: 1
   debugOutput: 
@@ -422,6 +413,10 @@ MonoBehaviour:
       _baseValue: 0
       _value: 0
       ModifyMode: 1
+    StructuralResistance:
+      _baseValue: 0
+      _value: 0
+      ModifyMode: 1
   HitParticles: {fileID: 5507007442057912485, guid: 050bbe21f86f466409f0b22c32e91a54,
     type: 3}
   OnDamageTaken:
@@ -492,6 +487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ee3ff85422736d48bab24457e9ec5bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Mode: 0
   Damage:
     HitPoints:
       _baseValue: 3
@@ -502,7 +498,10 @@ MonoBehaviour:
       _value: 10
       ModifyMode: 0
     Type: 0
-  AttackSpeed: 0.6
+  AttackSpeed:
+    _baseValue: 0.6
+    _value: 0.6
+    ModifyMode: 0
   _attackCharge: 0
   reach: 1.5
 --- !u!114 &6485865698544032125
@@ -721,5 +720,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3701489453881eb41a3dac205006d57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 6485865698544032114}
+  aiPawn: {fileID: 6485865698544032106}
   alertWorthyFaction: 2

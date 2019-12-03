@@ -21,6 +21,8 @@ public class Lancer : AIPawn
     {
         base.Init(controller);
         controller.Blackboard.SetProperty(Behaviors.PROPERTY_MoveToTarget_DESIREDTARGETDISTANCE, ShootComfortableRange);
+
+
     }
 
     public virtual void AimAt(Transform target)

@@ -1,8 +1,9 @@
 ﻿
 namespace AI.StateMachine
 {
-    public struct State
+    public class State
     {
+        public string Label;
         public delegate void SubState(StateMachine stateMachine);
         public SubState OnEnter;
         public SubState Entering;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AI
+namespace AI.BehaviorTree
 {
     [System.Serializable]
     public class SelectorLogic
@@ -18,6 +18,13 @@ namespace AI
             NOT_EQUAL
         }
         public ComparisonMode Mode = ComparisonMode.EQUAL;
+
+        public SelectorLogic(string propertyOne, string propertyTwo, ComparisonMode mode)
+        {
+            PropertyOneToEvaluate = propertyOne;
+            PropertyTwoToEvaluate = propertyTwo;
+            Mode = mode;
+        }
 
         public bool Evaluate(Blackboard bb)
         {

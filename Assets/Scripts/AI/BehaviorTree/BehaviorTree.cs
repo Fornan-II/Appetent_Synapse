@@ -12,7 +12,7 @@ namespace AI.BehaviorTree
 
         public override void Process(float deltaTime)
         {
-            if(!CurrentState.HasValue)
+            if(CurrentState == null)
             {
                 if(SequencesToProcess.Count > 0)
                 {
@@ -41,6 +41,7 @@ namespace AI.BehaviorTree
             if(node is Leaf)
             {
                 CurrentState = (node as Leaf).Behavior;
+                _currentStatePhase = StatePhase.ENTERING;
             }
             else if(node is Sequence)
             {

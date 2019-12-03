@@ -11,6 +11,7 @@ public static partial class Behaviors
 
     public static readonly State MeleeAttack = new State()
     {
+        Label = "MeleeAttack",
         OnEnter = stateMachine =>
         {
             Pawn target = stateMachine.Blackboard.GetProperty<Pawn>("target");

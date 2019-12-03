@@ -14,6 +14,14 @@ public class BrawlerPawn : AIPawn
     public override void Init(AIController controller)
     {
         base.Init(controller);
+
+        controller.behaviorTree.root = new AI.BehaviorTree.Root(
+            new AI.BehaviorTree.Selector(
+                new AI.BehaviorTree.Leaf(Behaviors.MeleeAttack),
+                new AI.BehaviorTree.Leaf(Behaviors.Patrol),
+                new AI.BehaviorTree.SelectorLogic(PROPERTY_AGGRO, "(bool)true", AI.BehaviorTree.SelectorLogic.ComparisonMode.EQUAL)
+            )
+        );
     }
 
     public virtual void AlertGroupMembers(Pawn instigator)

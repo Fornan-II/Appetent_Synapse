@@ -9,6 +9,7 @@ public static partial class Behaviors
 {
     public static readonly State Patrol = new State()
     {
+        Label = "Patrol",
         OnEnter = stateMachine =>
         {
             AIPawn aiPawn = stateMachine.Blackboard.GetProperty<AIPawn>("aiPawn");

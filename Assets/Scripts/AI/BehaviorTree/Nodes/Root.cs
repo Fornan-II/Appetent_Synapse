@@ -4,8 +4,13 @@ namespace AI.BehaviorTree
 {
     public class Root : Node
     {
-        protected Node NextNode;
+        [SerializeField] protected Node NextNode;
         
+        public Root(Node next)
+        {
+            NextNode = next;
+        }
+
         public override void Process(BehaviorTree tree)
         {
             if (NextNode == null)

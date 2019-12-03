@@ -17,7 +17,7 @@ namespace AI
             }
         }
 
-        protected AIPawn _aiPawn;
+        [SerializeField] protected AIPawn _aiPawn;
         public AIPawn AIPawn
         {
             get { return _aiPawn; }
@@ -57,9 +57,9 @@ namespace AI
             {
                 if (_treeTicks <= 0)
                 {
-                    if (_behaviorTree.CurrentState.HasValue)
+                    if (_behaviorTree.CurrentState != null)
                     {
-                        debugOutput = _behaviorTree.CurrentState.Value.ToString() + " | " + _behaviorTree.GetPhase();
+                        debugOutput = _behaviorTree.CurrentState.Label + " | " + _behaviorTree.GetPhase();
                     }
                     else { debugOutput = "null"; }
 

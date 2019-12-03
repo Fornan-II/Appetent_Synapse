@@ -12,6 +12,7 @@ public static partial class Behaviors
 
     public static readonly State MoveToTarget = new State()
     {
+        Label = "MoveToTarget",
         OnEnter = stateMachine =>
         {
             if (stateMachine.Blackboard.GetProperty<Pawn>("target") && stateMachine.Blackboard.GetProperty<AIPawn>("aiPawn").moveScript)

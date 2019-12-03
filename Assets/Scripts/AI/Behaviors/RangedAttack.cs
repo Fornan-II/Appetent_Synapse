@@ -4,6 +4,7 @@ public static partial class Behaviors
 {
     public static readonly State RangedAttack = new State()
     {
+        Label = "RangedAttack",
         OnEnter = stateMachine =>
         {
             Pawn target = stateMachine.Blackboard.GetProperty<Pawn>("target");

@@ -14,7 +14,7 @@ namespace AI.StateMachine
             INACTIVE
         }
 
-        public State? CurrentState { get; protected set; }
+        public State CurrentState { get; protected set; }
         public Blackboard Blackboard;
         protected StatePhase _currentStatePhase;
         protected StatePhase _previousStatePhase;
@@ -36,7 +36,7 @@ namespace AI.StateMachine
         {
             DeltaTime = deltaTime;
 
-            if (!CurrentState.HasValue)
+            if (CurrentState == null)
                 return;
 
             //Save a version of the state in case it is changed within any of the 
@@ -48,27 +48,27 @@ namespace AI.StateMachine
                     {
                         if (_previousStatePhase != stateOnProcessing)
                         {
-                            CurrentState.Value.OnEnter?.Invoke(this);
+                            CurrentState.OnEnter?.Invoke(this);
                         }
-                        CurrentState.Value.Entering?.Invoke(this);
+                        CurrentState.Entering?.Invoke(this);
                         break;
                     }
                 case StatePhase.ACTIVE:
                     {
                         if (_previousStatePhase != stateOnProcessing)
                         {
-                            CurrentState.Value.OnActive?.Invoke(this);
+                            CurrentState.OnActive?.Invoke(this);
                         }
-                        CurrentState.Value.Active?.Invoke(this);
+                        CurrentState.Active?.Invoke(this);
                         break;
                     }
                 case StatePhase.EXITING:
                     {
                         if (_previousStatePhase != stateOnProcessing)
                         {
-                            CurrentState.Value.OnExit?.Invoke(this);
+                            CurrentState.OnExit?.Invoke(this);
                         }
-                        CurrentState.Value.Exiting?.Invoke(this);
+                        CurrentState.Exiting?.Invoke(this);
                         break;
                     }
                 case StatePhase.INACTIVE:
@@ -89,7 +89,7 @@ namespace AI.StateMachine
 
         public virtual void ForceEndState()
         {
-            if (CurrentState.HasValue && !(_currentStatePhase == StatePhase.EXITING || _currentStatePhase == StatePhase.INACTIVE))
+            if (CurrentState != null && !(_currentStatePhase == StatePhase.EXITING || _currentStatePhase == StatePhase.INACTIVE))
             {
                 _currentStatePhase = StatePhase.EXITING;
             }
