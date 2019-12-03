@@ -68,6 +68,7 @@ public static partial class Behaviors
             {
                 aiPawn.moveScript.DoMovement = false;
             }
+            stateMachine.AdvancePhase();
         }
     };
 }

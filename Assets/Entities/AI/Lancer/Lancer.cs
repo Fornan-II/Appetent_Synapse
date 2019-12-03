@@ -22,7 +22,17 @@ public class Lancer : AIPawn
         base.Init(controller);
         controller.Blackboard.SetProperty(Behaviors.PROPERTY_MoveToTarget_DESIREDTARGETDISTANCE, ShootComfortableRange);
 
-
+        controller.behaviorTree.root = new AI.BehaviorTree.Root(
+            new AI.BehaviorTree.Selector(
+                new AI.BehaviorTree.Selector(
+                    new AI.BehaviorTree.Leaf(Behaviors.RangedAttack),
+                    new AI.BehaviorTree.Leaf(Behaviors.MoveToTarget),
+                    new AI.BehaviorTree.SelectorLogic(PROPERTY_INRANGE, "(bool)true", AI.BehaviorTree.SelectorLogic.ComparisonMode.EQUAL)
+                ),
+                new AI.BehaviorTree.Leaf(Behaviors.Patrol),
+                new AI.BehaviorTree.SelectorLogic(PROPERTY_AGGRO, "(bool)true", AI.BehaviorTree.SelectorLogic.ComparisonMode.EQUAL)
+            )
+        );
     }
 
     public virtual void AimAt(Transform target)

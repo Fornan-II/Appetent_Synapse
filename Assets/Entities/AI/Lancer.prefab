@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca87cf1bc4016f944a72d2f558d69d22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 1288368078941635750}
+  aiPawn: {fileID: 1288368078941635744}
   alertWorthyFaction: 2
   fieldOfView: 200
   visionDistance: 16
@@ -217,16 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a040df8b95a630478ffd2fcbdf61c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localBlackboard:
-    Properties:
-      keys: []
-      valueTypes: 
-      serializedValues: []
-  _myGroup: {fileID: 0}
-  behaviorInstance: {fileID: 0}
-  previousPhase: 3
-  myTree: {fileID: 11400000, guid: bfa751c1c0b9eab4ea4d8cd24be96f40, type: 2}
-  aiPawn: {fileID: 1288368078941635744}
+  _aiPawn: {fileID: 1288368078941635744}
   treeUpdateInterval: 4
   ProcessTree: 1
   debugOutput: 
@@ -255,6 +246,10 @@ MonoBehaviour:
       _value: 0
       ModifyMode: 1
     KnockbackResistance:
+      _baseValue: 0
+      _value: 0
+      ModifyMode: 1
+    StructuralResistance:
       _baseValue: 0
       _value: 0
       ModifyMode: 1
@@ -564,7 +559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3701489453881eb41a3dac205006d57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 1288368078941635750}
+  aiPawn: {fileID: 1288368078941635744}
   alertWorthyFaction: 2
 --- !u!1 &7564225085622099344
 GameObject:
@@ -608,21 +603,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: JavelinLauncher
-      objectReference: {fileID: 0}
-    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
-        type: 3}
-      propertyPath: Damage.HitPoints
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
-        type: 3}
-      propertyPath: Damage.HitPoints._baseValue
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
-        type: 3}
-      propertyPath: Damage.HitPoints._value
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1559659465461946353, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
         type: 3}
@@ -683,6 +663,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: Damage.HitPoints
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: Damage.HitPoints._baseValue
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: Damage.HitPoints._value
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b248f37c112b3e459dc9ccd16aa2e83, type: 3}
