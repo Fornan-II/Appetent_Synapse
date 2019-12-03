@@ -1,53 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using AI.StateMachine;
 
-using AI;
-
-public class RangedAttack : AI.Behavior
+public static partial class Behaviors
 {
-    protected Pawn target;
-    protected Lancer lancerPawn;
-
-    protected const float recalculatePathDistance = 5.0f;
-
-    public override void OnEnter(AIController ai)
+    public static readonly State RangedAttack = new State()
     {
-        target = ai.localBlackboard.GetProperty<Pawn>("target");
-        if (target && ai.aiPawn is Lancer && ai.aiPawn.equippedWeapon)
+        OnEnter = stateMachine =>
         {
-            lancerPawn = ai.aiPawn as Lancer;
+            Pawn target = stateMachine.Blackboard.GetProperty<Pawn>("target");
+            Lancer lancerPawn = stateMachine.Blackboard.GetProperty<Lancer>("aiPawn");
+            if (target && lancerPawn && lancerPawn.equippedWeapon)
+            {
+                stateMachine.AdvancePhase();
+            }
+            else
+            {
+                stateMachine.ForceStateInactive();
+            }
+        },
 
-            _currentPhase = StatePhase.ACTIVE;
-        }
-        else
+        Active = stateMachine =>
         {
-            _currentPhase = StatePhase.INACTIVE;
-        }
-    }
+            if (!(stateMachine.Blackboard.GetProperty<bool>(Lancer.PROPERTY_INRANGE) && stateMachine.Blackboard.GetProperty<bool>(AIPawn.PROPERTY_AGGRO)))
+            {
+                stateMachine.ForceStateInactive();
+            }
+            else
+            {
+                Pawn target = stateMachine.Blackboard.GetProperty<Pawn>("target");
+                Lancer lancerPawn = stateMachine.Blackboard.GetProperty<Lancer>("aiPawn");
+                if (target)
+                {
+                    lancerPawn.AimAt(target.transform);
+                    bool notReadyToFire = lancerPawn.equippedWeapon.AttackCharge < 1.0f;
+                    lancerPawn.equippedWeapon.UseItem(lancerPawn, notReadyToFire);
+                }
+                else
+                {
+                    stateMachine.ForceStateInactive();
+                }
+            }
+        },
 
-    public override void ActiveBehavior(AIController ai)
-    {
-        
-        if(!(ai.localBlackboard.GetProperty<bool>(Lancer.PROPERTY_INRANGE) && ai.localBlackboard.GetProperty<bool>(AIPawn.PROPERTY_AGGRO)))
-        {
-            _currentPhase = StatePhase.INACTIVE;
-        }
-        else if(target)
-        {
-            lancerPawn.AimAt(target.transform);
-            //lancerPawn.equippedWeapon.DoAttack(target.gameObject, lancerPawn);
-            bool notReadyToFire = lancerPawn.equippedWeapon.AttackCharge < 1.0f;
-            lancerPawn.equippedWeapon.UseItem(lancerPawn, notReadyToFire);
-        }
-        else
-        {
-            _currentPhase = StatePhase.INACTIVE;
-        }
-    }
-
-    public override void OnExit(AIController ai)
-    {
-        _currentPhase = StatePhase.INACTIVE;
-    }
+        OnExit = stateMachine => stateMachine.ForceStateInactive()
+    };
 }
