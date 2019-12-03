@@ -7,14 +7,14 @@ namespace AI
 {
     public class Sensor : MonoBehaviour
     {
-        public AIController controller;
+        public AIPawn aiPawn;
         public Pawn.Faction alertWorthyFaction = Pawn.Faction.PLAYER;
 
         public virtual void Alert(Pawn foundPawn)
         {
-            if (foundPawn.MyFaction == alertWorthyFaction && controller.aiPawn)
+            if (foundPawn.MyFaction == alertWorthyFaction && aiPawn)
             {
-                controller.aiPawn.GiveAggro(foundPawn, 1);
+                aiPawn.GiveAggro(foundPawn, 1);
             }
         }
     }

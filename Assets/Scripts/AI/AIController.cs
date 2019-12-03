@@ -4,39 +4,36 @@ using UnityEngine;
 
 namespace AI
 {
-    public class AIController : AIGroupMember
+    public class AIController : MonoBehaviour, IAIGroupMember
     {
-        #region Stuff used for instance management of Behavior Tree & Behaviors
-        //NodesToProcess used by BehaviorTree
-        public Stack<Node> NodesToProcess = new Stack<Node>();
-        //On the stack:
-        //1 : ActiveLeaf
-        //2 : Any Sequences
-        //If nothing, return to root
-        public Node ActiveNode
-        {
+        [SerializeField] protected BehaviorTree.BehaviorTree _behaviorTree = new BehaviorTree.BehaviorTree();
+        public BehaviorTree.BehaviorTree behaviorTree { get { return _behaviorTree; } }
+        public Blackboard Blackboard {
             get
             {
-                if (NodesToProcess == null || NodesToProcess.Count <= 0)
-                {
+                if (_behaviorTree == null)
                     return null;
-                }
-                else
+                return _behaviorTree.Blackboard;
+            }
+        }
+
+        protected AIPawn _aiPawn;
+        public AIPawn AIPawn
+        {
+            get { return _aiPawn; }
+            set
+            {
+                if(_aiPawn != value)
                 {
-                    return NodesToProcess.Peek();
+                    _aiPawn = value;
+                    SetUpAIPawn();
                 }
             }
         }
 
-        [HideInInspector] public Behavior behaviorInstance;
-        /*[HideInInspector]*/ public Behavior.StatePhase previousPhase = Behavior.StatePhase.INACTIVE;
-        [HideInInspector] public Dictionary<Sequence, int> instanceSequencePositions = new Dictionary<Sequence, int>();
-        #endregion
-
-        public AI.BehaviorTree myTree;
-        public AIPawn aiPawn;
-        public int treeUpdateInterval = 64;
+        [SerializeField] protected int treeUpdateInterval = 64;
         public bool ProcessTree = true;
+        protected AIGroup _myGroup;
 
         private int _treeTicks = 0;
 
@@ -44,10 +41,9 @@ namespace AI
 
         protected virtual void Start()
         {
-            localBlackboard = new AI.Blackboard();
-            if(aiPawn)
+            if(_aiPawn)
             {
-                aiPawn.Init(this);
+                SetUpAIPawn();
             }
             else
             {
@@ -57,17 +53,17 @@ namespace AI
 
         protected virtual void FixedUpdate()
         {
-            if (myTree && (localBlackboard != null) && ProcessTree)
+            if (_behaviorTree != null && _behaviorTree.Blackboard != null && ProcessTree)
             {
                 if (_treeTicks <= 0)
                 {
-                    if (behaviorInstance)
+                    if (_behaviorTree.CurrentState.HasValue)
                     {
-                        debugOutput = behaviorInstance.ToString() + " | " + behaviorInstance.CurrentPhase + " |  prev: " + previousPhase + " | curr: " + behaviorInstance.CurrentPhase;
+                        debugOutput = _behaviorTree.CurrentState.Value.ToString() + " | " + _behaviorTree.GetPhase();
                     }
                     else { debugOutput = "null"; }
 
-                    myTree.ProcessTree(this);
+                    _behaviorTree.Process(Time.fixedDeltaTime * treeUpdateInterval);
                     _treeTicks = treeUpdateInterval;
                 }
                 _treeTicks--;
@@ -76,14 +72,32 @@ namespace AI
 
         public virtual void InterruptBehavior()
         {
-            Node currentNode = ActiveNode;
-            NodesToProcess.Clear();
-            instanceSequencePositions.Clear();
+            _behaviorTree.ForceEndState();
+        }
 
-            if(currentNode is Leaf)
+        public void SetGroup(AIGroup group)
+        {
+            _myGroup = group;
+        }
+
+        public AIGroup GetGroup()
+        {
+            return _myGroup;
+        }
+
+        protected virtual void SetUpAIPawn()
+        {
+            if (_behaviorTree != null)
             {
-                NodesToProcess.Push(currentNode);
-                (currentNode as Leaf).ForceBehaviorToEnd(this);
+                if (_aiPawn)
+                {
+                    _behaviorTree.Blackboard.SetProperty("aiPawn", _aiPawn);
+                    _aiPawn.Init(this);
+                }
+                else
+                {
+                    _behaviorTree.Blackboard.RemoveProperty("aiPawn");
+                }
             }
         }
     }

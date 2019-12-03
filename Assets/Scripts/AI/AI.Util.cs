@@ -64,5 +64,22 @@ namespace AI
                 c = Color.blue;
             }
         }
+
+        public static bool SetPathToTarget(AIMoveScript movement, Vector3 targetDestination)
+        {
+            if (!movement)
+            {
+                return false;
+            }
+
+            Vector3 pathEndPoint;
+            if (GetPointOnNavMesh(targetDestination, out pathEndPoint))
+            {
+                movement.pathToDestination = new List<Vector3>(CalculatePath(movement.transform, pathEndPoint));
+                movement.DoMovement = true;
+                return true;
+            }
+            return false;
+        }
     }
 }

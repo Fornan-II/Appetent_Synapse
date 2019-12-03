@@ -3,90 +3,70 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using AI;
+using AI.StateMachine;
 
-public class MeleeAttack : Behavior
+public static partial class Behaviors
 {
-    protected Pawn target;
-    protected AIMoveScript movement;
-    protected MeleeWeapon weapon;
-    public Vector3 pathEndPoint;
+    private const float MeleeAttack_recalculatePathDistance = 5.0f;
 
-    protected const float recalculatePathDistance = 5.0f;
-
-    public override void OnEnter(AIController ai)
+    public static readonly State MeleeAttack = new State()
     {
-        target = ai.localBlackboard.GetProperty<Pawn>("target");
-        if (target && ai.aiPawn.equippedWeapon is MeleeWeapon && ai.aiPawn.moveScript)
+        OnEnter = stateMachine =>
         {
-            weapon = ai.aiPawn.equippedWeapon as MeleeWeapon;
+            Pawn target = stateMachine.Blackboard.GetProperty<Pawn>("target");
+            AIPawn aiPawn = stateMachine.Blackboard.GetProperty<AIPawn>("aiPawn");
+            if (target && aiPawn.equippedWeapon is MeleeWeapon && aiPawn.moveScript)
+            {
+                stateMachine.AdvancePhase();
+            }
+            else
+            {
+                //No target? Can't really attack nothing. Also if no way to move, you can't really get in range to melee
+                stateMachine.ForceStateInactive();
+            }
+        },
 
-            movement = ai.aiPawn.moveScript;
-
-            _currentPhase = StatePhase.ACTIVE;
-        }
-        else
+        Active = stateMachine =>
         {
-            //No target? Can't really attack nothing. Also if no way to move, you can't really get in range to melee
-            _currentPhase = StatePhase.EXITING;
-        }
-    }
+            Pawn target = stateMachine.Blackboard.GetProperty<Pawn>("target");
+            AIPawn aiPawn = stateMachine.Blackboard.GetProperty<AIPawn>("aiPawn");
 
-    public override void ActiveBehavior(AIController ai)
-    {
-        //DEBUG LINE DRAWING
-        AI.Util.DrawPath(ai.transform.position, movement.pathToDestination, ai.treeUpdateInterval * Time.fixedDeltaTime);
+            if (!(stateMachine.Blackboard.GetProperty<bool>(AIPawn.PROPERTY_AGGRO) && target && aiPawn.equippedWeapon))
+            {
+                stateMachine.AdvancePhase();
+                return;
+            }
 
-        if (!ai.localBlackboard.GetProperty<bool>(AIPawn.PROPERTY_AGGRO) || target == null)
-        {
-            _currentPhase = StatePhase.EXITING;
-            return;
-        }
+            bool doPathCalculation = false;
+            float sqrDistToTarget = (aiPawn.transform.position - target.transform.position).sqrMagnitude;
+            if (sqrDistToTarget > MeleeAttack_recalculatePathDistance * MeleeAttack_recalculatePathDistance)
+            {
+                doPathCalculation = true;
+            }
 
-        bool doPathCalculation = false;
-        if((ai.transform.position - target.transform.position).sqrMagnitude > recalculatePathDistance * recalculatePathDistance)
-        {
-            doPathCalculation = true;
-        }
+            MeleeWeapon meleeWeapon = aiPawn.equippedWeapon as MeleeWeapon;
+            if (sqrDistToTarget <= meleeWeapon.reach * meleeWeapon.reach)
+            {
+                meleeWeapon.DoAttack(target.gameObject, aiPawn);
+            }
+            else if (!aiPawn.moveScript.DoMovement)
+            {
+                doPathCalculation = true;
+            }
 
-        if((ai.transform.position - target.transform.position).sqrMagnitude <= weapon.reach * weapon.reach)
-        {
-            weapon.DoAttack(target.gameObject, ai.aiPawn);
-        }
-        else if(!movement.DoMovement)
-        {
-            doPathCalculation = true;
-        }
+            if (doPathCalculation)
+            {
+                AI.Util.SetPathToTarget(aiPawn.moveScript, target.transform.position);
+            }
+        },
 
-        if(doPathCalculation)
+        OnExit = stateMachine =>
         {
-            SetPathingToTarget();
+            AIPawn aiPawn = stateMachine.Blackboard.GetProperty<AIPawn>("aiPawn");
+            if (aiPawn.moveScript)
+            {
+                aiPawn.moveScript.DoMovement = false;
+            }
         }
-    }
-
-    public override void OnExit(AIController ai)
-    {
-        ai.localBlackboard.SetProperty(AIPawn.PROPERTY_AGGRO, false);
-        if(movement)
-        {
-            movement.DoMovement = false;
-        }
-
-        _currentPhase = StatePhase.INACTIVE;
-    }
-
-    protected virtual bool SetPathingToTarget()
-    {
-        if(!movement)
-        {
-            return false;
-        }
-        //Debug.Log("Calculating path to target...");
-        if (AI.Util.GetPointOnNavMesh(target.transform.position, out pathEndPoint))
-        {
-            movement.pathToDestination = new List<Vector3>(AI.Util.CalculatePath(movement.transform, pathEndPoint));
-            movement.DoMovement = true;
-            return true;
-        }
-        return false;
-    }
+    };
 }

@@ -3,89 +3,72 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using AI;
+using AI.StateMachine;
 
-public class MoveToTarget : Behavior
+public static partial class Behaviors
 {
-    protected Transform target;
-    protected AIMoveScript movement;
-    public Vector3 pathEndPoint;
+    public const string PROPERTY_MoveToTarget_DESIREDTARGETDISTANCE = "DesiredDistanceToTarget";
+    private const float MoveToTarget_recalculatePathDistance = 5.0f;
 
-    protected const float recalculatePathDistance = 5.0f;
-    public const string PROPERTY_DESIREDTARGETDISTANCE = "DesiredDistanceToTarget";
-
-    public override void OnEnter(AIController ai)
+    public static readonly State MoveToTarget = new State()
     {
-        Pawn targetPawn = ai.localBlackboard.GetProperty<Pawn>("target");
-        if(targetPawn && ai.aiPawn.moveScript)
+        OnEnter = stateMachine =>
         {
-            target = targetPawn.transform;
-            movement = ai.aiPawn.moveScript;
+            if (stateMachine.Blackboard.GetProperty<Pawn>("target") && stateMachine.Blackboard.GetProperty<AIPawn>("aiPawn").moveScript)
+            {
+                stateMachine.AdvancePhase();
+            }
+            else
+            {
+                stateMachine.ForceStateInactive();
+            }
+        },
 
-            _currentPhase = StatePhase.ACTIVE;
-        }
-        else
+        Active = stateMachine =>
         {
-            _currentPhase = StatePhase.EXITING;
-        }
-    }
+            Pawn target = stateMachine.Blackboard.GetProperty<Pawn>("target");
+            if (target == null)
+            {
+                stateMachine.ForceEndState();
+                return;
+            }
 
-    public override void ActiveBehavior(AIController ai)
-    {
-        if(target == null)
+            bool doPathCalculation = false;
+
+            AIPawn aiPawn = stateMachine.Blackboard.GetProperty<AIPawn>("aiPawn");
+            float sqrDistance = (aiPawn.transform.position - target.transform.position).sqrMagnitude;
+            float desiredTargetDistance = stateMachine.Blackboard.GetProperty<float>(PROPERTY_MoveToTarget_DESIREDTARGETDISTANCE);
+
+            if (sqrDistance < desiredTargetDistance * desiredTargetDistance)
+            {
+                stateMachine.ForceEndState();
+                return;
+            }
+            else if (sqrDistance > MoveToTarget_recalculatePathDistance * MoveToTarget_recalculatePathDistance)
+            {
+                doPathCalculation = true;
+            }
+
+            if (!aiPawn.moveScript.DoMovement)
+            {
+                doPathCalculation = true;
+            }
+
+            if (doPathCalculation)
+            {
+                AI.Util.SetPathToTarget(aiPawn.moveScript, target.transform.position);
+            }
+        },
+
+        OnExit = stateMachine =>
         {
-            _currentPhase = StatePhase.EXITING;
-            return;
+            AIPawn aiPawn = stateMachine.Blackboard.GetProperty<AIPawn>("aiPawn");
+            if(aiPawn.moveScript)
+            {
+                aiPawn.moveScript.DoMovement = false;
+            }
+
+            stateMachine.AdvancePhase();
         }
-
-        bool doPathCalculation = false;
-
-        float sqrDistance = (ai.transform.position - target.transform.position).sqrMagnitude;
-        float desiredTargetDistance = ai.localBlackboard.GetProperty<float>(PROPERTY_DESIREDTARGETDISTANCE);
-
-        if (sqrDistance < desiredTargetDistance * desiredTargetDistance)
-        {
-            _currentPhase = StatePhase.EXITING;
-            return;
-        }
-        else if (sqrDistance > recalculatePathDistance * recalculatePathDistance)
-        {
-            doPathCalculation = true;
-        }
-
-        if (!movement.DoMovement)
-        {
-            doPathCalculation = true;
-        }
-
-        if (doPathCalculation)
-        {
-            SetPathingToTarget();
-        }
-    }
-
-    public override void OnExit(AIController ai)
-    {
-        if(movement)
-        {
-            movement.DoMovement = false;
-        }
-
-        _currentPhase = StatePhase.INACTIVE;
-    }
-
-    protected virtual bool SetPathingToTarget()
-    {
-        if (!movement)
-        {
-            return false;
-        }
-
-        if (AI.Util.GetPointOnNavMesh(target.transform.position, out pathEndPoint))
-        {
-            movement.pathToDestination = new List<Vector3>(AI.Util.CalculatePath(movement.transform, pathEndPoint));
-            movement.DoMovement = true;
-            return true;
-        }
-        return false;
-    }
+    };
 }

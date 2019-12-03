@@ -15,10 +15,17 @@ namespace AI.StateMachine
         }
 
         public State? CurrentState { get; protected set; }
-        public Blackboard Blackboard = new Blackboard();
-        protected StatePhase _currentStatePhase = StatePhase.INACTIVE;
-        protected StatePhase _previousStatePhase = StatePhase.INACTIVE;
+        public Blackboard Blackboard;
+        protected StatePhase _currentStatePhase;
+        protected StatePhase _previousStatePhase;
         public float DeltaTime { get; private set; } = Mathf.Infinity;
+
+        public StateMachine()
+        {
+            Blackboard = new Blackboard();
+            _currentStatePhase = StatePhase.INACTIVE;
+            _previousStatePhase = StatePhase.INACTIVE;
+        }
 
         public virtual void AdvancePhase(int iterations = 1)
         {
@@ -86,6 +93,11 @@ namespace AI.StateMachine
             {
                 _currentStatePhase = StatePhase.EXITING;
             }
+        }
+
+        public int GetPhase()
+        {
+            return (int)_currentStatePhase;
         }
     }
 }

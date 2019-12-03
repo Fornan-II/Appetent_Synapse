@@ -20,7 +20,7 @@ public class Lancer : AIPawn
     public override void Init(AIController controller)
     {
         base.Init(controller);
-        controller.localBlackboard.SetProperty(MoveToTarget.PROPERTY_DESIREDTARGETDISTANCE, ShootComfortableRange);
+        controller.Blackboard.SetProperty(Behaviors.PROPERTY_MoveToTarget_DESIREDTARGETDISTANCE, ShootComfortableRange);
     }
 
     public virtual void AimAt(Transform target)
@@ -76,12 +76,12 @@ public class Lancer : AIPawn
 
         if (_controller)
         {
-            Pawn target = _controller.localBlackboard.GetProperty<Pawn>("target");
+            Pawn target = _controller.Blackboard.GetProperty<Pawn>("target");
             if (target)
             {
                 float sqrDistance = (transform.position - target.transform.position).sqrMagnitude;
                 bool value = ShootMaxRange * ShootMaxRange > sqrDistance;
-                _controller.localBlackboard.SetProperty(PROPERTY_INRANGE, value);
+                _controller.Blackboard.SetProperty(PROPERTY_INRANGE, value);
             }
         }
     }
@@ -91,7 +91,7 @@ public class Lancer : AIPawn
     {
         if(_controller)
         {
-            _controller.localBlackboard.SetProperty(MoveToTarget.PROPERTY_DESIREDTARGETDISTANCE, ShootComfortableRange);
+            _controller.Blackboard.SetProperty(Behaviors.PROPERTY_MoveToTarget_DESIREDTARGETDISTANCE, ShootComfortableRange);
         }
     }
 #endif

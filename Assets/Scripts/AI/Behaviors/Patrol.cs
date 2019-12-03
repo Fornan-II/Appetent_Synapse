@@ -52,8 +52,8 @@ public static partial class Behaviors
             stateMachine.Blackboard.RemoveProperty("newPathReady");
 
             AIMoveScript moveScript = stateMachine.Blackboard.GetProperty<AIPawn>("aiPawn").moveScript;
-            moveScript.OnPathComplete += () => Patrol_GoGetPath(moveScript, stateMachine.Blackboard);
-            moveScript.OnGiveUpPathing += () => Patrol_GoGetPath(moveScript, stateMachine.Blackboard);
+            moveScript.OnPathComplete -= () => Patrol_GoGetPath(moveScript, stateMachine.Blackboard);
+            moveScript.OnGiveUpPathing -= () => Patrol_GoGetPath(moveScript, stateMachine.Blackboard);
 
             stateMachine.AdvancePhase();
         }

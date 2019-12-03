@@ -31,15 +31,15 @@ public class AIPawn : Pawn
                     removeAggro = true;
                 }
             }
-            if (!_controller.localBlackboard.GetProperty<Pawn>("target") && _controller.localBlackboard.GetProperty<bool>(PROPERTY_AGGRO))
+            if (!_controller.Blackboard.GetProperty<Pawn>("target") && _controller.Blackboard.GetProperty<bool>(PROPERTY_AGGRO))
             {
                 removeAggro = true;
             }
 
             if (removeAggro)
             {
-                _controller.localBlackboard.SetProperty(PROPERTY_AGGRO, false);
-                _controller.localBlackboard.RemoveProperty("target");
+                _controller.Blackboard.SetProperty(PROPERTY_AGGRO, false);
+                _controller.Blackboard.RemoveProperty("target");
                 _controller.InterruptBehavior();
             }
         }
@@ -48,7 +48,7 @@ public class AIPawn : Pawn
     public virtual void Init(AIController controller)
     {
         _controller = controller;
-        _controller.localBlackboard.SetProperty(PROPERTY_AGGRO, false);
+        _controller.Blackboard.SetProperty(PROPERTY_AGGRO, false);
     }
 
     public virtual void OnTakeDamage(Pawn instigator)
@@ -66,14 +66,14 @@ public class AIPawn : Pawn
 
         _remainingAggroTime = AggroTime;
 
-        bool currentAggro = _controller.localBlackboard.GetProperty<bool>(PROPERTY_AGGRO);
-        int currentStrength = _controller.localBlackboard.GetProperty<int>(PROPERTY_AGGROSTRENGTH);
+        bool currentAggro = _controller.Blackboard.GetProperty<bool>(PROPERTY_AGGRO);
+        int currentStrength = _controller.Blackboard.GetProperty<int>(PROPERTY_AGGROSTRENGTH);
         if (!currentAggro || aggroStrength > currentStrength)
         {
-            _controller.localBlackboard.SetProperty(PROPERTY_AGGRO, true);
-            _controller.localBlackboard.SetProperty(PROPERTY_AGGROSTRENGTH, aggroStrength);
+            _controller.Blackboard.SetProperty(PROPERTY_AGGRO, true);
+            _controller.Blackboard.SetProperty(PROPERTY_AGGROSTRENGTH, aggroStrength);
             _controller.InterruptBehavior();
-            _controller.localBlackboard.SetProperty("target", instigator);
+            _controller.Blackboard.SetProperty("target", instigator);
         }
     }
 
