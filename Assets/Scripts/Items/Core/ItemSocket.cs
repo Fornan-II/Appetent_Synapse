@@ -10,11 +10,11 @@ public class ItemSocket : MonoBehaviour
         protected set;
     }
 
-    public virtual bool UsePrimary(Pawn user)
+    public virtual bool UsePrimary(Pawn user, bool value)
     {
         if(EquippedItem)
         {
-            return EquippedItem.UsePrimary(user);
+            return EquippedItem.UsePrimary(user, value);
         }
         return false;
     }

@@ -91,22 +91,14 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    bool prevPrimary = false;
     public virtual bool UseEquippedPrimary(bool value, Pawn user)
     {
-        bool finalVal = false;
-
         if(!heldSocket)
         {
-            finalVal = false;
-        }
-        else if (value && !prevPrimary)
-        {
-            heldSocket.UsePrimary(user);
+            return false;
         }
 
-        prevPrimary = value;
-        return finalVal;
+        return heldSocket.UsePrimary(user, value);
     }
     
     public virtual bool UseEquippedSecondary(bool value, Pawn user)

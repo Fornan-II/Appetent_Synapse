@@ -7,13 +7,24 @@ public class LaceratorSword : MeleeWeapon
     public float SweepAttackRadius = 1.0f;
     public DamagePacket SweepAttackDamage = new DamagePacket(1, 3, DamagePacket.DamageType.GENERIC);
 
+    protected bool _previousUsePrimary = false;
+
     //Future implementation: target is marked as target. Animation happens, and when OnTriggerEnter() intersects with the collider of target, that is when target takes damage.
-    public override bool UsePrimary(Pawn user)
+    public override bool UsePrimary(Pawn user, bool value = true)
     {
-        if(!(user is PlayerPawn))
+        if (_anim)
         {
+            // OH GOD PLEASE CHANGE THIS
+            Vector3 vel = user.GetComponent<Rigidbody>().velocity;
+            _anim.SetFloat("Speed", new Vector2(vel.x, vel.z).magnitude);
+        }
+
+        if(!(user is PlayerPawn) || !value || _previousUsePrimary)
+        {
+            _previousUsePrimary = value;
             return false;
         }
+        _previousUsePrimary = value;
         PlayerPawn playerUser = user as PlayerPawn;
 
         GameObject target = null;

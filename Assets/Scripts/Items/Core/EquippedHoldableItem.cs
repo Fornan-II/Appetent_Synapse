@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EquippedHoldableItem : MonoBehaviour
 {
-    public virtual bool UsePrimary(Pawn source)
+    public virtual bool UsePrimary(Pawn source, bool value = true)
     {
         return true;
     }

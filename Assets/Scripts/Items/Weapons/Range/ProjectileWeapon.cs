@@ -7,14 +7,14 @@ public class ProjectileWeapon : RangedWeapon
     public GameObject ProjectilePrefab;
     public float projectileInitSpeed;
 
-    protected bool _previousUseSecondary = false;
+    protected bool _previousUsePrimary = false;
 
     protected override void Start()
     {
         _anim = GetComponent<Animator>();
     }
 
-    public override bool UseSecondary(Pawn source, bool value)
+    public override bool UsePrimary(Pawn source, bool value)
     {
         if (Ammo == 0)
         {
@@ -31,7 +31,7 @@ public class ProjectileWeapon : RangedWeapon
                 ResetAttackCharge();
             }
         }
-        else if(_previousUseSecondary)
+        else if(_previousUsePrimary)
         {
             if(_activeAttackChargeRoutine != null)
             {
@@ -39,11 +39,11 @@ public class ProjectileWeapon : RangedWeapon
                 _activeAttackChargeRoutine = null;
             }
 
-            _previousUseSecondary = value;
+            _previousUsePrimary = value;
             return DoAttack(null, source);
         }
 
-        _previousUseSecondary = value;
+        _previousUsePrimary = value;
         return false;
     }
 
@@ -96,6 +96,6 @@ public class ProjectileWeapon : RangedWeapon
     public override void OnUnequip(Pawn source)
     {
         base.OnUnequip(source);
-        _previousUseSecondary = false;
+        _previousUsePrimary = false;
     }
 }
