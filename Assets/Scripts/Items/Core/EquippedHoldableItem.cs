@@ -4,16 +4,43 @@ using UnityEngine;
 
 public class EquippedHoldableItem : MonoBehaviour
 {
-    public virtual bool UsePrimary(Pawn source, bool value = true)
+    protected enum UseMode
     {
-        return true;
+        HOLD,
+        TAP
+    }
+    [SerializeField] protected UseMode Mode;
+    protected bool _previousUseValue = false;
+
+    public void UseItem(Pawn source, bool value)
+    {
+        //Call use if the use button press state lines up with this item's UseMode
+        if(value && (Mode == UseMode.HOLD || (Mode == UseMode.TAP && !_previousUseValue)))
+        {
+            Use(source);
+        }
+        else if(_previousUseValue)
+        {
+            OnUseDone(source);
+        }
+
+        _previousUseValue = value;
     }
 
-    public virtual bool UseSecondary(Pawn source, bool value = true)
+    protected virtual void Use(Pawn source)
     {
-        return true;
+
+    }
+
+    protected virtual void OnUseDone(Pawn source)
+    {
+
     }
 
     public virtual void OnEquip(Pawn source) { }
-    public virtual void OnUnequip(Pawn source) { }
+
+    public virtual void OnUnequip(Pawn source)
+    {
+        _previousUseValue = false;
+    }
 }

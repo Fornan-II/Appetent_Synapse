@@ -7,44 +7,44 @@ public class ProjectileWeapon : RangedWeapon
     public GameObject ProjectilePrefab;
     public float projectileInitSpeed;
 
-    protected bool _previousUsePrimary = false;
-
     protected override void Start()
     {
         _anim = GetComponent<Animator>();
     }
 
-    public override bool UsePrimary(Pawn source, bool value)
+    protected override void Use(Pawn source)
     {
         if (Ammo == 0)
         {
-            return false;
+            return;
         }
         //Else if ammo < 0 then player has "infinite" ammo
 
-        _anim.SetBool("Charge", value);
+        _anim.SetBool("Charge", true);
 
-        if(value)
+        if (_activeAttackChargeRoutine == null && AttackCharge < 1.0f)
         {
-            if(_activeAttackChargeRoutine == null && AttackCharge < 1.0f)
-            {
-                ResetAttackCharge();
-            }
+            ResetAttackCharge();
         }
-        else if(_previousUsePrimary)
+    }
+
+    protected override void OnUseDone(Pawn source)
+    {
+        if(Ammo == 0)
         {
-            if(_activeAttackChargeRoutine != null)
-            {
-                StopCoroutine(_activeAttackChargeRoutine);
-                _activeAttackChargeRoutine = null;
-            }
+            return;
+        }
+        //Else if ammo < 0 then player has "infinite" ammo
 
-            _previousUsePrimary = value;
-            return DoAttack(null, source);
+        _anim.SetBool("Charge", false);
+
+        if (_activeAttackChargeRoutine != null)
+        {
+            StopCoroutine(_activeAttackChargeRoutine);
+            _activeAttackChargeRoutine = null;
         }
 
-        _previousUsePrimary = value;
-        return false;
+        DoAttack(null, source);
     }
 
     public override bool DoAttack(GameObject target, Pawn user)
@@ -91,11 +91,5 @@ public class ProjectileWeapon : RangedWeapon
         _attackCharge = 0.0f;
 
         return true;
-    }
-
-    public override void OnUnequip(Pawn source)
-    {
-        base.OnUnequip(source);
-        _previousUsePrimary = false;
     }
 }

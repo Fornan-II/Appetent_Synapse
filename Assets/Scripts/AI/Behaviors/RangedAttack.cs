@@ -38,7 +38,7 @@ public class RangedAttack : AI.Behavior
             lancerPawn.AimAt(target.transform);
             //lancerPawn.equippedWeapon.DoAttack(target.gameObject, lancerPawn);
             bool notReadyToFire = lancerPawn.equippedWeapon.AttackCharge < 1.0f;
-            lancerPawn.equippedWeapon.UsePrimary(lancerPawn, notReadyToFire);
+            lancerPawn.equippedWeapon.UseItem(lancerPawn, notReadyToFire);
         }
         else
         {

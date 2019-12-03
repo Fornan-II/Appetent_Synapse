@@ -10,7 +10,7 @@ public class LaceratorSword : MeleeWeapon
     protected bool _previousUsePrimary = false;
 
     //Future implementation: target is marked as target. Animation happens, and when OnTriggerEnter() intersects with the collider of target, that is when target takes damage.
-    public override bool UsePrimary(Pawn user, bool value = true)
+    protected override void Use(Pawn user)
     {
         if (_anim)
         {
@@ -19,12 +19,11 @@ public class LaceratorSword : MeleeWeapon
             _anim.SetFloat("Speed", new Vector2(vel.x, vel.z).magnitude);
         }
 
-        if(!(user is PlayerPawn) || !value || _previousUsePrimary)
+        if(!(user is PlayerPawn))
         {
-            _previousUsePrimary = value;
-            return false;
+            return;
         }
-        _previousUsePrimary = value;
+
         PlayerPawn playerUser = user as PlayerPawn;
 
         GameObject target = null;
@@ -33,7 +32,7 @@ public class LaceratorSword : MeleeWeapon
             target = playerUser.Raycaster.RaycastInfo.GetHitGameObjectAtRange(reach);
         }
         
-        return DoAttack(target, user);
+        DoAttack(target, user);
     }
 
     public override bool DoAttack(GameObject target, Pawn user)

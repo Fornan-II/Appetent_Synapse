@@ -98,17 +98,19 @@ public class Inventory : MonoBehaviour
             return false;
         }
 
-        return heldSocket.UsePrimary(user, value);
+        heldSocket.UseItem(user, value);
+        return true;
     }
     
     public virtual bool UseEquippedSecondary(bool value, Pawn user)
     {
-        if (!heldSocket)
+        //USE AUGMENT POWER, IF APPLICABLE
+        if (SelectedQuickAugment && user is PlayerPawn && value)
         {
-            return false;
+            SelectedQuickAugment.Use(user as PlayerPawn);
+            return true;
         }
-
-        return heldSocket.UseSecondary(user, value);
+        return false;
     }
     #endregion
 

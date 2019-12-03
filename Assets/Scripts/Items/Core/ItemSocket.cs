@@ -10,20 +10,12 @@ public class ItemSocket : MonoBehaviour
         protected set;
     }
 
-    public virtual bool UsePrimary(Pawn user, bool value)
+    public virtual bool UseItem(Pawn user, bool value)
     {
         if(EquippedItem)
         {
-            return EquippedItem.UsePrimary(user, value);
-        }
-        return false;
-    }
-
-    public virtual bool UseSecondary(Pawn user, bool value)
-    {
-        if (EquippedItem)
-        {
-            return EquippedItem.UseSecondary(user, value);
+            EquippedItem.UseItem(user, value);
+            return true;
         }
         return false;
     }
