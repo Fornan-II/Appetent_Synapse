@@ -1,10 +1,13 @@
 ﻿namespace AI.BehaviorTree
 {
+    [System.Serializable]
     public class Selector : Node
     {
         public Node nodeOnTrue;
         public Node nodeOnFalse;
         public SelectorLogic Logic;
+
+        public Selector() { }
 
         public Selector(Node trueNode, Node falseNode, SelectorLogic logic)
         {

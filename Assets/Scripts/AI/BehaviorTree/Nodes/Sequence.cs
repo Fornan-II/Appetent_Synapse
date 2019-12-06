@@ -1,9 +1,12 @@
 ﻿namespace AI.BehaviorTree
 {
+    [System.Serializable]
     public class Sequence : Node
     {
         public Node[] sequenceNodes;
         protected int _sequencePosition;
+
+        public Sequence() { }
 
         public Sequence(Node[] nodes)
         {

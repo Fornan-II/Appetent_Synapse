@@ -1,6 +1,7 @@
 ﻿
 namespace AI.StateMachine
 {
+    [System.Serializable]
     public class State
     {
         public string Label;

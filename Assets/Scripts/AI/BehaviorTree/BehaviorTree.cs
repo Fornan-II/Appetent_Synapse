@@ -2,6 +2,7 @@
 
 namespace AI.BehaviorTree
 {
+    [System.Serializable]
     public class BehaviorTree : StateMachine.StateMachine
     {
         public Root root;

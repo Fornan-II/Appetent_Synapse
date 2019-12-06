@@ -4547,6 +4547,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: ammo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
+        type: 3}
+      propertyPath: _ammo
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1559659465461946353, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4600,16 +4610,6 @@ PrefabInstance:
     - target: {fileID: 1559659465461946353, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
-        type: 3}
-      propertyPath: ammo
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5790278663012079781, guid: 9b248f37c112b3e459dc9ccd16aa2e83,
-        type: 3}
-      propertyPath: _ammo
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -3,10 +3,13 @@ using UnityEngine;
 
 namespace AI.BehaviorTree
 {
+    [System.Serializable]
     public class Leaf : Node
     {
-        [SerializeField]protected State _behavior;
+        [SerializeField] protected State _behavior;
         public State Behavior { get { return _behavior; } }
+
+        public Leaf() { }
 
         public Leaf(State behavior)
         {

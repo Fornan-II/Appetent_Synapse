@@ -2,10 +2,13 @@
 
 namespace AI.BehaviorTree
 {
+    [System.Serializable]
     public class Root : Node
     {
         [SerializeField] protected Node NextNode;
         
+        public Root() { }
+
         public Root(Node next)
         {
             NextNode = next;

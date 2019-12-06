@@ -4,8 +4,12 @@ using UnityEngine;
 
 namespace AI.BehaviorTree
 {
-    public abstract class Node
+    [System.Serializable]
+    public class Node
     {
-        public abstract void Process(BehaviorTree tree);
+        public virtual void Process(BehaviorTree tree)
+        {
+            throw new System.NotImplementedException("Calling process from base type Node is not allowed.");
+        }
     }
 }
