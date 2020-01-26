@@ -5,7 +5,7 @@ namespace AI.BehaviorTree
     [System.Serializable]
     public class Root : Node
     {
-        [SerializeField] protected Node NextNode;
+        public Node NextNode;
         
         public Root() { }
 

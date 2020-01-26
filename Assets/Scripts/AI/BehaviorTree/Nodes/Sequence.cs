@@ -6,7 +6,11 @@
         public Node[] sequenceNodes;
         protected int _sequencePosition;
 
-        public Sequence() { }
+        public Sequence()
+        {
+            sequenceNodes = new Node[0];
+            _sequencePosition = 0;
+        }
 
         public Sequence(Node[] nodes)
         {

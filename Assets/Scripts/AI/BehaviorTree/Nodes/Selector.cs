@@ -7,7 +7,10 @@
         public Node nodeOnFalse;
         public SelectorLogic Logic;
 
-        public Selector() { }
+        public Selector()
+        {
+            Logic = new SelectorLogic("", "", SelectorLogic.ComparisonMode.EQUAL);
+        }
 
         public Selector(Node trueNode, Node falseNode, SelectorLogic logic)
         {

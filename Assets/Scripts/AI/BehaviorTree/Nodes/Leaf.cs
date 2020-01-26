@@ -6,14 +6,13 @@ namespace AI.BehaviorTree
     [System.Serializable]
     public class Leaf : Node
     {
-        [SerializeField] protected State _behavior;
-        public State Behavior { get { return _behavior; } }
+        public State Behavior;
 
         public Leaf() { }
 
         public Leaf(State behavior)
         {
-            _behavior = behavior;
+            Behavior = behavior;
         }
 
         public override void Process(BehaviorTree tree)
